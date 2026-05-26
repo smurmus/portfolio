@@ -1,0 +1,39 @@
+.note {
+  background: #FDF0D5;
+  padding: 14px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10), 2px 2px 0 rgba(0, 0, 0, 0.04);
+  border-radius: 1px;
+  cursor: pointer;
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+  display: inline-block;
+}
+
+.note:hover,
+.note:focus-visible {
+  transform: translateY(-4px) rotate(var(--resting-rotation, 0deg)) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.text {
+  font-family: var(--font-handwriting);
+  font-size: 15px;
+  color: var(--color-text-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.text::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-text-primary);
+  transition: width 150ms ease-out;
+}
+
+.note:hover .text::after,
+.note:focus-visible .text::after {
+  width: 100%;
+}

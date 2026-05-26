@@ -1,0 +1,42 @@
+.card {
+  width: 160px;
+  height: 108px; /* ~3:2 postcard ratio */
+  background: var(--color-polaroid-bg);
+  border: 1px solid var(--color-polaroid-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: #D4D0C8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderLabel {
+  font-family: var(--font-handwriting);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 8px;
+  line-height: 1.4;
+}
+
+/* Postcard rule lines overlay for authenticity */
+.lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}

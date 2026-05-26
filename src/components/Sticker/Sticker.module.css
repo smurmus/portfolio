@@ -1,0 +1,30 @@
+.sticker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Resting rotation set via --resting-rotation in parent Board item.
+     .wobble keyframe in globals.css handles the animation. */
+}
+
+/* Placeholder: colored circle with label when no image file */
+.placeholder {
+  border-radius: 50%;
+  background: var(--color-polaroid-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.placeholderLabel {
+  font-family: var(--font-handwriting);
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.image {
+  display: block;
+  object-fit: contain;
+}
