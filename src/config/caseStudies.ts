@@ -60,6 +60,32 @@ const caseStudies: CaseStudy[] = [
         type: 'callout',
         text: 'Placeholder callout — a key insight or constraint from this project.',
       },
+      // ── Annotated screenshot section ──────────────────
+      {
+        type: 'annotated-screenshot',
+        src: '/assets/discord-home.png',
+        alt: 'Discord interface showing the p5.js server — server rail, channel list, and message feed',
+        beats: [
+          {
+            label: 'Servers — each one a separate community',
+            region: { left: '0%', top: '0%', width: '5%', height: '100%' },
+            card: { side: 'right', bottom: 8, offset: 2 },
+            isPullQuote: false,
+          },
+          {
+            label: 'Channels — dozens per server, always on',
+            region: { left: '5%', top: '0%', width: '15.5%', height: '100%' },
+            card: { side: 'right', bottom: 18, offset: 2 },
+            isPullQuote: false,
+          },
+          {
+            label: '850 million messages per day',
+            region: { left: '20.5%', top: '0%', width: '57%', height: '100%' },
+            card: { side: 'left', bottom: 8, offset: 22 },
+            isPullQuote: true,
+          },
+        ],
+      },
     ],
   },
 

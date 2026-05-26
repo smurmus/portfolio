@@ -1,0 +1,141 @@
+/* ── Scroll range — defines total scroll distance for the sticky section */
+.scrollRange {
+  position: relative;
+  /* height set inline: (beats.length + 1) × 100vh */
+}
+
+/* ── Sticky frame — stays pinned while user scrolls through range */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Screenshot wrapper — all overlays positioned relative to this */
+.screenshotWrapper {
+  position: relative;
+  width: 100%;
+  line-height: 0; /* collapse inline spacing */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+}
+
+.screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ── Region overlays — each covers one UI zone */
+.region {
+  position: absolute;
+  transition: background 150ms ease, box-shadow 150ms ease;
+  pointer-events: none;
+}
+
+/* Dimmed: not the active highlight */
+.regionDimmed {
+  background: rgba(0, 0, 0, 0.42);
+}
+
+/* Active: highlighted region — clear window, soft ring */
+.regionActive {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+              inset 0 0 20px rgba(255, 255, 255, 0.06);
+}
+
+/* ── Annotation cards */
+.card {
+  position: absolute;
+  background: rgba(30, 31, 34, 0.92);
+  border-radius: 7px;
+  padding: 10px 14px;
+  max-width: 220px;
+  pointer-events: none;
+
+  /* Hidden state */
+  opacity: 0;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Slide from right for right-side cards */
+.cardRight {
+  --slide-offset: 18px;
+  transform: translateX(var(--slide-offset));
+}
+
+/* Slide from left for left-side cards */
+.cardLeft {
+  --slide-offset: -18px;
+  transform: translateX(var(--slide-offset));
+}
+
+/* Visible state */
+.cardVisible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Pull-quote variant — larger type */
+.cardPullQuote .cardText {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.cardText {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+
+/* ── Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: opacity 200ms ease;
+    transform: none !important;
+  }
+
+  .region {
+    transition: background 150ms ease;
+  }
+}
+
+/* ── Mobile — screenshot scales, crop to sidebar at very small widths */
+@media (max-width: 480px) {
+  .sticky {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  /* Clip to sidebar area on very narrow screens */
+  .screenshotWrapper {
+    overflow: hidden;
+  }
+
+  .screenshot {
+    /* Zoom into channel sidebar region: spans ~5%–20.5% of image width.
+       We want that 15.5% strip to fill the full mobile viewport width.
+       Scale factor: 100 / 15.5 ≈ 6.45×
+       Then shift left so the sidebar strip is centered in view. */
+    width: 645%;
+    max-width: none;
+    transform: translateX(-6.3%);
+    height: auto;
+  }
+
+  /* On mobile, only the sidebar beat is shown (beat index 1).
+     Hide all other regions and cards that don't apply. */
+  .mobileHide {
+    display: none !important;
+  }
+}

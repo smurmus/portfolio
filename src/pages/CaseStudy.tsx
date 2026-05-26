@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useCallback } from 'react'
 import caseStudies from '../config/caseStudies'
 import type { ContentBlock } from '../types/content'
+import AnnotatedScreenshot from '../components/AnnotatedScreenshot/AnnotatedScreenshot'
 import styles from './CaseStudy.module.css'
 
 /* BLOCK TYPES: add new types to src/types/content.ts
@@ -89,6 +90,16 @@ function renderBlock(block: ContentBlock, i: number) {
 
     case 'callout':
       return <blockquote key={i} className={styles.callout}>{block.text}</blockquote>
+
+    case 'annotated-screenshot':
+      return (
+        <AnnotatedScreenshot
+          key={i}
+          src={block.src}
+          alt={block.alt}
+          beats={block.beats}
+        />
+      )
 
     case 'image':
       return (
