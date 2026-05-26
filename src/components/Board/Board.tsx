@@ -2,8 +2,7 @@ import { useRef, useEffect, useCallback, useState } from 'react'
 import { usePan } from '../../hooks/usePan'
 import styles from './Board.module.css'
 
-const VIEWPORT_BUFFER = 800 // px beyond viewport to render items
-const BOARD_ITEM_MARGIN = 200 // rough item half-size for culling
+const BUFFER = 1200 // px outside viewport to still render items
 
 type BoardItem = {
   id: string
@@ -21,62 +20,66 @@ type BoardProps = {
 }
 
 export default function Board({ items, className }: BoardProps) {
-  const viewportRef = useRef<HTMLDivElement>(null)
-  const canvasRef = useRef<HTMLDivElement>(null)
+  const viewportRef   = useRef<HTMLDivElement>(null)
+  const canvasRef     = useRef<HTMLDivElement>(null)
   const [visibleIds, setVisibleIds] = useState<Set<string>>(() => new Set(items.map(i => i.id)))
   const [entranceActive, setEntranceActive] = useState(false)
 
-  const { onPointerDown, initPan, getPan, registerPanChangeCallback } = usePan(
+  const { onPointerDown, initPan, getPan, onPanSettled } = usePan(
     canvasRef as React.RefObject<HTMLElement | null>
   )
 
-  // Update culling — called on pan end, not during drag
+  // Recompute which items fall within the expanded viewport window.
+  // pan.x is the canvas translate — board center is at (pan.x + 3000, pan.y + 2000)
+  // in screen space, so item screen position = (pan.x + 3000 + item.x, pan.y + 2000 + item.y).
   const updateCulling = useCallback(() => {
-    const pan = getPan()
+    const p   = getPan()
     const vpW = window.innerWidth
     const vpH = window.innerHeight
-
-    // Canvas center in screen space: panX + boardW/2, panY + boardH/2
-    // Item screen position: canvasCenterX + item.x, canvasCenterY + item.y
-    const canvasCenterX = pan.x + 3000
-    const canvasCenterY = pan.y + 2000
+    const cx  = p.x + 3000
+    const cy  = p.y + 2000
 
     const next = new Set<string>()
     for (const item of items) {
-      const screenX = canvasCenterX + item.x
-      const screenY = canvasCenterY + item.y
-      const inView =
-        screenX > -VIEWPORT_BUFFER - BOARD_ITEM_MARGIN &&
-        screenX < vpW + VIEWPORT_BUFFER + BOARD_ITEM_MARGIN &&
-        screenY > -VIEWPORT_BUFFER - BOARD_ITEM_MARGIN &&
-        screenY < vpH + VIEWPORT_BUFFER + BOARD_ITEM_MARGIN
-      if (inView) next.add(item.id)
+      const sx = cx + item.x
+      const sy = cy + item.y
+      if (
+        sx > -BUFFER && sx < vpW + BUFFER &&
+        sy > -BUFFER && sy < vpH + BUFFER
+      ) next.add(item.id)
     }
     setVisibleIds(next)
   }, [items, getPan])
 
   useEffect(() => {
-    initPan()
-    // Register culling update on pan end
-    registerPanChangeCallback(updateCulling)
+    const vp = viewportRef.current
+    if (!vp) return
 
-    // Initial culling pass
+    // initPan returns a cleanup fn that removes the mousemove listener
+    const cleanup = initPan(vp)
+
+    // Re-cull whenever pan settles (mouse-follow lerp end, drag momentum end)
+    onPanSettled(updateCulling)
+
+    // Initial cull after pan is set
     updateCulling()
 
-    // Trigger entrance animation
     const entranceTimer = setTimeout(() => setEntranceActive(true), 50)
 
-    return () => clearTimeout(entranceTimer)
-  }, [initPan, registerPanChangeCallback, updateCulling])
+    return () => {
+      cleanup()
+      clearTimeout(entranceTimer)
+    }
+  }, [initPan, onPanSettled, updateCulling])
 
-  // Clean up will-change after entrance completes
+  // Remove will-change after entrance completes
   useEffect(() => {
     if (!entranceActive) return
-    const cleanup = setTimeout(() => {
-      const els = document.querySelectorAll<HTMLElement>('.board-item')
-      els.forEach(el => { el.style.willChange = 'auto' })
-    }, 1000)
-    return () => clearTimeout(cleanup)
+    const t = setTimeout(() => {
+      document.querySelectorAll<HTMLElement>('.board-item')
+        .forEach(el => { el.style.willChange = 'auto' })
+    }, 1100)
+    return () => clearTimeout(t)
   }, [entranceActive])
 
   return (
@@ -84,7 +87,7 @@ export default function Board({ items, className }: BoardProps) {
       ref={viewportRef}
       className={`${styles.viewport} ${className ?? ''}`}
       role="region"
-      aria-label="portfolio board — drag to explore"
+      aria-label="portfolio board — move your mouse to explore"
       onPointerDown={onPointerDown}
     >
       <div ref={canvasRef} className={styles.canvas}>
@@ -99,8 +102,8 @@ export default function Board({ items, className }: BoardProps) {
                   left: item.x,
                   top: item.y,
                   zIndex: item.zIndex,
-                  '--resting-rotation': `${item.rotation}deg`,
-                  '--entrance-delay': `${item.entranceDelay}ms`,
+                  '--resting-rotation':  `${item.rotation}deg`,
+                  '--entrance-delay':    `${item.entranceDelay}ms`,
                   willChange: 'transform, opacity',
                 } as React.CSSProperties}
               >
