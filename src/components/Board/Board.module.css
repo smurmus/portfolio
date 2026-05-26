@@ -1,0 +1,38 @@
+.viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+/* The large canvas that gets panned */
+.canvas {
+  position: absolute;
+  width: 6000px;
+  height: 4000px;
+  /* Transform origin at top-left; initial translate set by usePan */
+  top: 0;
+  left: 0;
+  /* Pegboard SVG dot pattern — 2.5px dots on a 24px grid */
+  background-color: var(--color-board-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='1.25' fill='%23DDD6C8'/%3E%3C/svg%3E");
+}
+
+/* Items are positioned from the canvas center */
+.itemsContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.item {
+  position: absolute;
+  transform-origin: center center;
+}

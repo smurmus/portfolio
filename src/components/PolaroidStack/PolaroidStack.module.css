@@ -1,0 +1,59 @@
+/* ── Container ────────────────────────────────────────── */
+
+.stack {
+  position: relative;
+  /* Hit area expanded on desktop for comfortable hover leave */
+  padding: 20px;
+  margin: -20px;
+  /* Needed so expanded overlay sits at correct z */
+  isolation: isolate;
+}
+
+.stack:focus {
+  outline: none;
+}
+
+.stack:focus-visible {
+  outline: 2px solid var(--color-accent-red);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* ── Card wrapper — each card's animated position ────── */
+
+.cardWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition:
+    transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom center;
+}
+
+/* Collapse snaps back faster */
+.cardWrapper.collapsing {
+  transition:
+    transform 200ms ease-in;
+}
+
+/* Item-hovered lift — added on top of fan transform */
+.cardWrapper.hovered {
+  transition:
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out;
+}
+
+/* The actual polaroid inside gets the shadow boost */
+.cardWrapper.hovered > * {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Mobile collapse overlay ──────────────────────────── */
+
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: transparent;
+  /* sits behind stack but above board */
+}

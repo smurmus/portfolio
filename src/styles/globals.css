@@ -1,0 +1,224 @@
+/* ─────────────────────────────────────────────────────────
+   FONTS
+   ───────────────────────────────────────────────────────── */
+
+/* Satoshi via Fontshare */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap');
+
+/* Edu TAS Beginner via Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400;500&display=swap');
+
+/* PP HATTON: drop .woff2 and .woff files into public/fonts/
+   and update the src paths in the @font-face blocks below */
+@font-face {
+  font-family: 'PP Hatton';
+  src: url('/fonts/PPHatton-Medium.woff2') format('woff2'),
+       url('/fonts/PPHatton-Medium.woff') format('woff');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Hatton';
+  src: url('/fonts/PPHatton-Bold.woff2') format('woff2'),
+       url('/fonts/PPHatton-Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   DESIGN TOKENS
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  /* Typography */
+  --font-display:      'PP Hatton', Georgia, serif;
+  --font-body:         'Satoshi', system-ui, sans-serif;
+  --font-handwriting:  'Edu TAS Beginner', cursive;
+
+  /* Board & text */
+  --color-board-bg:         #F5EFE6;
+  --color-board-dot:        #DDD6C8;
+  --color-text-primary:     #1A1714;
+  --color-text-secondary:   #645850;
+  --color-polaroid-bg:      #FEFCF8;
+  --color-polaroid-border:  #E8E2D9;
+
+  /* Accent palette — tomato lead */
+  --color-accent-red:     #D94F38;  /* primary accent, washi borders, underlines */
+  --color-accent-coral:   #F0956A;
+  --color-accent-amber:   #E8A030;  /* contentfill zone */
+  --color-accent-purple:  #6B62A8;  /* discord zone */
+  --color-accent-sage:    #4A8C72;  /* design systems zone */
+  --color-accent-yellow:  #FACD5A;  /* currently sticky — use sparingly */
+
+  /* Per-project washi colors */
+  --washi-design-systems:  var(--color-accent-sage);
+  --washi-contentfill:     var(--color-accent-amber);
+  --washi-discord:         var(--color-accent-purple);
+  --washi-cosplay:         var(--color-accent-red);
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   RESET
+   ───────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* board handles its own scroll/pan */
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-board-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Case study pages need scroll */
+body.page-case-study {
+  overflow: auto;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Visually hidden — accessible but off-screen */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   ENTRANCE ANIMATION
+   ───────────────────────────────────────────────────────── */
+
+.board-item {
+  opacity: 0;
+  transform: translateY(-12px) rotate(var(--resting-rotation, 0deg));
+  transition:
+    opacity  400ms ease-out,
+    transform 400ms ease-out;
+  transition-delay: var(--entrance-delay, 0ms);
+}
+
+.board-item--visible {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--resting-rotation, 0deg));
+}
+
+/* Skip all entrance animations when reduced motion is preferred */
+@media (prefers-reduced-motion: reduce) {
+  .board-item {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--resting-rotation, 0deg));
+    transition: none;
+    transition-delay: 0ms;
+  }
+  .board-item--visible {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--resting-rotation, 0deg));
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   WOBBLE KEYFRAME
+   Used by Sticker and decorative items on hover
+   ───────────────────────────────────────────────────────── */
+
+@keyframes wobble {
+  0%   { transform: rotate(var(--resting-rotation, 0deg)); }
+  33%  { transform: rotate(calc(var(--resting-rotation, 0deg) + 3deg)); }
+  66%  { transform: rotate(calc(var(--resting-rotation, 0deg) - 2deg)); }
+  100% { transform: rotate(var(--resting-rotation, 0deg)); }
+}
+
+.wobble {
+  animation: wobble 300ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wobble {
+    animation: none;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   UNDERLINE ANIMATION
+   Used by Polaroid captions and clickable links
+   ───────────────────────────────────────────────────────── */
+
+.animated-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.animated-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-text-primary);
+  transition: width 150ms ease-out;
+}
+
+.animated-underline:hover::after,
+.animated-underline:focus-visible::after {
+  width: 100%;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   FOCUS STYLES
+   ───────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-red);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   ROOT MOUNT POINT
+   ───────────────────────────────────────────────────────── */
+
+#root {
+  width: 100%;
+  height: 100%;
+}

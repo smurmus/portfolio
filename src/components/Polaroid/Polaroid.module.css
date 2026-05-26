@@ -1,0 +1,96 @@
+.card {
+  width: 160px;
+  height: 200px;
+  background: var(--color-polaroid-bg);
+  border: 1px solid var(--color-polaroid-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Image area — top 75% */
+.imageArea {
+  flex: 0 0 75%;
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder shown when no image file */
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: #D4D0C8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.placeholderLabel {
+  font-family: var(--font-handwriting);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Caption strip — bottom 25% */
+.caption {
+  flex: 1;
+  background: white;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.captionText {
+  font-family: var(--font-handwriting);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+/* Clickable caption with animated underline */
+.captionLink {
+  font-family: var(--font-handwriting);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.captionLink::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-text-primary);
+  transition: width 150ms ease-out;
+}
+
+.captionLink:hover::after,
+.captionLink:focus-visible::after {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .card {
+    transform: scale(0.85);
+    transform-origin: top left;
+  }
+}
