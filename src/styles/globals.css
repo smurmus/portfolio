@@ -45,43 +45,32 @@
   /* Board surface */
   --color-board-bg: #fafafa;
   --color-board-dot: #C8C0B4;
-  /* darkened from original — stays legible on white */
 
   /* Text */
   --color-text-primary: #35251A;
-  /* toffee brown — warm, high contrast */
   --color-text-secondary: #6E5A4B;
-  /* muted toffee — dates, captions, subtitles */
 
-  /* Polaroids — pushed more cream so they separate from white board */
-  --color-polaroid-bg: #FFF7EE;
-  --color-polaroid-border: #E4D9CC;
-  --color-polaroid-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
-  /* stronger than before — lifts items off white */
+  /* Polaroids */
+  --color-polaroid-bg: #FFFAF4;
+  --color-polaroid-border: #E0D2C0;
+  --color-polaroid-shadow: 0 3px 14px rgba(0, 0, 0, 0.13);
 
-  /* Global accent — neutral warm brown, doesn't compete with project colors */
+  /* Global accent */
   --color-global-accent: #7A6A5A;
 
   /* Personality accents */
   --color-accent-red: #D94F38;
-  /* primary — headline underline, caption hovers */
   --color-accent-coral: #F0956A;
-  /* secondary warm */
   --color-accent-amber: #E8A030;
-  /* contentfill zone */
   --color-accent-purple: #6B62A8;
-  /* discord zone */
   --color-accent-sage: #4A8C72;
-  /* design systems zone */
   --color-accent-yellow: #FACD5A;
-  /* use sparingly */
 
   /* Washi tape labels */
   --washi-design-systems: var(--color-accent-sage);
-  --washi-contentfill: var(--color-accent-amber);
+  --washi-contentfill: #3A8FA8;
   --washi-discord: var(--color-accent-purple);
-  --washi-cosplay: #B8705C;
-  /* terracotta — distinct from accent red */
+  --washi-cosplay: #C2476B;
   --washi-currently: var(--color-accent-coral);
 
   /* Sticky notes */

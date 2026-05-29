@@ -1,0 +1,9 @@
+.trail {
+  pointer-events: none;
+  opacity: 0.75;
+  display: block;
+}
+
+.scissors {
+  user-select: none;
+}

@@ -222,6 +222,38 @@
   margin: 0;
 }
 
+.photoGridFull {
+  grid-column: 1 / -1;
+}
+
+.gridPhoto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.jinxSplit {
+  display: flex;
+  gap: 4px;
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Full-width variant — more room for the minigun */
+.jinxSplitWide {
+  aspect-ratio: 2 / 1;
+}
+
+.splitPhoto {
+  flex: 1;
+  min-width: 0;
+  object-fit: cover;
+  display: block;
+}
+
 .photoCaption {
   font-family: var(--font-handwriting);
   font-size: 12px;

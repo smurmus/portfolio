@@ -678,6 +678,22 @@
   border: none;
 }
 
+/* Mobile-sized iframe — centered phone-proportioned frame */
+.iframeWrapperMobile {
+  width: 393px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 36px;
+}
+
+.iframeWrapperMobile .iframeChrome {
+  border-radius: 0;
+}
+
+.iframeWrapperMobile .iframeEmbed {
+  height: 796px;
+}
+
 /* ── Suspense fallback ──────────────────────────────────── */
 
 .loading {

@@ -61,7 +61,7 @@ export type ContentBlock =
   | { type: 'tldr-timeline' }
   | { type: 'link-button'; href: string; label: string }
   | { type: 'screenshot-row'; items: { src: string; alt?: string; caption: string }[] }
-  | { type: 'prototype-iframe'; src: string; height?: number }
+  | { type: 'prototype-iframe'; src: string; height?: number; mobile?: boolean }
   | { type: 'video'; src: string; caption?: string }
   | { type: 'sources-list'; items: { label: string; href: string; note?: string }[] }
   | { type: 'sparkle-aside'; content: string; href?: string; hrefLabel?: string }

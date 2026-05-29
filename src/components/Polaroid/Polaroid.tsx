@@ -11,7 +11,7 @@ type PolaroidProps = {
 
 export default function Polaroid({ data, isClickable, className, style }: PolaroidProps) {
   const navigate = useNavigate()
-  const { imageSrc, imageAlt, caption, href, isExternal } = data
+  const { imageSrc, imageAlt, caption, href, isExternal, imagePosition } = data
 
   const hasImage = Boolean(imageSrc)
   const isNavigable = isClickable && Boolean(href)
@@ -21,6 +21,13 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
     e.stopPropagation()  // prevent PolaroidStack collapse handler from firing
     if (isExternal) {
       window.open(href, '_blank', 'noopener,noreferrer')
+    } else if (href.includes('#')) {
+      const [path, hash] = href.split('#')
+      navigate(path || '/')
+      // defer scroll until after navigation renders
+      requestAnimationFrame(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' })
+      })
     } else {
       navigate(href)
     }
@@ -52,6 +59,7 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
             loading="lazy"
             width={160}
             height={150}
+            style={imagePosition ? { objectPosition: imagePosition } : undefined}
           />
         ) : (
           <div className={styles.placeholder}>

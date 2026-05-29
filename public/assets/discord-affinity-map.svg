@@ -1,0 +1,273 @@
+<svg width="1312" height="487" viewBox="0 0 1312 487" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Affinity map — Discord participation gap (Observers vs Contributors)</title>
+  <desc>Six behavioral clusters: managing information overload, the barrier to posting, what makes something worth engaging, re-entry behavior, near-miss moments, and passive vs active membership.</desc>
+
+  <defs>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+      .map-title { font-size: 13px; fill: #888780; font-weight: 500; letter-spacing: 0.06em; }
+      .map-sub   { font-size: 12px; fill: #B4B2A9; font-style: italic; }
+      .cl-label  { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; }
+      .note-text { font-size: 11.5px; }
+      .insight-label { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; fill: #888780; }
+      .insight-body  { font-size: 12px; fill: #444441; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1312" height="487" fill="#FAFAF9"/>
+
+  <!-- Map title -->
+  <text x="16" y="20" class="map-title">AFFINITY MAP — DISCORD PARTICIPATION GAP</text>
+  <text x="16" y="36" class="map-sub">Present, paying attention, still a beat behind.</text>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CLUSTER 1: MANAGING INFORMATION OVERLOAD  x=16  (amber)  -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <rect x="16" y="50" width="200" height="48" rx="5" fill="#FAC775"/>
+  <text x="26" y="68" class="cl-label" fill="#633806">MANAGING INFORMATION</text>
+  <text x="26" y="82" class="cl-label" fill="#633806">OVERLOAD</text>
+
+  <!-- Note 1  rect y=106 h=54 -->
+  <rect x="16" y="106" width="200" height="54" rx="4" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+  <rect x="16" y="106" width="3"   height="54" rx="0" fill="#EF9F27"/>
+  <text x="27" y="133" class="note-text" fill="#854F0B">Mutes most channels; keeps</text>
+  <text x="27" y="148" class="note-text" fill="#854F0B">notifications only for DMs</text>
+
+  <!-- Note 2  rect y=167 h=54 -->
+  <rect x="16" y="167" width="200" height="54" rx="4" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+  <rect x="16" y="167" width="3"   height="54" rx="0" fill="#EF9F27"/>
+  <text x="27" y="194" class="note-text" fill="#854F0B">Hops server-to-server</text>
+  <text x="27" y="209" class="note-text" fill="#854F0B">scanning for what was missed</text>
+
+  <!-- Note 3  rect y=228 h=69 -->
+  <rect x="16" y="228" width="200" height="69" rx="4" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+  <rect x="16" y="228" width="3"   height="69" rx="0" fill="#EF9F27"/>
+  <text x="27" y="255" class="note-text" fill="#854F0B">Scrolls until something</text>
+  <text x="27" y="270" class="note-text" fill="#854F0B">catches the eye, then</text>
+  <text x="27" y="285" class="note-text" fill="#854F0B">moves on</text>
+
+  <!-- Note 4  rect y=304 h=54 -->
+  <rect x="16" y="304" width="200" height="54" rx="4" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+  <rect x="16" y="304" width="3"   height="54" rx="0" fill="#EF9F27"/>
+  <text x="27" y="331" class="note-text" fill="#854F0B">Marks all as read to reset</text>
+  <text x="27" y="346" class="note-text" fill="#854F0B">an unmanageable backlog</text>
+
+  <!-- Note 5  rect y=365 h=54 -->
+  <rect x="16" y="365" width="200" height="54" rx="4" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+  <rect x="16" y="365" width="3"   height="54" rx="0" fill="#EF9F27"/>
+  <text x="27" y="392" class="note-text" fill="#854F0B">Doesn't reopen threads that</text>
+  <text x="27" y="407" class="note-text" fill="#854F0B">are days or weeks old</text>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CLUSTER 2: THE BARRIER TO POSTING  x=232  (teal)         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <rect x="232" y="50" width="200" height="48" rx="5" fill="#9FE1CB"/>
+  <text x="242" y="78" class="cl-label" fill="#085041">THE BARRIER TO POSTING</text>
+
+  <!-- Note 1  rect y=106 h=69 -->
+  <rect x="232" y="106" width="200" height="69" rx="4" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+  <rect x="232" y="106" width="3"   height="69" rx="0" fill="#5DCAA5"/>
+  <text x="243" y="133" class="note-text" fill="#0F6E56">Reads without posting unless</text>
+  <text x="243" y="148" class="note-text" fill="#0F6E56">they have a concrete</text>
+  <text x="243" y="163" class="note-text" fill="#0F6E56">question to answer</text>
+
+  <!-- Note 2  rect y=182 h=69 -->
+  <rect x="232" y="182" width="200" height="69" rx="4" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+  <rect x="232" y="182" width="3"   height="69" rx="0" fill="#5DCAA5"/>
+  <text x="243" y="209" class="note-text" fill="#0F6E56">Posts less as group size</text>
+  <text x="243" y="224" class="note-text" fill="#0F6E56">grows — large servers</text>
+  <text x="243" y="239" class="note-text" fill="#0F6E56">mean silence</text>
+
+  <!-- Note 3  rect y=258 h=54 -->
+  <rect x="232" y="258" width="200" height="54" rx="4" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+  <rect x="232" y="258" width="3"   height="54" rx="0" fill="#5DCAA5"/>
+  <text x="243" y="285" class="note-text" fill="#0F6E56">Speaks up more with people</text>
+  <text x="243" y="300" class="note-text" fill="#0F6E56">they've met in person</text>
+
+  <!-- Note 4  rect y=319 h=69 -->
+  <rect x="232" y="319" width="200" height="69" rx="4" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+  <rect x="232" y="319" width="3"   height="69" rx="0" fill="#5DCAA5"/>
+  <text x="243" y="346" class="note-text" fill="#0F6E56">Doesn't respond to</text>
+  <text x="243" y="361" class="note-text" fill="#0F6E56">strangers; keeps replies</text>
+  <text x="243" y="376" class="note-text" fill="#0F6E56">to known people</text>
+
+  <!-- Note 5  rect y=395 h=69 -->
+  <rect x="232" y="395" width="200" height="69" rx="4" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+  <rect x="232" y="395" width="3"   height="69" rx="0" fill="#5DCAA5"/>
+  <text x="243" y="422" class="note-text" fill="#0F6E56">Uses DMs for anything</text>
+  <text x="243" y="437" class="note-text" fill="#0F6E56">meaningful instead of</text>
+  <text x="243" y="452" class="note-text" fill="#0F6E56">posting publicly</text>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CLUSTER 3: WHAT MAKES SOMETHING WORTH ENGAGING  x=448  (purple) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <rect x="448" y="50" width="200" height="48" rx="5" fill="#CECBF6"/>
+  <text x="458" y="68" class="cl-label" fill="#26215C">WHAT MAKES SOMETHING</text>
+  <text x="458" y="82" class="cl-label" fill="#26215C">WORTH ENGAGING</text>
+
+  <!-- Note 1  rect y=106 h=69 -->
+  <rect x="448" y="106" width="200" height="69" rx="4" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+  <rect x="448" y="106" width="3"   height="69" rx="0" fill="#AFA9EC"/>
+  <text x="459" y="133" class="note-text" fill="#534AB7">Engages when it matches</text>
+  <text x="459" y="148" class="note-text" fill="#534AB7">their role (friend / mod /</text>
+  <text x="459" y="163" class="note-text" fill="#534AB7">professional)</text>
+
+  <!-- Note 2  rect y=182 h=69 -->
+  <rect x="448" y="182" width="200" height="69" rx="4" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+  <rect x="448" y="182" width="3"   height="69" rx="0" fill="#AFA9EC"/>
+  <text x="459" y="209" class="note-text" fill="#534AB7">Uses reactions as lightweight</text>
+  <text x="459" y="224" class="note-text" fill="#534AB7">participation instead</text>
+  <text x="459" y="239" class="note-text" fill="#534AB7">of replying</text>
+
+  <!-- Note 3  rect y=258 h=69 -->
+  <rect x="448" y="258" width="200" height="69" rx="4" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+  <rect x="448" y="258" width="3"   height="69" rx="0" fill="#AFA9EC"/>
+  <text x="459" y="285" class="note-text" fill="#534AB7">Checks whether a moment is</text>
+  <text x="459" y="300" class="note-text" fill="#534AB7">worth joining before</text>
+  <text x="459" y="315" class="note-text" fill="#534AB7">jumping in</text>
+
+  <!-- Note 4  rect y=334 h=69 -->
+  <rect x="448" y="334" width="200" height="69" rx="4" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+  <rect x="448" y="334" width="3"   height="69" rx="0" fill="#AFA9EC"/>
+  <text x="459" y="361" class="note-text" fill="#534AB7">Prioritizes big announcements</text>
+  <text x="459" y="376" class="note-text" fill="#534AB7">and paid opportunities</text>
+  <text x="459" y="391" class="note-text" fill="#534AB7">above all else</text>
+
+  <!-- Note 5  rect y=410 h=69 -->
+  <rect x="448" y="410" width="200" height="69" rx="4" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+  <rect x="448" y="410" width="3"   height="69" rx="0" fill="#AFA9EC"/>
+  <text x="459" y="437" class="note-text" fill="#534AB7">Engages more when others</text>
+  <text x="459" y="452" class="note-text" fill="#534AB7">are visibly excited about</text>
+  <text x="459" y="467" class="note-text" fill="#534AB7">the same thing</text>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CLUSTER 4: RE-ENTRY BEHAVIOR  x=664  (blue)              -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <rect x="664" y="50" width="200" height="48" rx="5" fill="#B5D4F4"/>
+  <text x="674" y="78" class="cl-label" fill="#042C53">RE-ENTRY BEHAVIOR</text>
+
+  <!-- Note 1  rect y=106 h=69 -->
+  <rect x="664" y="106" width="200" height="69" rx="4" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+  <rect x="664" y="106" width="3"   height="69" rx="0" fill="#85B7EB"/>
+  <text x="675" y="133" class="note-text" fill="#185FA5">Opens Discord by checking</text>
+  <text x="675" y="148" class="note-text" fill="#185FA5">DMs first, then a few</text>
+  <text x="675" y="163" class="note-text" fill="#185FA5">key servers</text>
+
+  <!-- Note 2  rect y=182 h=69 -->
+  <rect x="664" y="182" width="200" height="69" rx="4" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+  <rect x="664" y="182" width="3"   height="69" rx="0" fill="#85B7EB"/>
+  <text x="675" y="209" class="note-text" fill="#185FA5">Skims recent messages</text>
+  <text x="675" y="224" class="note-text" fill="#185FA5">instead of rewinding to</text>
+  <text x="675" y="239" class="note-text" fill="#185FA5">the true start</text>
+
+  <!-- Note 3  rect y=258 h=54 -->
+  <rect x="664" y="258" width="200" height="54" rx="4" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+  <rect x="664" y="258" width="3"   height="54" rx="0" fill="#85B7EB"/>
+  <text x="675" y="285" class="note-text" fill="#185FA5">Leaves or marks all read</text>
+  <text x="675" y="300" class="note-text" fill="#185FA5">when backlog looks too big</text>
+
+  <!-- Note 4  rect y=319 h=69 -->
+  <rect x="664" y="319" width="200" height="69" rx="4" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+  <rect x="664" y="319" width="3"   height="69" rx="0" fill="#85B7EB"/>
+  <text x="675" y="346" class="note-text" fill="#185FA5">Uses desktop for real</text>
+  <text x="675" y="361" class="note-text" fill="#185FA5">engagement; mobile mainly</text>
+  <text x="675" y="376" class="note-text" fill="#185FA5">for notifications</text>
+
+  <!-- Note 5  rect y=395 h=69 -->
+  <rect x="664" y="395" width="200" height="69" rx="4" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+  <rect x="664" y="395" width="3"   height="69" rx="0" fill="#85B7EB"/>
+  <text x="675" y="422" class="note-text" fill="#185FA5">Treats re-entry as</text>
+  <text x="675" y="437" class="note-text" fill="#185FA5">information-gathering,</text>
+  <text x="675" y="452" class="note-text" fill="#185FA5">not conversation-joining</text>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CLUSTER 5: NEAR-MISS MOMENTS  x=880  (coral)             -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <rect x="880" y="50" width="200" height="48" rx="5" fill="#F5C4B3"/>
+  <text x="890" y="78" class="cl-label" fill="#4A1B0C">NEAR-MISS MOMENTS</text>
+
+  <!-- Note 1  rect y=106 h=69 -->
+  <rect x="880" y="106" width="200" height="69" rx="4" fill="#FAECE7" stroke="#F0997B" stroke-width="0.5"/>
+  <rect x="880" y="106" width="3"   height="69" rx="0" fill="#F0997B"/>
+  <text x="891" y="133" class="note-text" fill="#993C1D">Misses relevant moments</text>
+  <text x="891" y="148" class="note-text" fill="#993C1D">because messages get</text>
+  <text x="891" y="163" class="note-text" fill="#993C1D">buried in volume</text>
+
+  <!-- Note 2  rect y=182 h=69 -->
+  <rect x="880" y="182" width="200" height="69" rx="4" fill="#FAECE7" stroke="#F0997B" stroke-width="0.5"/>
+  <rect x="880" y="182" width="3"   height="69" rx="0" fill="#F0997B"/>
+  <text x="891" y="209" class="note-text" fill="#993C1D">Posts announcements AND</text>
+  <text x="891" y="224" class="note-text" fill="#993C1D">DMs people — assumes</text>
+  <text x="891" y="239" class="note-text" fill="#993C1D">channels are muted</text>
+
+  <!-- Note 3  rect y=258 h=69 -->
+  <rect x="880" y="258" width="200" height="69" rx="4" fill="#FAECE7" stroke="#F0997B" stroke-width="0.5"/>
+  <rect x="880" y="258" width="3"   height="69" rx="0" fill="#F0997B"/>
+  <text x="891" y="285" class="note-text" fill="#993C1D">Sends something urgent;</text>
+  <text x="891" y="300" class="note-text" fill="#993C1D">no reply even though</text>
+  <text x="891" y="315" class="note-text" fill="#993C1D">people are "around"</text>
+
+  <!-- Note 4  rect y=334 h=69 -->
+  <rect x="880" y="334" width="200" height="69" rx="4" fill="#FAECE7" stroke="#F0997B" stroke-width="0.5"/>
+  <rect x="880" y="334" width="3"   height="69" rx="0" fill="#F0997B"/>
+  <text x="891" y="361" class="note-text" fill="#993C1D">Can't find an entry point</text>
+  <text x="891" y="376" class="note-text" fill="#993C1D">after being away, so</text>
+  <text x="891" y="391" class="note-text" fill="#993C1D">doesn't rejoin</text>
+
+  <!-- Note 5  rect y=410 h=69 -->
+  <rect x="880" y="410" width="200" height="69" rx="4" fill="#FAECE7" stroke="#F0997B" stroke-width="0.5"/>
+  <rect x="880" y="410" width="3"   height="69" rx="0" fill="#F0997B"/>
+  <text x="891" y="437" class="note-text" fill="#993C1D">Can't tell if a thread is</text>
+  <text x="891" y="452" class="note-text" fill="#993C1D">still alive, so doesn't</text>
+  <text x="891" y="467" class="note-text" fill="#993C1D">post late</text>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CLUSTER 6: PASSIVE VS. ACTIVE MEMBERSHIP  x=1096  (pink) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <rect x="1096" y="50" width="200" height="48" rx="5" fill="#F4C0D1"/>
+  <text x="1106" y="68" class="cl-label" fill="#4B1528">PASSIVE VS. ACTIVE</text>
+  <text x="1106" y="82" class="cl-label" fill="#4B1528">MEMBERSHIP</text>
+
+  <!-- Note 1  rect y=106 h=69 -->
+  <rect x="1096" y="106" width="200" height="69" rx="4" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.5"/>
+  <rect x="1096" y="106" width="3"   height="69" rx="0" fill="#ED93B1"/>
+  <text x="1107" y="133" class="note-text" fill="#993556">Observer: mutes broadly,</text>
+  <text x="1107" y="148" class="note-text" fill="#993556">skims, reacts, rarely</text>
+  <text x="1107" y="163" class="note-text" fill="#993556">initiates</text>
+
+  <!-- Note 2  rect y=182 h=54 -->
+  <rect x="1096" y="182" width="200" height="54" rx="4" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.5"/>
+  <rect x="1096" y="182" width="3"   height="54" rx="0" fill="#ED93B1"/>
+  <text x="1107" y="209" class="note-text" fill="#993556">Contributor: posts freely,</text>
+  <text x="1107" y="224" class="note-text" fill="#993556">moderates, joins mid-thread</text>
+
+  <!-- Note 3  rect y=243 h=69 -->
+  <rect x="1096" y="243" width="200" height="69" rx="4" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.5"/>
+  <rect x="1096" y="243" width="3"   height="69" rx="0" fill="#ED93B1"/>
+  <text x="1107" y="270" class="note-text" fill="#993556">Observers keep up by</text>
+  <text x="1107" y="285" class="note-text" fill="#993556">reading; Contributors</text>
+  <text x="1107" y="300" class="note-text" fill="#993556">by participating</text>
+
+  <!-- Note 4  rect y=319 h=69 -->
+  <rect x="1096" y="319" width="200" height="69" rx="4" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.5"/>
+  <rect x="1096" y="319" width="3"   height="69" rx="0" fill="#ED93B1"/>
+  <text x="1107" y="346" class="note-text" fill="#993556">Both present — only</text>
+  <text x="1107" y="361" class="note-text" fill="#993556">Contributors have an</text>
+  <text x="1107" y="376" class="note-text" fill="#993556">easy on-ramp back</text>
+
+  <!-- Note 5  rect y=395 h=54 -->
+  <rect x="1096" y="395" width="200" height="54" rx="4" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.5"/>
+  <rect x="1096" y="395" width="3"   height="54" rx="0" fill="#ED93B1"/>
+  <text x="1107" y="422" class="note-text" fill="#993556">Present + paying attention</text>
+  <text x="1107" y="437" class="note-text" fill="#993556">still leads to a beat behind</text>
+
+
+
+</svg>

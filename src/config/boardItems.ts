@@ -6,6 +6,7 @@ export type PolaroidData = {
   href: string
   isExternal: boolean
   rotation: number
+  imagePosition?: string
 }
 
 export type WashiLabelData = {
@@ -28,6 +29,7 @@ export type BoardItem = {
   | 'about-note'
   | 'contact-card'
   | 'decoration'
+  | 'social-sticker'
   x: number       // px offset from board center
   y: number       // px offset from board center
   rotation: number // resting rotation in degrees
@@ -76,36 +78,36 @@ const boardItems: BoardItem[] = [
     },
   },
 
-  {
-    id: 'sticker-cherrypick',
-    type: 'sticker',
-    x: 200, y: -80, rotation: 8, zIndex: 9,
-    data: {
-      imageSrc: '/assets/stickers/cherrypick-placeholder.png',
-      alt: 'i git cherry-pick you sticker',
-      size: 80,
-      // TODO: replace with Procreate export
-    },
-  },
+  // {
+  //   id: 'sticker-cherrypick',
+  //   type: 'sticker',
+  //   x: 200, y: -80, rotation: 8, zIndex: 9,
+  //   data: {
+  //     imageSrc: '/assets/stickers/cherrypick-placeholder.png',
+  //     alt: 'i git cherry-pick you sticker',
+  //     size: 80,
+  //     // TODO: replace with Procreate export
+  //   },
+  // },
 
-  {
-    id: 'sticker-sewing',
-    type: 'sticker',
-    x: 240, y: 60, rotation: -4, zIndex: 7,
-    data: {
-      imageSrc: '/assets/stickers/sewing-thread.png',
-      alt: 'sewing machine sticker',
-      size: 60,
-      // TODO: replace with Procreate export
-    },
-  },
+  // {
+  //   id: 'sticker-sewing',
+  //   type: 'sticker',
+  //   x: 400, y: -60, rotation: 20, zIndex: 17,
+  //   data: {
+  //     imageSrc: '/assets/stickers/sewing-thread.png',
+  //     alt: 'sewing machine sticker',
+  //     size: 150,
+  //     // TODO: replace with Procreate export
+  //   },
+  // },
 
   // ── PROJECT ZONE ───────────────────────────────────────
 
   {
     id: 'washi-design-systems',
     type: 'washi-label',
-    x: -460, y: 140, rotation: -1, zIndex: 6,
+    x: -460, y: 200, rotation: -1, zIndex: 6,
     data: {
       label: 'building design systems',
       color: 'var(--washi-design-systems)',
@@ -116,8 +118,10 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-design-systems',
     type: 'project-stack',
-    x: -440, y: 200, rotation: -2, zIndex: 6,
+    x: -440, y: 300, rotation: -2, zIndex: 6,
     data: {
+      fanRadius: 100,
+      fanAngle: 15,
       polaroids: [
         // NOTE: everything seems to be gone from here??
         // {
@@ -131,7 +135,7 @@ const boardItems: BoardItem[] = [
         // },
         {
           id: 'ds-kit',
-          imageSrc: '/assets/polaroids/ds-storybook-bh.png',
+          imageSrc: '/assets/polaroids/COG-design-system.png',
           imageAlt: 'Storybook preview for Big Health Design System',
           caption: 'storybook →',
           href: 'https://storybook-bighealth.vercel.app',
@@ -140,12 +144,13 @@ const boardItems: BoardItem[] = [
         },
         {
           id: 'ds-case-study',
-          imageSrc: '/assets/polaroids/ds-casestudy.png',
+          imageSrc: '/assets/design-systems/hajimari-hero.png',
           imageAlt: 'Design systems case study preview',
           caption: 'case study →',
           href: '/case-study/design-systems',
           isExternal: false,
           rotation: -4,
+          imagePosition: 'bottom right',
         },
       ] as PolaroidData[],
     },
@@ -154,7 +159,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-contentfill',
     type: 'washi-label',
-    x: 60, y: 200, rotation: 1, zIndex: 6,
+    x: 20, y: 420, rotation: -5, zIndex: 6,
     data: {
       label: 'project: "contentfill"',
       color: 'var(--washi-contentfill)',
@@ -165,8 +170,11 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-contentfill',
     type: 'project-stack',
-    x: 80, y: 280, rotation: 2, zIndex: 6,
+    x: 40, y: 160, rotation: -4, zIndex: 6,
     data: {
+      fanAngle: 20,
+      fanRadius: 60,
+      fanLift: 40,
       polaroids: [
         {
           id: 'cf-github',
@@ -184,7 +192,7 @@ const boardItems: BoardItem[] = [
           caption: 'case study →',
           href: '/case-study/contentfill',
           isExternal: false,
-          rotation: -3,
+          rotation: -10,
         },
       ] as PolaroidData[],
     },
@@ -193,7 +201,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-discord',
     type: 'washi-label',
-    x: 580, y: 100, rotation: -1, zIndex: 6,
+    x: 460, y: 380, rotation: 5, zIndex: 9,
     data: {
       label: 'project: discord "waypoints"',
       color: 'var(--washi-discord)',
@@ -204,35 +212,38 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-discord',
     type: 'project-stack',
-    x: 600, y: 180, rotation: -3, zIndex: 6,
+    x: 550, y: 100, rotation: 10, zIndex: 6,
     data: {
+      fanAngle: 30,
+      fanRadius: 120,
+      fanLift: -10,
       polaroids: [
-        {
-          id: 'dc-live-prototype',
-          imageSrc: '/assets/polaroids/discord-waypoints-hero.png',
-          imageAlt: 'Discord waypoints live demo preview',
-          caption: 'prototype →',
-          href: 'https://discord-waypoints.vercel.app/',
-          isExternal: true,
-          rotation: -8,
-        },
-        {
-          id: 'dc-case-study',
-          imageSrc: '/assets/polaroids/discord-waypoints-hero.png',
-          imageAlt: 'Discord case study preview',
-          caption: 'case study →',
-          href: '/case-study/discord',
-          isExternal: false,
-          rotation: -3,
-        },
         {
           id: 'dc-kit',
           imageSrc: '/assets/polaroids/discord-ui-kit-preview.png',
           imageAlt: 'Discord UI Kit Preview',
           caption: 'community UI kit →',
-          href: 'www.figma.com/community/file/1408017287039851803/discord-ui-kit',
+          href: 'https://www.figma.com/community/file/1408017287039851803/discord-ui-kit',
           isExternal: true,
-          rotation: 4,
+          rotation: 8,
+        },
+        {
+          id: 'dc-case-study',
+          imageSrc: '/assets/discord-radar-hero.png',
+          imageAlt: 'Discord My Radar — populated feed with Waypoints panel',
+          caption: 'case study →',
+          href: '/case-study/discord',
+          isExternal: false,
+          rotation: -6,
+        },
+        {
+          id: 'dc-live-prototype',
+          imageSrc: '/assets/discord-waypoint.png',
+          imageAlt: 'Discord — Set a Waypoint modal',
+          caption: 'prototype →',
+          href: '/case-study/discord#prototype',
+          isExternal: false,
+          rotation: -20,
         },
       ] as PolaroidData[],
     },
@@ -279,7 +290,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-avatar',
     type: 'sticker',
-    x: -280, y: -180, rotation: -3, zIndex: 8,
+    x: -300, y: -180, rotation: -3, zIndex: 8,
     data: {
       imageSrc: '/assets/stickers/self-sitting.png',
       alt: 'Sondhayni sitting cross-legged',
@@ -290,7 +301,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-zuko',
     type: 'sticker',
-    x: 820, y: -280, rotation: 20, zIndex: 7,
+    x: 420, y: -50, rotation: 20, zIndex: 17,
     data: {
       imageSrc: '/assets/stickers/zuko-illustration.png',
       hoverImageSrc: '/assets/stickers/zuko-illustration-2.png',
@@ -299,21 +310,28 @@ const boardItems: BoardItem[] = [
     },
   },
 
+  // {
+  //   id: 'sticker-goldfish-plant',
+  //   type: 'sticker',
+  //   x: 50, y: 40, rotation: -15, zIndex: 6,
+  //   data: {
+  //     imageSrc: '/assets/stickers/goldfish-plant-illustration.png',
+  //     alt: 'goldfish plant in a pot',
+  //     size: 150,
+  //   },
+  // },
+
   {
-    id: 'sticker-goldfish-plant',
-    type: 'sticker',
-    x: -720, y: 80, rotation: 8, zIndex: 6,
-    data: {
-      imageSrc: '/assets/stickers/goldfish-plant-illustration.png',
-      alt: 'goldfish plant in a pot',
-      size: 90,
-    },
+    id: 'scissor-trail',
+    type: 'decoration',
+    x: 480, y: -400, rotation: 0, zIndex: 3,
+    data: { component: 'ScissorTrail' },
   },
 
   {
     id: 'washi-cosplay',
     type: 'washi-label',
-    x: 920, y: -250, rotation: 2, zIndex: 5,
+    x: 1260, y: -680, rotation: 2, zIndex: 5,
     data: {
       label: 'crafts & cosplay',
       color: 'var(--washi-cosplay)',
@@ -323,23 +341,26 @@ const boardItems: BoardItem[] = [
 
   {
     id: 'stack-cosplay',
-    type: 'decorative-stack',
-    x: 940, y: -170, rotation: 3, zIndex: 5,
+    type: 'project-stack',
+    x: 1300, y: -580, rotation: 3, zIndex: 5,
     data: {
+      fanAngle: 10,
+      fanRadius: 100,
+      fanLift: -20,
       polaroids: [
         {
           id: 'cos-katara',
-          imageSrc: '/assets/polaroids/cos-katara.png',
+          imageSrc: '/assets/polaroids/cos-katara.jpg',
           imageAlt: 'Katara cosplay',
-          caption: 'katara',
-          href: '', isExternal: false, rotation: -4,
+          caption: 'katara →',
+          href: '/about#beyond-heading', isExternal: false, rotation: -4,
         },
         {
           id: 'cos-jinx',
-          imageSrc: '/assets/polaroids/cos-jinx.png',
+          imageSrc: '/assets/polaroids/cos-jinx.jpg',
           imageAlt: 'Jinx from Arcane cosplay',
-          caption: 'jinx from arcane',
-          href: '', isExternal: false, rotation: 5,
+          caption: 'jinx from arcane →',
+          href: '/about#beyond-heading', isExternal: false, rotation: -10,
         },
       ] as PolaroidData[],
     },
@@ -362,30 +383,61 @@ const boardItems: BoardItem[] = [
     x: -400, y: -240, rotation: -2, zIndex: 5,
     data: {
       lines: [
+        'TODO',
         '☐ add pockets to everything',
         '☐ keep goldfish plant alive',
-        '☐ get more coffee',
+        '☐ acquire caffeine',
       ],
       // TODO: update this periodically
       color: 'var(--color-accent-yellow)',
     },
   },
+  {
+    id: 'social-github',
+    type: 'social-sticker',
+    x: -380, y: 0,
+    rotation: -6,
+    zIndex: 5,
+    data: {
+      href: 'https://github.com/sondhayni',
+      icon: 'github',
+      label: 'GitHub',
+      isExternal: true,
+      imageSrc: '/assets/stickers/github-logo.svg',
+      size: 60,
+    },
+  },
+  {
+    id: 'social-linkedin',
+    type: 'social-sticker',
+    x: -460, y: -10,
+    rotation: -16,
+    zIndex: 5,
+    data: {
+      href: 'https://linkedin.com/in/sondhayni',
+      icon: 'linkedin',
+      label: 'LinkedIn',
+      isExternal: true,
+      imageSrc: '/assets/stickers/linkedin-logo.svg',
+      size: 60,
+    },
+  },
 
   // ── UTILITY ROW ────────────────────────────────────────
 
-  {
-    id: 'contact-card',
-    type: 'contact-card',
-    x: -60, y: 480, rotation: -1, zIndex: 4,
-    data: {
-      name: 'Sondhayni Murmu',
-      email: 'hello@sondhayni.me', // TODO: confirm email
-      links: [
-        { label: 'github', href: 'https://github.com/sondhayni' },
-        { label: 'linkedin', href: 'https://linkedin.com/in/sondhayni' },
-      ],
-    },
-  },
+  // {
+  //   id: 'contact-card',
+  //   type: 'contact-card',
+  //   x: -60, y: 480, rotation: -1, zIndex: 4,
+  //   data: {
+  //     name: 'Sondhayni Murmu',
+  //     email: 'hello@sondhayni.me', // TODO: confirm email
+  //     links: [
+  //       { label: 'github', href: 'https://github.com/sondhayni' },
+  //       { label: 'linkedin', href: 'https://linkedin.com/in/sondhayni' },
+  //     ],
+  //   },
+  // },
 
 
   // ── EASTER EGG — cat trail & destination ───────────────

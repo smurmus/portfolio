@@ -9,6 +9,7 @@ import BadgeArtifact from '../components/BadgeArtifact/BadgeArtifact'
 import AboutNote from '../components/HeroCard/AboutNote'
 import ContactCard from '../components/HeroCard/ContactCard'
 import PawprintTrail from '../components/PawprintTrail/PawprintTrail'
+import ScissorTrail from '../components/ScissorTrail/ScissorTrail'
 import { WASHI_DEFS } from '../components/WashiLabel/WashiPatterns'
 import boardItemsConfig from '../config/boardItems'
 import type { PolaroidData, WashiLabelData } from '../config/boardItems'
@@ -39,6 +40,10 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
         <PolaroidStack
           polaroids={d.polaroids as PolaroidData[]}
           variant="project"
+          fanAngle={d.fanAngle as number | undefined}
+          fanRadius={d.fanRadius as number | undefined}
+          fanLift={d.fanLift as number | undefined}
+          restingRotation={item.rotation}
         />
       )
 
@@ -47,6 +52,10 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
         <PolaroidStack
           polaroids={d.polaroids as PolaroidData[]}
           variant="decorative"
+          fanAngle={d.fanAngle as number | undefined}
+          fanRadius={d.fanRadius as number | undefined}
+          fanLift={d.fanLift as number | undefined}
+          restingRotation={item.rotation}
         />
       )
 
@@ -90,6 +99,16 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
           size={d.size as number}
         />
       )
+    case 'social-sticker':
+      return (
+        <Sticker
+          imageSrc={d.imageSrc as string}
+          hoverImageSrc={d.hoverImageSrc as string | undefined}
+          alt={d.alt as string}
+          size={d.size as number}
+          className="socialSticker"
+        />
+      )
 
     case 'badge':
       return (
@@ -123,6 +142,7 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
 
     case 'decoration':
       if (d.component === 'PawprintTrail') return <PawprintTrail />
+      if (d.component === 'ScissorTrail') return <ScissorTrail />
       if (d.component === 'HandwritingLabel') return (
         <span style={{
           fontFamily: 'var(--font-handwriting)',

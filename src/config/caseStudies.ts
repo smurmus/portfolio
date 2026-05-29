@@ -176,9 +176,9 @@ const caseStudies: CaseStudy[] = [
             right: [
               {
                 type: 'image',
-                src: '/assets/affinity-map.png',
+                src: '/assets/discord-affinity-map.svg',
                 alt: 'Affinity map — behavioral patterns from 7 interviews',
-                caption: 'Affinity map — behavioral clustering across participants',
+                caption: 'Affinity map — click to zoom',
               },
             ],
           },
@@ -329,30 +329,41 @@ const caseStudies: CaseStudy[] = [
         id: 'waypoints',
         label: 'Waypoints — The Solution',
         blocks: [
-          { type: 'section-lede', text: 'Declare what you care about once. Waypoints matches it against incoming content across every server — indefinitely.' },
+          { type: 'section-lede', text: 'A Waypoint lives within a server. You set it once, declare what you\'re tracking, and it monitors that server\'s channels indefinitely. Radar is the other half — a unified feed that surfaces every match from all your active Waypoints, wherever they came from.' },
 
           { type: 'subheading', text: 'Two surfaces' },
+          { type: 'paragraph', text: 'Waypoints are scoped to individual servers — you\'re telling a specific community what you care about within it, not setting a global interest across all of Discord. Radar aggregates the results: one feed that pulls every match from every server where you have an active Waypoint.' },
           {
             type: 'split',
-            align: 'start',
+            align: 'center',
             left: [
-              { type: 'media-placeholder', label: 'Server sidebar — matched server with accent treatment\n(discord-waypoints.vercel.app)' },
-              { type: 'caption', text: 'The sidebar tells you where.' },
+              {
+                type: 'image',
+                src: '/assets/discord-waypoint.png',
+                alt: 'Discord Waypoints panel — active Waypoints within a server',
+                caption: 'Waypoints — what you\'re watching for, within a server.',
+              },
             ],
             right: [
-              { type: 'media-placeholder', label: 'Radar feed — matched posts from multiple servers\n(discord-waypoints.vercel.app/radar)' },
-              { type: 'caption', text: 'Radar shows you what.' },
+              {
+                type: 'image',
+                src: '/assets/discord-radar-hero.png',
+                alt: 'Discord My Radar — unified feed of matched posts',
+                caption: 'Radar — every match, in one place.',
+              },
             ],
           },
-          { type: 'paragraph', text: 'A matched server gets a quiet accent in the sidebar — no badge, no count. Radar collects every match in one scrollable feed across all your servers.' },
 
-          { type: 'subheading', text: 'Three flows' },
-
-          { type: 'video', src: '/assets/set-a-waypoint.webm', caption: 'Setting a Waypoint — the panel, the prompt, the edit.' },
-          { type: 'media-placeholder', label: '↳ [RECORDING] Radar feed — browsing matches, navigating to a channel' },
-          { type: 'media-placeholder', label: '↳ [RECORDING] Right-click entry — creating a Waypoint from a message in context' },
-
+          { type: 'subheading', text: 'Setting a Waypoint' },
           { type: 'paragraph', text: 'From the Waypoints panel in any server, or right-click any message to start from context. The system proposes a Waypoint based on the message; you edit it to match what you actually mean. Nothing is created silently — every Waypoint is visible, editable, removable.' },
+          { type: 'video', src: '/assets/set-a-waypoint-source-server.webm', caption: 'From the Waypoints panel — open it in any server and define what you\'re tracking.' },
+          { type: 'video', src: '/assets/set-a-waypoint-source-message.webm', caption: 'From a message — right-click any post to create a Waypoint from context.' },
+
+          { type: 'subheading', text: 'Radar' },
+          { type: 'paragraph', text: 'Radar is a scrollable feed of everything that matched your active Waypoints — across every server, in one place. Navigate directly from a match to its channel, edit a Waypoint on the spot, or filter by server.' },
+          { type: 'video', src: '/assets/radar-message-match-good.webm', caption: 'A strong match surfaces in the feed.' },
+          { type: 'video', src: '/assets/my-radar-edit-item.webm', caption: 'Editing a Waypoint from Radar — refine the query without losing your place.' },
+          { type: 'video', src: '/assets/my-radar-filter-and-clear.webm', caption: 'Filter by server or clear matches you\'re done with.' },
 
           {
             type: 'callout',
@@ -368,6 +379,7 @@ const caseStudies: CaseStudy[] = [
         blocks: [
           { type: 'section-lede', text: 'Three navigable flows — the Radar feed, the Waypoints panel, and the right-click entry point. At the bottom right is a button to open a control menu to view all available flows and states.' },
           { type: 'prototype-iframe', src: 'https://discord-waypoints.vercel.app', height: 680 },
+          { type: 'prototype-iframe', src: 'https://discord-waypoints.vercel.app', mobile: true },
           {
             type: 'sparkle-aside',
             content: 'Built with Claude Code — routing, Figma-faithful components, and the semantic matching mock in a few evenings. The AI tooling that made this fast is the same shift that made the core feature possible.',
@@ -420,6 +432,7 @@ const caseStudies: CaseStudy[] = [
         blocks: [
           { type: 'paragraph', text: 'The assumption I\'d want to validate earliest is NLP reliability. The design depends on matches being good enough that one imperfect result doesn\'t break trust — visible match attribution is the recovery mechanism, but that\'s an assumption worth testing against real data. Synthetic matches in a prototype behave very differently from production-scale semantic search across diverse server content.' },
           { type: 'paragraph', text: 'From an engineering perspective, I\'d also want the infrastructure decisions shaped early. This is a semantic search pipeline — message ingestion, embedding generation, vector similarity search, ranking, delivery — running at Discord\'s scale. The architecture is well-established, but latency matters more than it might look: for something like team formation in a design-a-thon, a match needs to surface while the window is still open. Near-real-time processing is a different infrastructure investment than batch, and that decision shapes what\'s realistic for an initial scope.' },
+          { type: 'paragraph', text: 'One scope question I hit early: should a Waypoint watch across every server you\'re in — not just the one where you set it? The appeal is obvious; the problem is equally obvious once you think it through. A semantic search pipeline running against every channel across every server you\'ve ever joined is a very different infrastructure commitment than one scoped to opted-in, per-server watching. And from a design standpoint, the intent gets muddier — you\'re not describing a global interest, you\'re telling a specific community what you care about within it. Keeping Waypoints per-server was both the engineering-sane and design-coherent call.' },
           { type: 'paragraph', text: 'The next design problem I\'d tackle is discoverability. Waypoints is an ambient feature — it lives in the background until you\'ve set one, and if you never set one, you never see the value. The right-click entry point makes creation contextual, and empty Radar state is the natural onboarding surface, but it\'s a cold-start problem: you have to already understand what Waypoints does to know what to put there. How that first Waypoint gets set — and when — shapes whether the feature reaches the people it\'s designed for.' },
         ],
       },
@@ -543,8 +556,9 @@ const caseStudies: CaseStudy[] = [
             text: 'The content team at Big Health manages hundreds of Contentful entries across dozens of content types. The people responsible for keeping them accurate — content admins, PMs, designers, clinical content admins — are not engineers. Adding a field across twenty content types means navigating to each one individually. Deriving a slug from a title field means opening every entry by hand. Creating hundreds of entries from a template means doing it one at a time.',
           },
           {
-            type: 'media-placeholder',
-            label: 'TODO: Contentful native editor — 3–4 reference-edit modals stacked, each peeking beneath the one above.',
+            type: 'video',
+            src: '/assets/contentfill/contentful-multiple-entries-open.webm',
+            caption: 'Contentful\'s native editor — each reference opens a new modal, stacking.',
           },
           {
             type: 'callout',
@@ -555,8 +569,9 @@ const caseStudies: CaseStudy[] = [
             text: 'Bulk-edit tools exist in Contentful\'s marketplace. None addressed the three operations the team kept needing: schema changes across content types, computed field transforms, and bulk creation. The engineering path — Contentful\'s CMA — can do all three, but it\'s code-only, has no preview, and puts every operation back in the ticket queue.',
           },
           {
-            type: 'media-placeholder',
-            label: 'TODO: Contentful entries list view — entry count visible ("Showing 1–50 of N entries").',
+            type: 'video',
+            src: '/assets/contentfill/contentful-open-multiple-entries.webm',
+            caption: 'Hundreds of entries. No path through them except one at a time.',
           },
           {
             type: 'paragraph',
@@ -712,6 +727,11 @@ const caseStudies: CaseStudy[] = [
           {
             type: 'section-lede',
             text: 'Contentfill has three steps. They\'re always visible at the top of the screen, and they\'re always in this order.',
+          },
+          {
+            type: 'video',
+            src: '/assets/contentfill/contentfill-login-initial-load.webm',
+            caption: 'Contentfill — initial load. Select an operation and begin.',
           },
           {
             type: 'subheading',
@@ -941,8 +961,8 @@ const caseStudies: CaseStudy[] = [
       rotation: 1.2,
     },
     meta: {
-      role: 'Lead UX Engineer',
-      timeline: 'Hearth 2021–2022 · Big Health 2023–present', // TODO: confirm exact dates
+      role: 'Lead UX Engineer / Senior Product Engineer',
+      timeline: 'Hearth 2021–2022 · Big Health 2024–present', // TODO: confirm exact dates
       tools: 'React, TypeScript, Tamagui, Storybook, Figma',
     },
     images: [
@@ -962,7 +982,7 @@ const caseStudies: CaseStudy[] = [
         rotation: 2,
       },
     ],
-    lede: 'I\'ve built two design systems. One from scratch, in a company where the design and engineering teams had outgrown their informal agreements. One currently in progress, at a company still establishing its design language while shipping against it.\n\nWhat I\'ve learned across both isn\'t about components or tokens. It\'s about where design and engineering thinking conflict — and what it takes to resolve that conflict in the system itself, rather than in every individual decision.',
+    lede: 'I\'ve built two design systems from scratch. One in a company where the design and engineering teams had outgrown their informal agreements; the other currently in progress, at a company still establishing its design language while shipping against it.\n\nWhat I\'ve learned across both isn\'t about components or tokens. It\'s about where design and engineering thinking conflict — and what it takes to resolve that conflict in the system itself, rather than in every individual decision.',
     sections: [
 
       // ── The Work ─────────────────────────────────────────
@@ -972,33 +992,40 @@ const caseStudies: CaseStudy[] = [
         label: 'The Work',
         blocks: [
           {
-            type: 'subheading',
-            text: 'Hajimari',
-          },
-          {
-            type: 'paragraph',
-            text: 'Design system built from scratch at Hearth, a fintech platform for home improvement financing. Co-authored with the design team as Lead UX Engineer. Shipped as the foundation for Hearth\'s universal app launch.',
-          },
-          {
-            type: 'subheading',
-            text: 'COG',
-          },
-          {
-            type: 'paragraph',
-            text: 'Design system in active development at Big Health. Built on Tamagui alongside a systems-minded designer from the ground up — the token architecture and the working relationship were established at the same time.',
-          },
-          {
-            type: 'screenshot-row',
-            items: [
+            type: 'split',
+            align: 'center',
+            left: [
               {
+                type: 'image',
                 src: '/assets/design-systems/hajimari-storybook-button.png',
                 alt: 'Hajimari Storybook — Button component documentation',
                 caption: 'Hajimari — Hearth',
               },
+            ],
+            right: [
+              { type: 'subheading', text: 'Hajimari' },
               {
-                src: '',
-                alt: 'COG Storybook — component documentation',
+                type: 'paragraph',
+                text: 'Design system built from scratch at Hearth, a fintech platform for home improvement financing. Co-authored with the design team as Lead UX Engineer. Shipped as the foundation for Hearth\'s universal app launch.',
+              },
+            ],
+          },
+          {
+            type: 'split',
+            align: 'center',
+            left: [
+              {
+                type: 'image',
+                src: '/assets/design-systems/cog-typography.png',
+                alt: 'COG Storybook — Typography documentation',
                 caption: 'COG — Big Health',
+              },
+            ],
+            right: [
+              { type: 'subheading', text: 'COG' },
+              {
+                type: 'paragraph',
+                text: 'Design system in active development at Big Health. Built on Tamagui alongside a systems-minded designer from the ground up — the token architecture and the working relationship were established at the same time.',
               },
             ],
           },
@@ -1024,8 +1051,8 @@ const caseStudies: CaseStudy[] = [
                 caption: 'Hajimari — Hearth',
               },
               {
-                src: '',
-                alt: 'COG color token palette',
+                src: '/assets/design-systems/cog-tokens-colors.png',
+                alt: 'COG color token palette — Semantic and raw palettes in Storybook',
                 caption: 'COG — Big Health',
               },
             ],
@@ -1135,8 +1162,8 @@ interface ButtonProps {
                 caption: 'Hajimari — Hearth',
               },
               {
-                src: '',
-                alt: 'COG Storybook — component documentation',
+                src: '/assets/design-systems/cog-typography.png',
+                alt: 'COG Storybook — TimeTextInput component documentation',
                 caption: 'COG — Big Health',
               },
             ],
@@ -1167,21 +1194,6 @@ interface ButtonProps {
         id: 'impact',
         label: 'Where This Lands',
         blocks: [
-          {
-            type: 'screenshot-row',
-            items: [
-              {
-                src: '/assets/design-systems/hajimari-hero.png',
-                alt: 'Hajimari Design System — full component overview across buttons, tokens, typography, and documentation',
-                caption: 'Hajimari — Hearth',
-              },
-              {
-                src: '',
-                alt: 'COG — component overview',
-                caption: 'COG — Big Health',
-              },
-            ],
-          },
           {
             type: 'paragraph',
             text: 'A single token layer resolving correctly across React and React Native. What ships looks like it belongs to the same product. That\'s true of Hajimari at launch and what COG is being built toward.',

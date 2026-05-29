@@ -27,7 +27,6 @@ function Portrait() {
         className={styles.portraitImg}
         onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
       />
-      <span className={styles.portraitPlaceholder}>photo</span>
     </div>
   )
 }
@@ -47,11 +46,11 @@ export default function About() {
     const body = document.body
     const root = document.getElementById('root')
     body.style.overflow = 'auto'
-    body.style.height   = 'auto'
+    body.style.height = 'auto'
     if (root) { root.style.height = 'auto'; root.style.minHeight = '100vh' }
     return () => {
       body.style.overflow = ''
-      body.style.height   = ''
+      body.style.height = ''
       if (root) { root.style.height = ''; root.style.minHeight = '' }
     }
   }, [])
@@ -132,23 +131,24 @@ export default function About() {
           </p>
 
           <div className={styles.photoGrid}>
-            {/* TODO: 3–4 photos — cosplay (Katara, Jinx), something sewing-related, a travel photo */}
-            {/* These should feel like polaroid snapshots, not portfolio shots */}
-            <figure className={styles.photoGridItem}>
-              <ImagePlaceholder label="cosplay photo — Katara\n(/assets/polaroids/cos-katara.png)" />
-              <figcaption className={styles.photoCaption}>katara</figcaption>
+            <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
+              <div className={`${styles.jinxSplit} ${styles.jinxSplitWide}`}>
+                <img src="/assets/polaroids/cos-jinx.jpg" alt="Jinx from Arcane cosplay" className={styles.splitPhoto} />
+                <img src="/assets/about/jinx-minigun.jpg" alt="Handmade Jinx minigun prop" className={styles.splitPhoto} />
+              </div>
+              <figcaption className={styles.photoCaption}>jinx from arcane — and the minigun i made for it</figcaption>
             </figure>
             <figure className={styles.photoGridItem}>
-              <ImagePlaceholder label="cosplay photo — Jinx\n(/assets/polaroids/cos-jinx.png)" />
-              <figcaption className={styles.photoCaption}>jinx from arcane</figcaption>
+              <img src="/assets/about/poppy-tibbers.jpg" alt="Poppy and Tibbers lounging on a window hammock" className={styles.gridPhoto} />
+              <figcaption className={styles.photoCaption}>poppy & tibbers</figcaption>
             </figure>
             <figure className={styles.photoGridItem}>
-              <ImagePlaceholder label="sewing / craft photo\n(/assets/about/sewing.jpg)" />
-              <figcaption className={styles.photoCaption}>{/* TODO: caption */}[caption]</figcaption>
+              <img src="/assets/about/hyperfocus-sewing.jpg" alt="Caught mid-focus at the sewing machine, unaware a photo was being taken" className={styles.gridPhoto} style={{ objectPosition: 'top center' }} />
+              <figcaption className={styles.photoCaption}>caught in the act (picture taken without my knowledge)</figcaption>
             </figure>
-            <figure className={styles.photoGridItem}>
-              <ImagePlaceholder label="travel photo\n(/assets/artifacts/postcard-*.png or a real photo)" />
-              <figcaption className={styles.photoCaption}>{/* TODO: caption + location */}[location]</figcaption>
+            <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
+              <img src="/assets/about/pegboard-2026.jpg" alt="Sondhayni's pegboard — 2026" className={styles.gridPhoto} />
+              <figcaption className={styles.photoCaption}>I fill up and then wipe my pegboard clean at the start of each year. This is 2026.</figcaption>
             </figure>
           </div>
 

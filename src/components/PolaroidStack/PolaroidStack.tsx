@@ -6,30 +6,34 @@ import styles from './PolaroidStack.module.css'
 type PolaroidStackProps = {
   polaroids: PolaroidData[]
   variant: 'project' | 'decorative'
+  fanAngle?: number
+  fanRadius?: number
+  fanLift?: number
+  restingRotation?: number
   className?: string
 }
 
-const CARD_WIDTH = 160
-const CARD_GAP = 40   // breathing room between cards in lined state
-const FAN_RADIUS = 70
-const FAN_LIFT = 30
-const FAN_ANGLE = 15  // max fan angle in degrees (±)
+const CARD_WIDTH = 200
+const CARD_GAP = 48
+const DEFAULT_FAN_RADIUS = 110
+const DEFAULT_FAN_LIFT = 50
+const DEFAULT_FAN_ANGLE = 24
 
 // ── Position math ────────────────────────────────────────
 // Returns the outer transform (X position + rotation).
 // Y lift is handled separately by the inner liftWrapper.
 
-function getCardPosition(i: number, n: number, isLined: boolean) {
+function getCardPosition(i: number, n: number, isLined: boolean, fanAngle: number, fanRadius: number, fanLift: number) {
   if (isLined) {
     const totalWidth = n * CARD_WIDTH + (n - 1) * CARD_GAP
     const tx = -(totalWidth / 2) + i * (CARD_WIDTH + CARD_GAP) + CARD_WIDTH / 2
     return { tx, ty: 0, angle: 0 }
   }
   if (n === 1) return { tx: 0, ty: 0, angle: 0 }
-  const angle = -FAN_ANGLE + ((FAN_ANGLE * 2) / (n - 1)) * i
+  const angle = -fanAngle + ((fanAngle * 2) / (n - 1)) * i
   const rad = (angle * Math.PI) / 180
-  const tx = Math.sin(rad) * FAN_RADIUS
-  const ty = (1 - Math.cos(rad)) * -FAN_LIFT
+  const tx = Math.sin(rad) * fanRadius
+  const ty = (1 - Math.cos(rad)) * -fanLift
   return { tx, ty, angle }
 }
 
@@ -38,14 +42,13 @@ function getZIndex(i: number, n: number, isLined: boolean, hoveredIndex: number)
     if (i === hoveredIndex) return n + 10
     return i
   }
-  // Fan: middle card on top so the spread reads as centered
-  const mid = (n - 1) / 2
-  return n - Math.round(Math.abs(i - mid))
+  // Fan: rightmost card on top
+  return i
 }
 
 // ── Component ────────────────────────────────────────────
 
-export default function PolaroidStack({ polaroids, variant, className }: PolaroidStackProps) {
+export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_FAN_ANGLE, fanRadius = DEFAULT_FAN_RADIUS, fanLift = DEFAULT_FAN_LIFT, restingRotation = 0, className }: PolaroidStackProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const isProject = variant === 'project'
@@ -110,6 +113,7 @@ export default function PolaroidStack({ polaroids, variant, className }: Polaroi
           : `decorative polaroid stack — ${n} items`
       }
       tabIndex={0}
+      style={isLined ? { transform: `rotate(${-restingRotation}deg)` } : undefined}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
       onClick={handleClick}
@@ -133,11 +137,12 @@ export default function PolaroidStack({ polaroids, variant, className }: Polaroi
       })()}
 
       {polaroids.map((polaroid, i) => {
-        const { tx, ty, angle } = getCardPosition(i, n, isLined)
+        const { tx, ty, angle } = getCardPosition(i, n, isLined, fanAngle, fanRadius, fanLift)
         const isCardHovered = isLined && hoveredIndex === i
         const zIndex = getZIndex(i, n, isLined, hoveredIndex)
 
-        const outerTransform = `translateX(${tx}px) translateY(${ty}px) rotate(${angle}deg)`
+        const totalAngle = isLined ? 0 : angle + polaroid.rotation
+        const outerTransform = `translateX(${tx}px) translateY(${ty}px) rotate(${totalAngle}deg)`
         const liftTransform = `translateY(${isCardHovered ? -8 : 0}px)`
 
         return (

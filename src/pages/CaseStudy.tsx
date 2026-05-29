@@ -295,7 +295,7 @@ function renderBlock(block: ContentBlock, i: number, onImageClick?: OnImageClick
 
     case 'prototype-iframe':
       return (
-        <div key={i} className={styles.iframeWrapper}>
+        <div key={i} className={`${styles.iframeWrapper}${block.mobile ? ` ${styles.iframeWrapperMobile}` : ''}`}>
           <div className={styles.iframeChrome}>
             <div className={styles.iframeChromeDots}>
               <span /><span /><span />
@@ -406,11 +406,24 @@ function useSectionKeyNav(
     }
 
     const getActiveIndex = (stops: number[]) => {
+      // Use 0.55 × innerHeight as lookahead — matches the case-meta override offset
+      // so that stop is correctly identified as "visited" after the override fires.
+      const lookahead = Math.round(window.innerHeight * 0.55)
       let active = 0
       for (let i = 0; i < stops.length; i++) {
-        if (stops[i] <= window.scrollY + 120) active = i
+        if (stops[i] <= window.scrollY + lookahead) active = i
       }
       return active
+    }
+
+    const isBeatNavTarget = (y: number): boolean => {
+      const ranges = document.querySelectorAll<HTMLElement>('[data-beat-thresholds]')
+      for (const range of Array.from(ranges)) {
+        const rangeTop = range.getBoundingClientRect().top + window.scrollY
+        const totalScrollable = range.offsetHeight - window.innerHeight
+        if (totalScrollable > 0 && y > rangeTop && y <= rangeTop + totalScrollable) return true
+      }
+      return false
     }
 
     const goTo = (y: number) => {
@@ -426,7 +439,14 @@ function useSectionKeyNav(
           }
         }
       }
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+      // Beat-to-beat navigation uses the legacy 2-arg scrollTo (implicit 'auto')
+      // instead of behavior:'instant' — Safari doesn't fire scroll events for
+      // programmatic instant jumps, which would leave annotation state stale.
+      if (isBeatNavTarget(y)) {
+        window.scrollTo(0, Math.max(0, y))
+      } else {
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+      }
     }
 
     const onKeyDown = (e: KeyboardEvent) => {

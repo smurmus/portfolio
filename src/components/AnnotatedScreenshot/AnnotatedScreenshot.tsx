@@ -48,10 +48,14 @@ export default function AnnotatedScreenshot({ src, alt, beats, caption }: Annota
         return
       }
 
-      // Desktop: step through thresholds in reverse to find highest fired
+      // Desktop: step through thresholds in reverse to find highest fired.
+      // Epsilon absorbs sub-pixel rounding when keyboard nav scrolls to exact
+      // threshold positions — scrollTo rounds to whole pixels, which can land
+      // fractionally below the threshold (e.g. 0.87994 instead of 0.88).
+      const EPSILON = 0.005
       let next = -1
       for (let i = THRESHOLDS.length - 1; i >= 0; i--) {
-        if (progress >= THRESHOLDS[i]) { next = i; break }
+        if (progress >= THRESHOLDS[i] - EPSILON) { next = i; break }
       }
       setActiveBeat(next)
     }
