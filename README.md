@@ -1,4 +1,4 @@
-# sondhayni.me — personal portfolio
+# smurmus.page — personal portfolio
 
 Sondhayni Murmu's portfolio site: a draggable pegboard of polaroids, stickers, and sticky notes.
 
