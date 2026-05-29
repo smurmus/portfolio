@@ -1,0 +1,25 @@
+.rebuttal {
+  border-left: 2px solid rgba(107, 98, 168, 0.3);
+  padding-left: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.para {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.para:last-child {
+  margin-bottom: 0;
+}

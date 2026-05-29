@@ -1,0 +1,210 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: var(--font-body);
+}
+
+/* ── Card ── */
+
+.card {
+  display: flex;
+  background: #F8F6F2;
+  border: 1px solid #E4D9CC;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 220px;
+}
+
+/* ── Screenshot column — 55% ── */
+
+.screenshotCol {
+  flex: 0 0 55%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Blurred fill — same image, behind the real one */
+.screenshotCol::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  background-image: var(--screenshot-bg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(22px);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.screenshot {
+  max-width: 100%;
+  max-height: 260px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+}
+
+.expandHint {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  z-index: 2;
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.screenshotCol:hover .expandHint,
+.screenshotCol:focus-visible .expandHint {
+  opacity: 1;
+}
+
+.screenshotCol:focus-visible {
+  outline: 2px solid var(--color-accent-red);
+  outline-offset: -2px;
+}
+
+/* ── Annotation column — 45% ── */
+
+.annotationCol {
+  flex: 0 0 45%;
+  min-width: 0;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.featureLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-text-secondary);
+  margin-bottom: 3px;
+}
+
+.featureYear {
+  display: block;
+  font-size: 11px;
+  color: #9B8F85;
+  margin-bottom: 10px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #E4D9CC;
+  margin: 0 0 12px;
+}
+
+.does {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  margin-bottom: 10px;
+}
+
+.doesnt {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.sourceLink {
+  display: block;
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 11px;
+  color: #9B8F85;
+  text-decoration: none;
+  text-underline-offset: 2px;
+  transition: color 150ms ease-out, text-decoration-color 150ms ease-out;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+}
+
+.sourceLink:hover {
+  color: var(--color-text-secondary);
+  text-decoration-color: currentColor;
+}
+
+/* ── Lightbox ── */
+
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightboxImage {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  cursor: default;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 150ms ease-out;
+}
+
+.lightboxClose:hover {
+  color: white;
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .screenshotCol {
+    flex: none;
+    width: 100%;
+    min-height: 200px;
+  }
+
+  .annotationCol {
+    flex: none;
+    width: 100%;
+    padding: 14px 16px;
+  }
+}

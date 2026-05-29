@@ -1,0 +1,81 @@
+.wrapper {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 2rem;
+  /* The connecting line runs through the node row */
+}
+
+/* Horizontal connecting line — sits behind all nodes */
+.wrapper::before {
+  content: '';
+  position: absolute;
+  /* vertically centred on the circles — year text (11px + ~16px line-height) + gap (8px) + half circle (4px) = ~28px from top */
+  top: calc(11px * 1.4 + 8px + 4px);
+  left: 4px;
+  right: 4px;
+  height: 1px;
+  background: var(--color-polaroid-border);
+  z-index: 0;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.year {
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  opacity: 0.55;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.circleFilled {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-purple);
+  flex-shrink: 0;
+}
+
+.circleOutlined {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--color-accent-purple);
+  flex-shrink: 0;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-primary);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 100px;
+}
+
+/* Mobile: 2×2 grid, no connecting line */
+@media (max-width: 639px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
+  }
+
+  .wrapper::before {
+    display: none;
+  }
+}

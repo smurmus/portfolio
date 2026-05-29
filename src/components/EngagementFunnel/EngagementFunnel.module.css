@@ -1,0 +1,88 @@
+.wrapper {
+  margin: 0 0 2rem;
+}
+
+/* ── Stacked bar ── */
+.barTrack {
+  width: 100%;
+  height: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.segmentNitro {
+  height: 100%;
+  background: rgba(107, 98, 168, 1);
+  flex-shrink: 0;
+}
+
+.segmentDau {
+  height: 100%;
+  background: rgba(107, 98, 168, 0.45);
+  flex-shrink: 0;
+}
+
+.segmentObserver {
+  height: 100%;
+  background: rgba(107, 98, 168, 0.12);
+  border: 1.5px solid rgba(107, 98, 168, 0.25);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* ── Legend ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  margin-bottom: 14px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.swatch[data-seg="nitro"]    { background: rgba(107, 98, 168, 1); }
+.swatch[data-seg="dau"]      { background: rgba(107, 98, 168, 0.45); }
+.swatch[data-seg="observer"] { background: rgba(107, 98, 168, 0.12); border: 1.5px solid rgba(107, 98, 168, 0.35); }
+
+.legendStat {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.legendLabel {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.legendObserver .legendStat,
+.legendObserver .legendLabel {
+  color: var(--color-text-primary);
+}
+
+.legendObserver .legendLabel {
+  font-weight: 500;
+}
+
+/* ── Annotation ── */
+.annotation {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-style: italic;
+}

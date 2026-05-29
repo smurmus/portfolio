@@ -1,29 +1,24 @@
-import { useRef, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback, useEffect, useLayoutEffect } from 'react'
 
-const SESSION_KEY    = 'board-pan'
-const BOARD_WIDTH    = 6000
-const BOARD_HEIGHT   = 4000
-// How much the board shifts per pixel of cursor offset from viewport center.
-// 0.5 = cursor at edge shows the full item spread without losing the hero.
-const PARALLAX       = 0.5
-const LERP           = 0.08   // smooth-follow factor per frame (0–1)
+const BOARD_WIDTH  = 7000
+const BOARD_HEIGHT = 5000
+const LERP         = 0.12
 
-// Drag (touch / mobile)
+// Touch / mouse drag momentum
 const MOMENTUM_SAMPLES = 3
 const DECAY            = 0.88
 const MIN_VEL          = 0.5
 
 type Vec2 = { x: number; y: number }
 
-// The translate(tx, ty) that places the board center at the viewport center.
-function defaultPanFor(vpW: number, vpH: number): Vec2 {
+function defaultPan(vpW: number, vpH: number): Vec2 {
   return {
-    x: vpW / 2 - BOARD_WIDTH  / 2,   // e.g. 720 − 3000 = −2280
-    y: vpH / 2 - BOARD_HEIGHT / 2,   // e.g. 400 − 2000 = −1600
+    x: vpW / 2 - BOARD_WIDTH  / 2 - 300,
+    // Offset down 60px so projects peek into the initial view without dominating
+    y: vpH / 2 - BOARD_HEIGHT / 2 - 60,
   }
 }
 
-// Keep canvas edges from going past viewport edges.
 function clamp(x: number, y: number, vpW: number, vpH: number): Vec2 {
   return {
     x: Math.min(0, Math.max(vpW - BOARD_WIDTH,  x)),
@@ -31,82 +26,43 @@ function clamp(x: number, y: number, vpW: number, vpH: number): Vec2 {
   }
 }
 
-function loadSaved(): Vec2 | null {
-  try {
-    const raw = sessionStorage.getItem(SESSION_KEY)
-    return raw ? (JSON.parse(raw) as Vec2) : null
-  } catch { return null }
-}
-
-function save(p: Vec2) {
-  try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(p)) } catch { /**/ }
-}
-
 export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
-  const pan       = useRef<Vec2>({ x: 0, y: 0 })
-  const target    = useRef<Vec2>({ x: 0, y: 0 })
-  const base      = useRef<Vec2>({ x: 0, y: 0 }) // default (board center) pan
-  const rafId     = useRef<number | null>(null)
-  const lerping   = useRef(false)
-  const onSettled = useRef<((p: Vec2) => void) | null>(null)
+  const pan     = useRef<Vec2>({ x: 0, y: 0 })
+  const target  = useRef<Vec2>({ x: 0, y: 0 })
+  const rafId   = useRef<number | null>(null)
+  const lerping = useRef(false)
+  const settled = useRef<((p: Vec2) => void) | null>(null)
 
-  // Mobile drag state
-  const dragging  = useRef(false)
-  const lastPtr   = useRef<Vec2>({ x: 0, y: 0 })
-  const velHist   = useRef<Vec2[]>([])
+  const dragging = useRef(false)
+  const lastPtr  = useRef<Vec2>({ x: 0, y: 0 })
+  const velHist  = useRef<Vec2[]>([])
 
   const apply = useCallback((x: number, y: number) => {
     const el = canvasRef.current
-    if (el) el.style.transform = `translate(${x}px,${y}px)`
+    if (el) el.style.transform = `translate3d(${x}px,${y}px,0)`
   }, [canvasRef])
 
-  // ── Lerp loop ────────────────────────────────────────────
-  const startLerp = useCallback(() => {
-    if (lerping.current) return
-    lerping.current = true
-    const step = () => {
-      const dx = target.current.x - pan.current.x
-      const dy = target.current.y - pan.current.y
-      if (Math.abs(dx) < 0.15 && Math.abs(dy) < 0.15) {
-        pan.current = { ...target.current }
-        apply(pan.current.x, pan.current.y)
-        lerping.current = false
-        onSettled.current?.(pan.current)
-        return
-      }
-      pan.current = { x: pan.current.x + dx * LERP, y: pan.current.y + dy * LERP }
-      apply(pan.current.x, pan.current.y)
-      rafId.current = requestAnimationFrame(step)
-    }
-    rafId.current = requestAnimationFrame(step)
+  // ── Init: fires before first paint so there's no position flash ──
+  useLayoutEffect(() => {
+    const vpW = window.innerWidth
+    const vpH = window.innerHeight
+    const initial = defaultPan(vpW, vpH)
+    pan.current    = initial
+    target.current = initial
+    apply(initial.x, initial.y)
+    // Clear any stale pan from previous sessions
+    try { sessionStorage.removeItem('board-pan') } catch { /* ignore */ }
   }, [apply])
 
-  const setTarget = useCallback((x: number, y: number) => {
-    const vpW = window.innerWidth
-    const vpH = window.innerHeight
-    target.current = clamp(x, y, vpW, vpH)
-    startLerp()
-  }, [startLerp])
-
-  // ── Mouse-follow (desktop) ────────────────────────────────
-  const onMouseMove = useCallback((e: MouseEvent) => {
-    const vpW = window.innerWidth
-    const vpH = window.innerHeight
-    const dx = (e.clientX - vpW / 2) * PARALLAX
-    const dy = (e.clientY - vpH / 2) * PARALLAX
-    setTarget(base.current.x - dx, base.current.y - dy)
-  }, [setTarget])
-
-  // ── Drag (touch / mobile pointer) ────────────────────────
+  // ── Pointer drag (mouse + touch) ──────────────────────
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    // Only activate drag on touch; mouse uses follow
-    if (e.pointerType === 'mouse') return
-    if (rafId.current) cancelAnimationFrame(rafId.current)
-    lerping.current = false
+    if (rafId.current) { cancelAnimationFrame(rafId.current); lerping.current = false }
     dragging.current = true
     lastPtr.current  = { x: e.clientX, y: e.clientY }
     velHist.current  = []
-    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    // No setPointerCapture: window-level listeners handle drag, and capture
+    // would fire pointerleave on PolaroidStack before click fires — collapsing
+    // the stack and making isNavigable false, blocking navigation.
   }, [])
 
   useEffect(() => {
@@ -117,11 +73,8 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
       lastPtr.current = { x: e.clientX, y: e.clientY }
       velHist.current.push({ x: dx, y: dy })
       if (velHist.current.length > MOMENTUM_SAMPLES) velHist.current.shift()
-      const vpW = window.innerWidth
-      const vpH = window.innerHeight
-      const next = clamp(pan.current.x + dx, pan.current.y + dy, vpW, vpH)
-      pan.current = next
-      target.current = next
+      const next = clamp(pan.current.x + dx, pan.current.y + dy, window.innerWidth, window.innerHeight)
+      pan.current = next; target.current = next
       apply(next.x, next.y)
     }
 
@@ -129,58 +82,78 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
       if (!dragging.current) return
       dragging.current = false
       const hist = velHist.current
-      if (hist.length > 0) {
-        let vx = hist.reduce((s, v) => s + v.x, 0) / hist.length
-        let vy = hist.reduce((s, v) => s + v.y, 0) / hist.length
-        if (Math.abs(vx) > MIN_VEL || Math.abs(vy) > MIN_VEL) {
-          const momentum = () => {
-            vx *= DECAY; vy *= DECAY
-            if (Math.abs(vx) < MIN_VEL && Math.abs(vy) < MIN_VEL) {
-              save(pan.current); onSettled.current?.(pan.current); return
-            }
-            const next = clamp(pan.current.x + vx, pan.current.y + vy, window.innerWidth, window.innerHeight)
-            pan.current = next; target.current = next
-            apply(next.x, next.y)
-            rafId.current = requestAnimationFrame(momentum)
-          }
-          rafId.current = requestAnimationFrame(momentum)
-          return
+      if (!hist.length) return
+      let vx = hist.reduce((s, v) => s + v.x, 0) / hist.length
+      let vy = hist.reduce((s, v) => s + v.y, 0) / hist.length
+      if (Math.abs(vx) < MIN_VEL && Math.abs(vy) < MIN_VEL) return
+      const momentum = () => {
+        vx *= DECAY; vy *= DECAY
+        if (Math.abs(vx) < MIN_VEL && Math.abs(vy) < MIN_VEL) {
+          settled.current?.(pan.current); return
         }
+        const next = clamp(pan.current.x + vx, pan.current.y + vy, window.innerWidth, window.innerHeight)
+        pan.current = next; target.current = next
+        apply(next.x, next.y)
+        rafId.current = requestAnimationFrame(momentum)
       }
-      save(pan.current)
-      onSettled.current?.(pan.current)
+      rafId.current = requestAnimationFrame(momentum)
+    }
+
+    // Wheel / trackpad — passive:false so preventDefault() actually works
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      const scale = e.deltaMode === 1 ? 24 : 1
+      const next = clamp(
+        pan.current.x - e.deltaX * scale,
+        pan.current.y - e.deltaY * scale,
+        window.innerWidth, window.innerHeight
+      )
+      pan.current    = next
+      target.current = next
+      apply(next.x, next.y)
     }
 
     window.addEventListener('pointermove', onMove)
     window.addEventListener('pointerup',   onUp)
+    window.addEventListener('wheel',       onWheel, { passive: false })
+
     return () => {
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerup',   onUp)
+      window.removeEventListener('wheel',       onWheel)
+      if (rafId.current) cancelAnimationFrame(rafId.current)
     }
   }, [apply])
 
-  // ── Init ─────────────────────────────────────────────────
-  const initPan = useCallback((viewportEl: HTMLElement) => {
-    const vpW = window.innerWidth
-    const vpH = window.innerHeight
-    const def = defaultPanFor(vpW, vpH)
-    base.current = def
-
-    // Restore saved position (e.g. back from case study), else use default
-    const saved   = loadSaved()
-    const initial = saved ? clamp(saved.x, saved.y, vpW, vpH) : def
-    pan.current    = initial
-    target.current = initial
-    apply(initial.x, initial.y)
-
-    // Attach mouse-follow to the viewport element
-    viewportEl.addEventListener('mousemove', onMouseMove)
-    return () => viewportEl.removeEventListener('mousemove', onMouseMove)
-  }, [apply, onMouseMove])
+  const getPan = useCallback(() => pan.current, [])
 
   const onPanSettled = useCallback((cb: (p: Vec2) => void) => {
-    onSettled.current = cb
+    settled.current = cb
   }, [])
 
-  return { onPointerDown, initPan, getPan: () => pan.current, onPanSettled }
+  const recenter = useCallback(() => {
+    if (rafId.current) cancelAnimationFrame(rafId.current)
+    dragging.current = false
+    lerping.current  = false
+
+    const dest = defaultPan(window.innerWidth, window.innerHeight)
+    target.current   = dest
+
+    const animate = () => {
+      const dx = dest.x - pan.current.x
+      const dy = dest.y - pan.current.y
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+        pan.current = dest
+        apply(dest.x, dest.y)
+        settled.current?.(dest)
+        return
+      }
+      pan.current = { x: pan.current.x + dx * LERP, y: pan.current.y + dy * LERP }
+      apply(pan.current.x, pan.current.y)
+      rafId.current = requestAnimationFrame(animate)
+    }
+    rafId.current = requestAnimationFrame(animate)
+  }, [apply])
+
+  return { onPointerDown, getPan, onPanSettled, recenter }
 }

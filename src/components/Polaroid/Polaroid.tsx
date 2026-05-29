@@ -14,12 +14,11 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
   const { imageSrc, imageAlt, caption, href, isExternal } = data
 
   const hasImage = Boolean(imageSrc)
-  const hasCaption = Boolean(caption)
   const isNavigable = isClickable && Boolean(href)
 
-  function handleCaptionClick(e: React.MouseEvent) {
-    e.stopPropagation()
+  function handleClick(e: React.MouseEvent) {
     if (!isNavigable) return
+    e.stopPropagation()  // prevent PolaroidStack collapse handler from firing
     if (isExternal) {
       window.open(href, '_blank', 'noopener,noreferrer')
     } else {
@@ -27,15 +26,23 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
     }
   }
 
-  function handleCaptionKeyDown(e: React.KeyboardEvent) {
+  function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      handleCaptionClick(e as unknown as React.MouseEvent)
+      handleClick(e as unknown as React.MouseEvent)
     }
   }
 
   return (
-    <div className={`${styles.card} ${className ?? ''}`} style={style}>
+    <div
+      className={`${styles.card} ${isNavigable ? styles.cardClickable : ''} ${className ?? ''}`}
+      style={style}
+      onClick={handleClick}
+      onKeyDown={isNavigable ? handleKeyDown : undefined}
+      role={isNavigable ? 'link' : undefined}
+      tabIndex={isNavigable ? 0 : undefined}
+      aria-label={isNavigable ? `${caption} — ${imageAlt}` : undefined}
+    >
       <div className={styles.imageArea}>
         {hasImage ? (
           <img
@@ -54,20 +61,9 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
       </div>
 
       <div className={styles.caption}>
-        {hasCaption && isNavigable ? (
-          <span
-            role="link"
-            tabIndex={0}
-            className={styles.captionLink}
-            onClick={handleCaptionClick}
-            onKeyDown={handleCaptionKeyDown}
-            aria-label={`${caption} — ${imageAlt}`}
-          >
-            {caption}
-          </span>
-        ) : (
-          <span className={styles.captionText}>{caption}</span>
-        )}
+        <span className={isNavigable ? styles.captionLink : styles.captionText}>
+          {caption}
+        </span>
       </div>
     </div>
   )

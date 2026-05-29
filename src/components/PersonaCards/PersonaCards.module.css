@@ -1,0 +1,125 @@
+/* ── Grid ──────────────────────────────────────────────── */
+
+.grid {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* ── Card base ─────────────────────────────────────────── */
+
+.card {
+  flex: 1;
+  min-width: 0;
+  border-radius: 12px;
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Observer — lavender fill, solid border */
+.cardObserver {
+  background: #ECEAFF;
+  border: 1.5px solid #C8C2F0;
+}
+
+/* Contributor — transparent background, dotted border */
+.cardContributor {
+  background: transparent;
+  border: 1.5px dashed #C8C2F0;
+}
+
+/* ── Previously-seen dimming ───────────────────────────── */
+
+.dimmed {
+  opacity: 0.25;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-accent-purple);
+  display: block;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* ── Behavior list ─────────────────────────────────────── */
+
+.behaviors {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.behavior {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  padding-left: 14px;
+  position: relative;
+}
+
+.behavior::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent-purple);
+  font-size: 12px;
+  top: 2px;
+}
+
+/* ── Footer ────────────────────────────────────────────── */
+
+.footer {
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footerLabel {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-accent-purple);
+  margin-bottom: 6px;
+}
+
+.footerText {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .grid {
+    flex-direction: column;
+  }
+}

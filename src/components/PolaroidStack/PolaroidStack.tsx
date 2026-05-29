@@ -146,24 +146,12 @@ export default function PolaroidStack({ polaroids, variant, className }: Polaroi
             ref={el => { cardRefs.current[i] = el }}
             className={styles.cardWrapper}
             style={{ transform: outerTransform, zIndex }}
-            tabIndex={isLined && isProject ? 0 : -1}
             onFocus={() => isLined && setHoveredIndex(i)}
             onBlur={() => setHoveredIndex(-1)}
             onPointerEnter={() => isLined && setHoveredIndex(i)}
             onPointerLeave={(e) => {
-              // Only clear if leaving the stack entirely, not moving to a sibling card.
-              // pointerleave fires before pointerenter on the next element, so without
-              // this check the index resets to -1 before the next card can claim it.
               const to = e.relatedTarget as Node | null
               if (!containerRef.current?.contains(to)) setHoveredIndex(-1)
-            }}
-            onKeyDown={(e) => {
-              if (!isLined || !isProject) return
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                const link = e.currentTarget.querySelector('[role="link"]') as HTMLElement
-                link?.click()
-              }
             }}
           >
             <div

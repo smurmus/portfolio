@@ -3,16 +3,23 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 14px;
-  min-width: 120px;
-  height: 28px;
-  border-radius: 2px;
+  padding: 10px 24px;
+  min-width: 200px;
+  height: 48px;
+  border-radius: 0;
   overflow: hidden;
-  /* Slight torn-edge shadow */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  /* clip-path creates the torn washi tape ends */
+  clip-path: polygon(
+    6px 4%,
+    calc(100% - 8px) 0%,
+    100% 20%, calc(100% - 5px) 40%, 100% 60%, calc(100% - 6px) 80%, calc(100% - 3px) 100%,
+    7px 100%,
+    0% 80%, 5px 60%, 0% 40%, 4px 20%
+  );
+  /* drop-shadow follows the clip-path outline (box-shadow would be clipped) */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.22));
 }
 
-/* Base color rect + pattern overlay are rendered as SVG inside the label */
 .svg {
   position: absolute;
   inset: 0;
@@ -24,7 +31,7 @@
   position: relative;
   z-index: 1;
   font-family: var(--font-handwriting);
-  font-size: 12px;
+  font-size: 19px;
   font-weight: 500;
   color: white;
   white-space: nowrap;

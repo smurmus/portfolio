@@ -2,8 +2,47 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Resting rotation set via --resting-rotation in parent Board item.
-     .wobble keyframe in globals.css handles the animation. */
+  transition: transform 200ms ease;
+}
+
+.sticker:hover {
+  transform: scale(1.07);
+}
+
+/* Two-image swap: default stays fully visible, hover overlays on top */
+.imageWrapper {
+  position: relative;
+  line-height: 0;
+}
+
+.imageDefault {
+  display: block;
+  object-fit: contain;
+}
+
+.imageHover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.sticker:hover .imageHover {
+  opacity: 1;
+}
+
+/* Radial reveal: hover image expands from the center outward */
+.imageHoverClip {
+  clip-path: circle(0% at 50% 50%);
+  opacity: 1;
+  transition: clip-path 400ms cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.sticker:hover .imageHoverClip {
+  clip-path: circle(80% at 50% 50%);
 }
 
 /* Placeholder: colored circle with label when no image file */

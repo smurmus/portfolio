@@ -1,0 +1,64 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  border-radius: 12px;
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.card:nth-child(1) {
+  background: rgba(107, 98, 168, 0.11);
+  border: 1px solid rgba(107, 98, 168, 0.22);
+}
+.card:nth-child(2) {
+  background: rgba(107, 98, 168, 0.07);
+  border: 1px solid rgba(107, 98, 168, 0.16);
+}
+.card:nth-child(3) {
+  background: rgba(107, 98, 168, 0.04);
+  border: 1px solid rgba(107, 98, 168, 0.11);
+}
+.card:nth-child(4) {
+  background: rgba(107, 98, 168, 0.02);
+  border: 1px solid rgba(107, 98, 168, 0.07);
+}
+
+.metricLabel {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+.whatItIs {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+  margin: 0 0 10px;
+}
+
+.whyItMatters {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 680px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

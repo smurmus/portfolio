@@ -1,0 +1,116 @@
+.wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.heading {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Regular cards — the 2024 landscape, the "what Discord built" story */
+.card {
+  flex: 1;
+  min-width: 110px;
+  max-width: 150px;
+  background: rgba(124, 103, 232, 0.04);
+  border: 1.5px solid rgba(124, 103, 232, 0.38);
+  border-radius: 6px;
+  padding: 10px 12px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+/* Favorites — shipped after; de-emphasised as the outlier */
+.cardFavorites {
+  border: 1px dashed var(--color-polaroid-border);
+  background: transparent;
+}
+
+.sparkleIcon {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  width: 15px;
+  height: 15px;
+  color: var(--color-accent-purple);
+  opacity: 0.65;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Only the Favorites card needs right padding to clear the sparkle icon */
+.cardFavorites .nameRow {
+  padding-right: 18px;
+}
+
+.name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.year {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  opacity: 0.65;
+}
+
+.yearFavorites {
+  color: var(--color-accent-purple);
+  opacity: 0.8;
+}
+
+.desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+  margin-top: 10px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.captionSparkle {
+  width: 9px;
+  height: 9px;
+  color: var(--color-accent-purple);
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .card {
+    max-width: none;
+  }
+}

@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import BoardPage from './pages/BoardPage'
 
 const CaseStudy = lazy(() => import('./pages/CaseStudy'))
+const About = lazy(() => import('./pages/About'))
+const WorkHistory = lazy(() => import('./pages/WorkHistory'))
 
 function CaseStudyFallback() {
   return (
@@ -30,6 +32,22 @@ export default function App() {
         element={
           <Suspense fallback={<CaseStudyFallback />}>
             <CaseStudy />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/about"
+        element={
+          <Suspense fallback={<CaseStudyFallback />}>
+            <About />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/work"
+        element={
+          <Suspense fallback={<CaseStudyFallback />}>
+            <WorkHistory />
           </Suspense>
         }
       />

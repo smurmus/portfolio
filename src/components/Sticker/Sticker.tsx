@@ -1,37 +1,47 @@
-import { useState } from 'react'
 import styles from './Sticker.module.css'
 
 type StickerProps = {
   imageSrc: string
+  hoverImageSrc?: string
+  /** 'fade' fades the hover image in on top; 'clip-wipe' reveals it with a left-to-right wipe */
+  revealMode?: 'fade' | 'clip-wipe'
   alt: string
   size: number
   className?: string
   style?: React.CSSProperties
 }
 
-export default function Sticker({ imageSrc, alt, size, className, style }: StickerProps) {
-  const [wobbling, setWobbling] = useState(false)
+export default function Sticker({ imageSrc, hoverImageSrc, alt, size, className, style, revealMode = 'fade' }: StickerProps) {
   const hasImage = Boolean(imageSrc)
-
-  function handlePointerEnter() {
-    setWobbling(true)
-  }
-
-  function handleAnimationEnd() {
-    setWobbling(false)
-  }
 
   return (
     <div
-      className={`${styles.sticker} ${wobbling ? 'wobble' : ''} ${className ?? ''}`}
+      className={`${styles.sticker} ${className ?? ''}`}
       style={{ width: size, height: size, ...style }}
-      onPointerEnter={handlePointerEnter}
-      onAnimationEnd={handleAnimationEnd}
     >
-      {hasImage ? (
+      {hasImage && hoverImageSrc ? (
+        <div className={styles.imageWrapper}>
+          <img
+            src={imageSrc}
+            alt=""
+            className={`${styles.image} ${styles.imageDefault}`}
+            width={size}
+            height={size}
+            loading="lazy"
+          />
+          <img
+            src={hoverImageSrc}
+            alt=""
+            className={`${styles.image} ${revealMode === 'clip-wipe' ? styles.imageHoverClip : styles.imageHover}`}
+            width={size}
+            height={size}
+            loading="lazy"
+          />
+        </div>
+      ) : hasImage ? (
         <img
           src={imageSrc}
-          alt=""  /* decorative — alt intentionally empty */
+          alt=""
           className={styles.image}
           width={size}
           height={size}

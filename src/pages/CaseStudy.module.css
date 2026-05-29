@@ -3,6 +3,12 @@
   background-color: var(--color-board-bg);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='1.25' fill='%23DDD6C8'/%3E%3C/svg%3E");
   padding: 40px 24px 80px;
+  animation: pageEnter 0.4s ease-out both;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .inner {
@@ -10,29 +16,40 @@
   margin: 0 auto;
 }
 
-/* ── Back nav ────────────────────────────────────────────── */
+/* ── Fixed back button ───────────────────────────────────── */
 
-.backNav {
-  margin-bottom: 40px;
-}
-
-.backLink {
+.fixedBack {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 1000;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-polaroid-border);
+  border-radius: 20px;
   cursor: pointer;
+  padding: 7px 14px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  padding: 0;
-  transition: color 150ms ease-out;
+  gap: 5px;
+  transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
-.backLink:hover,
-.backLink:focus-visible {
+.fixedBack:hover,
+.fixedBack:focus-visible {
+  background: rgba(255, 255, 255, 0.92);
   color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
+}
+
+/* At tablet breakpoint the TOC is a 40px sticky strip at top: 0 — push button below it */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .fixedBack { top: 52px; }
 }
 
 /* ── Header ─────────────────────────────────────────────── */
@@ -179,17 +196,486 @@
   margin-bottom: 1.5rem;
 }
 
+.blockFigure {
+  margin: 0 0 1.5rem;
+}
+
 .blockImage {
   width: 100%;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  display: block;
+}
+
+.blockImageClickable {
+  cursor: zoom-in;
+}
+
+/* height-constrained image — width adapts to aspect ratio */
+.blockImageConstrained {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.imageWrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+}
+
+.imageWrapper .blockImage,
+.imageWrapper .blockImageConstrained {
+  border-radius: 0;
+}
+
+/* Fade via mask so image pixels dissolve to transparent — no colour mixing */
+.imageWrapperFade {
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.8) 68%, rgba(0, 0, 0, 0.4) 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.8) 68%, rgba(0, 0, 0, 0.4) 84%, transparent 100%);
+}
+
+.blockImagePlaceholder {
+  background: #D4D0C8;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .imageCaption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.imageCaptionLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 150ms ease-out, opacity 150ms ease-out;
+}
+
+.imageCaptionLink:hover {
+  text-decoration-color: currentColor;
+  opacity: 1;
+}
+
+/* ── Subheading ─────────────────────────────────────────── */
+
+.subheading {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  max-width: 65ch;
+}
+
+.csSectionBody>.subheading:first-child {
+  margin-top: 0;
+}
+
+/* ── Full-bleed content wrapper ─────────────────────────── */
+
+.fullBleedContent {
+  margin-bottom: 2rem;
+}
+
+/* ── Split two-column layout ────────────────────────────── */
+
+.split {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.splitCol {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Strip default top/bottom margin from first/last block in a split column */
+.splitCol> :first-child {
+  margin-top: 0;
+}
+
+.splitCol> :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 680px) {
+  .split {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+/* ── Media placeholder ──────────────────────────────────── */
+
+.mediaPlaceholder {
+  width: 100%;
+  min-height: 220px;
+  background: #EBEBEA;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mediaPlaceholderLabel {
   font-family: var(--font-handwriting);
   font-size: 13px;
   color: var(--color-text-secondary);
+  text-align: center;
+  padding: 16px;
+}
+
+/* ── Section lede — key insight / transition lines ─────── */
+
+.sectionLede {
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+  max-width: 60ch;
+  margin-top: 4.5rem;
+  margin-bottom: 2rem;
+}
+
+.csSectionBody>.sectionLede:first-child {
+  margin-top: 0;
+}
+
+/* ── Inline figure caption ──────────────────────────────── */
+
+.blockCaption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+  text-align: center;
+  margin-top: -0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Audit closing pivot line ───────────────────────────── */
+
+.auditClosing {
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  max-width: 55ch;
+}
+
+/* ── Sections layout (Discord and future case studies) ─── */
+
+.lede {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  margin: 2rem 0 0;
+  margin-bottom: 2rem;
+}
+
+.keyboardHint {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  opacity: 0.45;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  letter-spacing: 0.03em;
+}
+
+.csSection {
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  border-top: 1px solid var(--color-polaroid-border);
+}
+
+.csSection:first-of-type {
+  border-top: none;
+  padding-top: 2.5rem;
+}
+
+.csSectionHeading {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.75rem;
+}
+
+.csSectionBody {
+  min-height: 120px;
+}
+
+/* ── Hero-page meta delay ───────────────────────────────── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.metaHeroDelay {
+  animation: fadeIn 250ms ease-out 550ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metaHeroDelay {
+    animation: none;
+  }
+}
+
+/* ── Back to top FAB ────────────────────────────────────── */
+
+.backToTop {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 50;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  background: var(--color-board-bg);
+  border: 1px solid var(--color-polaroid-border);
+  border-radius: 100px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 200ms ease-out, transform 200ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.backToTopVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.backToTop:hover,
+.backToTop:focus-visible {
+  color: var(--color-text-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 480px) {
+  .backToTop {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+/* ── Link button ── */
+.linkButtonWrap {
+  margin: 1.5rem 0;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent-purple);
+  border: 1.5px solid var(--color-accent-purple);
+  border-radius: 6px;
+  padding: 9px 18px;
+  text-decoration: none;
+  transition: background 150ms ease-out, color 150ms ease-out;
+}
+
+.linkButton:hover {
+  background: rgba(107, 98, 168, 0.08);
+}
+
+/* ── Aside note ── */
+.asideNote {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  border-left: 2px solid var(--color-polaroid-border);
+  padding-left: 1.25rem;
   margin-bottom: 1.5rem;
+  max-width: 65ch;
+}
+
+/* ── Sources list ── */
+.sourcesList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sourcesItem {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sourcesLink {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(0, 0, 0, 0.25);
+}
+
+.sourcesLink:hover {
+  text-decoration-color: var(--color-text-primary);
+}
+
+.sourcesNote {
+  color: var(--color-text-secondary);
+}
+
+/* ── Screenshot row (3-up) ── */
+.screenshotRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.screenshotRowItem {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.screenshotRowImg {
+  width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+
+.screenshotRowPlaceholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #D4D0C8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: #6E5A4B;
+  text-align: center;
+  padding: 8px;
+}
+
+@media (max-width: 680px) {
+  .screenshotRow {
+    flex-direction: column;
+  }
+}
+
+/* ── Code block ─────────────────────────────────────────── */
+
+.codeBlock {
+  background: #1A1A1A;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.codeBlockInner {
+  font-family: 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #D4D4D4;
+  white-space: pre;
+  display: block;
+}
+
+/* ── Prototype iframe ── */
+
+.iframeWrapper {
+  border: 1px solid var(--color-polaroid-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  /* Break out of the 700px content column with side padding */
+  width: calc(100vw - 80px);
+  margin-left: calc(50% - 50vw + 40px);
+}
+
+.iframeChrome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: var(--color-polaroid-border);
+  border-bottom: 1px solid var(--color-polaroid-border);
+}
+
+.iframeChromeDots {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.iframeChromeDots span {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.iframeChromeUrl {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity 150ms ease-out;
+}
+
+.iframeChromeUrl:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.iframeEmbed {
+  display: block;
+  width: 100%;
+  height: 680px;
+  border: none;
 }
 
 /* ── Suspense fallback ──────────────────────────────────── */
@@ -203,4 +689,173 @@
   font-family: var(--font-handwriting);
   font-size: 16px;
   color: var(--color-text-secondary);
+}
+
+/* ── Opening hook ────────────────────────────────────────── */
+
+.openingHook {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: -40px;
+  margin-bottom: 0;
+  min-height: calc(100vh + 40px);
+  padding: 0 clamp(24px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Sticky text — stays at viewport position throughout the 2-viewport hook */
+.hookTextWrap {
+  position: sticky;
+  top: clamp(140px, 28vh, 240px);
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+}
+
+.openingHookText {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-weight: 200;
+  font-style: italic;
+  line-height: 1.15;
+  text-align: left;
+  background: linear-gradient(135deg, var(--color-text-primary) 0%, #5865F2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 auto;
+  max-width: 88%;
+  /* pre-reserve 2-line height so layout is stable when suffix words appear */
+  min-height: 2.4em;
+}
+
+
+/* Typing indicator dots — sized like punctuation, sit on the text line */
+.hookDots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 6px;
+  /* push down so dots align with the text's midline, not above it */
+  vertical-align: -0.05em;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.hookDotsOut { opacity: 0; }
+
+.hookDots span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #5865F2;
+  animation: dotWave 0.75s ease-in-out infinite;
+}
+.hookDots span:nth-child(2) { animation-delay: 0.11s; }
+.hookDots span:nth-child(3) { animation-delay: 0.22s; }
+
+@keyframes dotWave {
+  0%, 60%, 100% { transform: translateY(0);   opacity: 0.4; }
+  30%           { transform: translateY(-6px); opacity: 1;   }
+}
+
+/* Each word fades + sharpens in sequentially via staggered animation-delay */
+.hookWord {
+  display: inline;
+  animation: wordFade 0.35s ease-out both;
+}
+
+@keyframes wordFade {
+  from { opacity: 0; filter: blur(4px); transform: translateY(3px); }
+  to   { opacity: 1; filter: blur(0);  transform: translateY(0); }
+}
+
+/* Image — pushed to bottom of hook, hidden until typing completes */
+.openingHookImageWrap {
+  margin-top: auto;
+  position: relative;
+  /* break out of the hook's horizontal padding so image is edge-to-edge */
+  width: 100vw;
+  margin-left: calc(-1 * clamp(24px, 5vw, 64px));
+  max-height: 60vh;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* fade-in via animation so scroll listener can override inline without transition conflict */
+.openingHookImageVisible {
+  animation: imageReveal 0.9s ease both;
+}
+
+@keyframes imageReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* dark fade — blends into the hero's dark top gradient */
+.openingHookImageWrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.95) 100%);
+  pointer-events: none;
+}
+
+.openingHookImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 8px 8px 0 0;
+  view-transition-name: case-hero;
+}
+
+/* View transition: hook image expands into full-width hero */
+::view-transition-group(case-hero) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+::view-transition-old(case-hero),
+::view-transition-new(case-hero) {
+  animation: none;
+  mix-blend-mode: normal;
+  object-fit: cover;
+}
+
+
+/* ── Fixed keyboard hint ─────────────────────────────────── */
+
+.fixedKeyboardHint {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 500;
+  font-family: var(--font-handwriting);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 4px 10px;
+  opacity: 0.75;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fixedKeyboardHintArrows {
+  display: inline-block;
+  animation: arrowPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes arrowPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
 }

@@ -1,0 +1,303 @@
+/* ── Full-bleed hero — breaks out of max-width: 700px inner container */
+.hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: -40px;
+  /* cancel .page padding-top so hero touches viewport top */
+  margin-bottom: 0;
+  height: 560px;
+  overflow: hidden;
+}
+
+/* When hookText is set, expand to full viewport height */
+.heroFullViewport {
+  height: 100vh;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  user-select: none;
+  -webkit-user-drag: none;
+  view-transition-name: case-hero;
+  will-change: filter, transform;
+}
+
+/* Shown when no imageSrc is provided — hero bg color does the work */
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+}
+
+/* Top + bottom gradients + subtle midpoint scrim */
+.gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, transparent 30%),
+    linear-gradient(to top,    rgba(0, 0, 0, 0.65) 0%, transparent 55%),
+    rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+/* Back nav — fixed to viewport so it persists through opening hook and scroll */
+.backLink {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 1000;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-polaroid-border);
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
+}
+
+/* Card anchored bottom-left */
+.cardGroup {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+}
+
+/* Title card — physical paper on image */
+.card {
+  background: #FDFCF8;
+  border-radius: 4px;
+  padding: 16px 20px;
+  max-width: 540px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    2px 3px 0 rgba(0, 0, 0, 0.04);
+  transform: rotate(var(--rotation, 0deg));
+  color-scheme: light;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.cardLabel {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888780;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  margin: 0 0 10px;
+}
+
+.skipLink {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: #888780;
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+
+.skipLink:hover,
+.skipLink:focus-visible {
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+}
+
+.protoLink {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--color-accent-purple);
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 3px 10px;
+  text-decoration: none;
+  transition: background 150ms ease-out, opacity 150ms ease-out;
+}
+
+.protoLink:hover,
+.protoLink:focus-visible {
+  opacity: 0.88;
+}
+
+/* Subhead — inside the card, below the title */
+.subhead {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  margin: 0 0 12px;
+}
+
+/* ── Entrance animations ──────────────────────────────── */
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heroCardSettle {
+  from {
+    opacity: 0;
+    transform: rotate(var(--rotation, 0deg)) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(var(--rotation, 0deg)) translateY(0);
+  }
+}
+
+.image {
+  animation: heroFadeIn 400ms ease-out both;
+}
+
+.backLink {
+  animation: heroFadeIn 300ms ease-out 100ms both;
+}
+
+.card {
+  animation: heroCardSettle 300ms ease-out 200ms both;
+}
+
+.subhead {
+  animation: heroFadeIn 250ms ease-out 400ms both;
+}
+
+/* ── Hook text overlay ────────────────────────────────── */
+
+/* Centered overlay — fades out as card fades in via scroll */
+.hookOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  text-align: center;
+  padding: 0 clamp(24px, 8vw, 120px);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.hookOverlayText {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  color: #FDFCF8;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+  margin: 0;
+  text-wrap: balance;
+  animation: hookTextIn 0.9s ease-out 0.25s both;
+}
+
+@keyframes hookTextIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; }
+}
+
+/* When hookText is present, card is scroll-driven — skip CSS entrance animation */
+.heroFullViewport .card {
+  animation: none;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .hero {
+    height: 360px;
+  }
+
+  .heroFullViewport {
+    height: 100svh;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 280px;
+  }
+
+  .backLink {
+    left: 20px;
+  }
+
+  .cardGroup {
+    left: 20px;
+    bottom: 20px;
+    max-width: calc(100% - 40px);
+  }
+
+  .card {
+    max-width: 100%;
+    padding: 12px 14px;
+    transform: none;
+    /* no rotation on mobile */
+  }
+
+  .cardTitle {
+    font-size: 20px;
+  }
+
+  .subhead {
+    font-size: 13px;
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .image,
+  .backLink,
+  .card,
+  .subhead,
+  .hookOverlayText {
+    animation: none !important;
+  }
+}

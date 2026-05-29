@@ -6,6 +6,7 @@ type AnnotatedScreenshotProps = {
   src: string
   alt: string
   beats: AnnotationBeat[]
+  caption?: string
 }
 
 // Beats fire at these scroll progress thresholds (0–1)
@@ -14,15 +15,10 @@ const THRESHOLDS = [0.2, 0.55, 0.88]
 // On mobile (≤480px) only show beat index 1 (sidebar)
 const MOBILE_BEAT = 1
 
-export default function AnnotatedScreenshot({ src, alt, beats }: AnnotatedScreenshotProps) {
+export default function AnnotatedScreenshot({ src, alt, beats, caption }: AnnotatedScreenshotProps) {
   const scrollRangeRef = useRef<HTMLDivElement>(null)
   const [activeBeat, setActiveBeat] = useState(-1)
   const [isMobile, setIsMobile] = useState(false)
-
-  const prefersReducedMotion =
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false
 
   // Detect mobile on mount and resize
   useEffect(() => {
@@ -68,12 +64,15 @@ export default function AnnotatedScreenshot({ src, alt, beats }: AnnotatedScreen
   const scrollRangeHeight = `${(beats.length + 1) * 100}vh`
 
   return (
+    <>
     <div
       ref={scrollRangeRef}
       className={styles.scrollRange}
       style={{ height: scrollRangeHeight }}
+      data-beat-thresholds={THRESHOLDS.join(',')}
     >
       <div className={styles.sticky}>
+        <div className={styles.stickyInner}>
         <div className={styles.screenshotWrapper}>
           <img
             src={src}
@@ -115,7 +114,7 @@ export default function AnnotatedScreenshot({ src, alt, beats }: AnnotatedScreen
           <div
             aria-hidden="true"
             className={`${styles.region} ${activeBeat >= 0 ? styles.regionDimmed : ''}`}
-            style={{ left: '77.5%', top: '0%', width: '22.5%', height: '100%' }}
+            style={{ left: '79%', top: '0%', width: '21%', height: '100%' }}
           />
 
           {/* Annotation cards */}
@@ -128,11 +127,12 @@ export default function AnnotatedScreenshot({ src, alt, beats }: AnnotatedScreen
             const offset = beat.card.offset ?? 2
 
             const cardStyle: React.CSSProperties = {
-              bottom: `${beat.card.bottom}%`,
+              top: `${beat.card.top}%`,
               ...(isRight
                 ? { right: `${offset}%` }
                 : { left: `${offset}%` }
               ),
+              ...(beat.card.fontSize ? { fontSize: `${beat.card.fontSize}px` } : {}),
             }
 
             return (
@@ -153,7 +153,10 @@ export default function AnnotatedScreenshot({ src, alt, beats }: AnnotatedScreen
             )
           })}
         </div>
+        {caption && <p className={styles.captionBelow}>{caption}</p>}
+        </div>
       </div>
     </div>
+    </>
   )
 }

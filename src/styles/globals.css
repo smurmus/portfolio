@@ -12,15 +12,21 @@
    and update the src paths in the @font-face blocks below */
 @font-face {
   font-family: 'PP Hatton';
-  src: url('/fonts/PPHatton-Medium.woff2') format('woff2'),
-       url('/fonts/PPHatton-Medium.woff') format('woff');
+  src: url('/fonts/PPHatton-Ultralight.woff2') format('woff2');
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Hatton';
+  src: url('/fonts/PPHatton-Medium.woff2') format('woff2');
   font-weight: 500;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'PP Hatton';
-  src: url('/fonts/PPHatton-Bold.woff2') format('woff2'),
-       url('/fonts/PPHatton-Bold.woff') format('woff');
+  src: url('/fonts/PPHatton-Bold.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
 }
@@ -31,52 +37,84 @@
    ───────────────────────────────────────────────────────── */
 
 :root {
-  /* Typography */
-  --font-display:      'PP Hatton', Georgia, serif;
-  --font-body:         'Satoshi', system-ui, sans-serif;
-  --font-handwriting:  'Edu TAS Beginner', cursive;
+  /* Fonts */
+  --font-display: 'PP Hatton', Georgia, serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+  --font-handwriting: 'Edu TAS Beginner', cursive;
 
-  /* Board & text */
-  --color-board-bg:         #F5EFE6;
-  --color-board-dot:        #DDD6C8;
-  --color-text-primary:     #1A1714;
-  --color-text-secondary:   #645850;
-  --color-polaroid-bg:      #FEFCF8;
-  --color-polaroid-border:  #E8E2D9;
+  /* Board surface */
+  --color-board-bg: #fafafa;
+  --color-board-dot: #C8C0B4;
+  /* darkened from original — stays legible on white */
 
-  /* Accent palette — tomato lead */
-  --color-accent-red:     #D94F38;  /* primary accent, washi borders, underlines */
-  --color-accent-coral:   #F0956A;
-  --color-accent-amber:   #E8A030;  /* contentfill zone */
-  --color-accent-purple:  #6B62A8;  /* discord zone */
-  --color-accent-sage:    #4A8C72;  /* design systems zone */
-  --color-accent-yellow:  #FACD5A;  /* currently sticky — use sparingly */
+  /* Text */
+  --color-text-primary: #35251A;
+  /* toffee brown — warm, high contrast */
+  --color-text-secondary: #6E5A4B;
+  /* muted toffee — dates, captions, subtitles */
 
-  /* Per-project washi colors */
-  --washi-design-systems:  var(--color-accent-sage);
-  --washi-contentfill:     var(--color-accent-amber);
-  --washi-discord:         var(--color-accent-purple);
-  --washi-cosplay:         var(--color-accent-red);
+  /* Polaroids — pushed more cream so they separate from white board */
+  --color-polaroid-bg: #FFF7EE;
+  --color-polaroid-border: #E4D9CC;
+  --color-polaroid-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  /* stronger than before — lifts items off white */
+
+  /* Global accent — neutral warm brown, doesn't compete with project colors */
+  --color-global-accent: #7A6A5A;
+
+  /* Personality accents */
+  --color-accent-red: #D94F38;
+  /* primary — headline underline, caption hovers */
+  --color-accent-coral: #F0956A;
+  /* secondary warm */
+  --color-accent-amber: #E8A030;
+  /* contentfill zone */
+  --color-accent-purple: #6B62A8;
+  /* discord zone */
+  --color-accent-sage: #4A8C72;
+  /* design systems zone */
+  --color-accent-yellow: #FACD5A;
+  /* use sparingly */
+
+  /* Washi tape labels */
+  --washi-design-systems: var(--color-accent-sage);
+  --washi-contentfill: var(--color-accent-amber);
+  --washi-discord: var(--color-accent-purple);
+  --washi-cosplay: #B8705C;
+  /* terracotta — distinct from accent red */
+  --washi-currently: var(--color-accent-coral);
+
+  /* Sticky notes */
+  --color-sticky-current: #FACD5A;
+  /* currently: */
+  --color-sticky-note: #A8C4D4;
+  /* about me — dusty blue, separates from yellow */
 }
-
 
 /* ─────────────────────────────────────────────────────────
    RESET
    ───────────────────────────────────────────────────────── */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* board handles its own scroll/pan */
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
 }
 
 body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* board handles its own scroll/pan */
   font-family: var(--font-body);
   color: var(--color-text-primary);
   background-color: var(--color-board-bg);
@@ -84,10 +122,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Case study pages need scroll */
-body.page-case-study {
-  overflow: auto;
-}
+/* Case study pages override body/root via inline styles set in useLayoutEffect */
 
 img {
   display: block;
@@ -126,10 +161,10 @@ a {
 
 .board-item {
   opacity: 0;
-  transform: translateY(-12px) rotate(var(--resting-rotation, 0deg));
+  transform: translateY(-10px) rotate(var(--resting-rotation, 0deg));
   transition:
-    opacity  400ms ease-out,
-    transform 400ms ease-out;
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
   transition-delay: var(--entrance-delay, 0ms);
 }
 
@@ -138,7 +173,6 @@ a {
   transform: translateY(0) rotate(var(--resting-rotation, 0deg));
 }
 
-/* Skip all entrance animations when reduced motion is preferred */
 @media (prefers-reduced-motion: reduce) {
   .board-item {
     opacity: 1;
@@ -146,6 +180,7 @@ a {
     transition: none;
     transition-delay: 0ms;
   }
+
   .board-item--visible {
     opacity: 1;
     transform: translateY(0) rotate(var(--resting-rotation, 0deg));
@@ -159,10 +194,21 @@ a {
    ───────────────────────────────────────────────────────── */
 
 @keyframes wobble {
-  0%   { transform: rotate(var(--resting-rotation, 0deg)); }
-  33%  { transform: rotate(calc(var(--resting-rotation, 0deg) + 3deg)); }
-  66%  { transform: rotate(calc(var(--resting-rotation, 0deg) - 2deg)); }
-  100% { transform: rotate(var(--resting-rotation, 0deg)); }
+  0% {
+    transform: rotate(var(--resting-rotation, 0deg));
+  }
+
+  33% {
+    transform: rotate(calc(var(--resting-rotation, 0deg) + 3deg));
+  }
+
+  66% {
+    transform: rotate(calc(var(--resting-rotation, 0deg) - 2deg));
+  }
+
+  100% {
+    transform: rotate(var(--resting-rotation, 0deg));
+  }
 }
 
 .wobble {
@@ -186,6 +232,7 @@ a {
   display: inline-block;
 }
 
+/* Underline animation — tied to primary text, stays warm */
 .animated-underline::after {
   content: '';
   position: absolute;
@@ -197,21 +244,21 @@ a {
   transition: width 150ms ease-out;
 }
 
-.animated-underline:hover::after,
-.animated-underline:focus-visible::after {
+.animated-underline:hover::after {
   width: 100%;
 }
-
 
 /* ─────────────────────────────────────────────────────────
    FOCUS STYLES
    ───────────────────────────────────────────────────────── */
 
+/* Focus indicator — sage instead of red, less jarring globally */
 :focus-visible {
-  outline: 2px solid var(--color-accent-red);
+  outline: 2px solid var(--color-global-accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
+
 
 
 /* ─────────────────────────────────────────────────────────

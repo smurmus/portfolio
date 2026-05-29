@@ -1,0 +1,202 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--color-board-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='1.25' fill='%23DDD6C8'/%3E%3C/svg%3E");
+  padding: 40px 24px 80px;
+}
+
+.inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ── Back nav ────────────────────────────────────────────── */
+
+.backNav {
+  margin-bottom: 40px;
+}
+
+.backLink {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--color-polaroid-border);
+  border-radius: 20px;
+  padding: 7px 16px;
+  transition: color 150ms ease-out, border-color 150ms ease-out, background 150ms ease-out;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
+  background: var(--color-polaroid-bg);
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+
+.header {
+  margin-bottom: 48px;
+}
+
+.eyebrow {
+  font-family: var(--font-handwriting);
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+  margin-bottom: 14px;
+}
+
+.subheading {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 50ch;
+}
+
+/* ── Timeline ────────────────────────────────────────────── */
+
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-polaroid-border) 0,
+    var(--color-polaroid-border) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+/* ── Role entry ──────────────────────────────────────────── */
+
+.role {
+  position: relative;
+  margin-bottom: 44px;
+}
+
+.role::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-polaroid-border);
+  border: 2px solid var(--color-board-bg);
+  box-shadow: 0 0 0 1px var(--color-polaroid-border);
+}
+
+.role[data-current='true']::before {
+  background: var(--color-text-primary);
+  box-shadow: 0 0 0 1px var(--color-text-primary);
+}
+
+.roleMeta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 4px;
+}
+
+.company {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.currentTag {
+  font-family: var(--font-handwriting);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  background: var(--color-accent-yellow);
+  border-radius: 4px;
+  padding: 1px 7px;
+  line-height: 1.6;
+}
+
+.title {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.dates {
+  font-family: var(--font-handwriting);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  max-width: 58ch;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+
+.divider {
+  border: none;
+  border-top: 1px dotted var(--color-polaroid-border);
+  margin: 0 0 40px;
+}
+
+/* ── Footer links ────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.linkItem {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-polaroid-border);
+  border-radius: 20px;
+  padding: 8px 18px;
+  text-decoration: none;
+  transition: border-color 150ms ease-out, background 150ms ease-out;
+}
+
+.linkItem:hover,
+.linkItem:focus-visible {
+  border-color: var(--color-text-secondary);
+  background: var(--color-polaroid-bg);
+}

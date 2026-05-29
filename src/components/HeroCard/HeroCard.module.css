@@ -1,48 +1,72 @@
+/* Bare text — sits directly on the board, no card framing */
 .card {
-  background: var(--color-polaroid-bg);
-  border: 1px solid var(--color-polaroid-border);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
-  border-radius: 4px;
-  padding: 28px 32px 32px;
-  width: 340px;
-  /* Rotate applied via --resting-rotation in Board */
+  padding: 0;
+  width: 600px;
+  animation: heroFloat 5s ease-in-out infinite;
 }
 
 .name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.75rem, 5vw, 2.25rem);
-  line-height: 1.1;
+  font-size: clamp(3rem, 7vw, 3.5rem);
+  line-height: 1.05;
   color: var(--color-text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 0 rgba(255, 248, 238, 0.6);
 }
 
 .tagline {
-  font-family: var(--font-body);
-  font-size: clamp(0.85rem, 2.5vw, 0.975rem);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--color-text-secondary);
-  max-width: 32ch;
+  max-width: 28ch;
 }
 
-/* Red accent underline on the name */
 .name::after {
   content: '';
   display: block;
-  width: 40px;
+  width: 44px;
   height: 3px;
   background: var(--color-accent-red);
-  margin-top: 10px;
+  margin-top: 12px;
+}
+
+/* ── Wave emoji ──────────────────────────────────────── */
+
+.waveEmoji {
+  display: inline-block;
+  transform-origin: 70% 80%; /* wave from the base of the hand */
+  cursor: default;
+  user-select: none;
+}
+
+.waveEmoji:hover {
+  animation: wave 800ms ease-in-out;
+}
+
+@keyframes wave {
+  0%   { transform: rotate(  0deg); }
+  15%  { transform: rotate( 16deg); }
+  30%  { transform: rotate( -8deg); }
+  45%  { transform: rotate( 14deg); }
+  60%  { transform: rotate( -4deg); }
+  75%  { transform: rotate( 10deg); }
+  100% { transform: rotate(  0deg); }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; }
 }
 
 @media (max-width: 480px) {
-  .card {
-    width: 280px;
-    padding: 22px 24px 26px;
-  }
-
-  .name {
-    font-size: clamp(1.5rem, 6vw, 1.75rem);
-  }
+  .card { width: 320px; }
+  .name { font-size: clamp(2rem, 8vw, 2.75rem); }
+  .tagline { font-size: clamp(0.9rem, 3.5vw, 1.1rem); }
 }
