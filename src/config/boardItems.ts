@@ -44,12 +44,11 @@ const boardItems: BoardItem[] = [
   {
     id: 'hero',
     type: 'hero',
-    x: 0, y: -120, rotation: -1, zIndex: 10,
+    x: 0, y: -150, rotation: -1, zIndex: 10,
     data: {
-      name: 'hi! sondhayni here',
+      name: 'hi! sondhayni here ',
       emoji: '👋🏽',
-      tagline: 'compulsive maker, pulling at the seam between design and engineering.',
-      // TODO: finalize tagline
+      tagline: '—an inquisitive maker pulling at the seam between design and engineering.',
     },
   },
 
