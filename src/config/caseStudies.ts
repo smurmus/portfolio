@@ -13,6 +13,8 @@ export type CaseStudyHeroConfig = {
   subhead: string
   skipToId?: string
   prototypeHref?: string
+  /** Override the default "prototype ↗" CTA label */
+  ctaLabel?: string
   rotation?: number
   /** Fallback bg when imageSrc is empty — matches project accent color */
   accentColor?: string
@@ -62,9 +64,10 @@ const caseStudies: CaseStudy[] = [
       imageSrc: '/assets/discord-radar-hero.png',
       imageAlt: 'Discord My Radar — a personalized feed of matched posts from across your servers, with the Waypoints panel on the right',
       title: 'Discord “Waypoints”',
-      subhead: 'Discord has spent years helping users find what they missed.\nThis project is about giving them a reason to come back.',
+      subhead: 'Discord has spent years helping people find communities.\nThis is about staying part of one.',
       skipToId: 'tldr',
-      prototypeHref: '#prototype',
+      prototypeHref: '#waypoints',
+      ctaLabel: 'jump to solution ↓',
       rotation: 0.8,
       hookText: "What if you didn’t have to be everywhere to catch everything?",
     },
@@ -430,17 +433,16 @@ const caseStudies: CaseStudy[] = [
         id: 'reflection',
         label: 'Reflection',
         blocks: [
-          { type: 'paragraph', text: 'The assumption I\'d want to validate earliest is NLP reliability. The design depends on matches being good enough that one imperfect result doesn\'t break trust — visible match attribution is the recovery mechanism, but that\'s an assumption worth testing against real data. Synthetic matches in a prototype behave very differently from production-scale semantic search across diverse server content.' },
-          { type: 'paragraph', text: 'From an engineering perspective, I\'d also want the infrastructure decisions shaped early. This is a semantic search pipeline — message ingestion, embedding generation, vector similarity search, ranking, delivery — running at Discord\'s scale. The architecture is well-established, but latency matters more than it might look: for something like team formation in a design-a-thon, a match needs to surface while the window is still open. Near-real-time processing is a different infrastructure investment than batch, and that decision shapes what\'s realistic for an initial scope.' },
-          { type: 'paragraph', text: 'One scope question I hit early: should a Waypoint watch across every server you\'re in — not just the one where you set it? The appeal is obvious; the problem is equally obvious once you think it through. A semantic search pipeline running against every channel across every server you\'ve ever joined is a very different infrastructure commitment than one scoped to opted-in, per-server watching. And from a design standpoint, the intent gets muddier — you\'re not describing a global interest, you\'re telling a specific community what you care about within it. Keeping Waypoints per-server was both the engineering-sane and design-coherent call.' },
-          { type: 'paragraph', text: 'The next design problem I\'d tackle is discoverability. Waypoints is an ambient feature — it lives in the background until you\'ve set one, and if you never set one, you never see the value. The right-click entry point makes creation contextual, and empty Radar state is the natural onboarding surface, but it\'s a cold-start problem: you have to already understand what Waypoints does to know what to put there. How that first Waypoint gets set — and when — shapes whether the feature reaches the people it\'s designed for.' },
+          { type: 'paragraph', text: 'The assumption I\'d validate earliest is NLP reliability. The design depends on matches being good enough that one imperfect result doesn\'t break trust — visible match attribution is the recovery mechanism, but that\'s worth testing against real data. And the infrastructure implications matter: near-real-time processing — necessary when a match needs to surface while the participation window is still open — is a different investment than batch. That decision shapes what\'s realistic for an initial scope.' },
+          { type: 'paragraph', text: 'One early scope question: should a Waypoint watch across every server you\'re in? The appeal is obvious; the problem is equally obvious once you think it through. A semantic pipeline running against every channel in every server you\'ve ever joined is a substantially different infrastructure commitment. And the design intent gets muddier — you\'re not declaring a global interest, you\'re telling a specific community what you care about within it. Per-server was both the engineering-sane and design-coherent call.' },
+          { type: 'paragraph', text: 'The next problem I\'d tackle is discoverability. Waypoints is ambient — it lives in the background until you\'ve set one, and the cold-start problem is real: you have to understand what it does to know what to put there. How that first Waypoint gets set shapes whether the feature reaches the people it\'s designed for.' },
         ],
       },
       {
         id: 'tldr',
         label: 'TL;DR',
         blocks: [
-          { type: 'section-lede', text: 'Discord has a participation problem, not an information problem. Here\'s the design that addresses it.' },
+          { type: 'section-lede', text: 'Discord has an information problem, but it also has a participation problem - this is a the design that addresses the latter.' },
           { type: 'tldr-timeline' },
           { type: 'paragraph', text: 'Every feature Discord shipped between 2024 and 2026 addresses information access. The participation gap — already visible in the 2024 research — stayed open. That\'s what this design addresses.' },
           { type: 'feature-audit-table' },

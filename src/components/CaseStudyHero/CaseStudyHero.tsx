@@ -8,6 +8,7 @@ type Props = {
   subhead: string
   skipToId?: string
   prototypeHref?: string
+  ctaLabel?: string
   rotation?: number
   accentColor?: string
   /** When set, hero fills 100vh. Image starts blurred; text drifts up + image unblurs on scroll. */
@@ -21,6 +22,7 @@ export default function CaseStudyHero({
   subhead,
   skipToId,
   prototypeHref,
+  ctaLabel,
   rotation = 0.8,
   accentColor,
   hookText,
@@ -113,7 +115,7 @@ export default function CaseStudyHero({
                 {...(prototypeHref.startsWith('#') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
                 className={styles.protoLink}
               >
-                prototype ↗
+                {ctaLabel ?? 'prototype ↗'}
               </a>
             )}
           </div>

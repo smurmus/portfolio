@@ -7,16 +7,19 @@ type StickerProps = {
   revealMode?: 'fade' | 'clip-wipe'
   alt: string
   size: number
+  variant?: 'social'
   className?: string
   style?: React.CSSProperties
 }
 
-export default function Sticker({ imageSrc, hoverImageSrc, alt, size, className, style, revealMode = 'fade' }: StickerProps) {
+export default function Sticker({ imageSrc, hoverImageSrc, alt, size, variant, className, style, revealMode = 'fade' }: StickerProps) {
   const hasImage = Boolean(imageSrc)
+
+  const variantClass = variant === 'social' ? styles['social-sticker'] : ''
 
   return (
     <div
-      className={`${styles.sticker} ${className ?? ''}`}
+      className={`${styles.sticker} ${variantClass} ${className ?? ''}`}
       style={{ width: size, height: size, ...style }}
     >
       {hasImage && hoverImageSrc ? (

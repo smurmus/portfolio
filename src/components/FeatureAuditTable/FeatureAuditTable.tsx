@@ -198,7 +198,7 @@ export const FeatureAuditTable: React.FC = () => {
         </div>
 
         <div className={styles.thesis}>
-          Every shipped feature makes information easier to find. None of them address what happens after you've been away — the sense that you've missed too much to re-enter, that the window to participate has closed. Waypoints is the member-side counterpart to Browse Channels: instead of an admin curating what's visible, each member declares what matters to them. A self-authored reason to come back.
+          Every shipped feature makes information easier to find. Waypoints is the member-side counterpart to Browse Channels: instead of an admin curating what's visible, each member declares what matters to them. A self-authored reason to come back.
         </div>
       </div>
 

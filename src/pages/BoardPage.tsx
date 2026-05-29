@@ -101,13 +101,20 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
       )
     case 'social-sticker':
       return (
-        <Sticker
-          imageSrc={d.imageSrc as string}
-          hoverImageSrc={d.hoverImageSrc as string | undefined}
-          alt={d.alt as string}
-          size={d.size as number}
-          className="socialSticker"
-        />
+        <a
+          href={d.href as string}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={d.label as string}
+          style={{ display: 'block', textDecoration: 'none' }}
+        >
+          <Sticker
+            imageSrc={d.imageSrc as string}
+            alt={d.label as string}
+            size={d.size as number}
+            variant="social"
+          />
+        </a>
       )
 
     case 'badge':

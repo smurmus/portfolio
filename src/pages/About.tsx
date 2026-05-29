@@ -67,8 +67,13 @@ export default function About() {
             <h1 className={styles.name}>Sondhayni Murmu</h1>
             <p className={styles.tagline}>
               {/* TODO: finalize tagline — mirrors board hero card */}
-              compulsive maker, pulling at the seam between design and engineering.
+              —an inquisitive maker pulling at the seam between design and engineering.
             </p>
+            <div className={styles.headerLinks}>
+              <a href="mailto:sondhayni@gmail.com" className={styles.headerLinkItem}>sondhayni[at]gmail.com</a>
+              <a href="https://github.com/sondhayni" className={styles.headerLinkItem} target="_blank" rel="noopener noreferrer">github →</a>
+              <a href="https://linkedin.com/in/sondhayni" className={styles.headerLinkItem} target="_blank" rel="noopener noreferrer">linkedin →</a>
+            </div>
           </div>
           <Portrait />
         </header>
@@ -143,8 +148,12 @@ export default function About() {
               <figcaption className={styles.photoCaption}>poppy & tibbers</figcaption>
             </figure>
             <figure className={styles.photoGridItem}>
-              <img src="/assets/about/hyperfocus-sewing.jpg" alt="Caught mid-focus at the sewing machine, unaware a photo was being taken" className={styles.gridPhoto} style={{ objectPosition: 'top center' }} />
-              <figcaption className={styles.photoCaption}>caught in the act (picture taken without my knowledge)</figcaption>
+              <img src="/assets/about/hyperfocus-sewing.jpg" alt="Working on an Avatar cosplay, unknowingly wearing an Avatar hoodie and pajamas" className={styles.gridPhoto} style={{ objectPosition: 'center' }} />
+              <figcaption className={styles.photoCaption}>realizing after the fact that I was wearing an avatar hoodie, pajamas (out of frame) while working on an avatar cosplay</figcaption>
+            </figure>
+            <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
+              <img src="/assets/about/custom-card.jpg" alt="Handmade holiday card — cats tangled in lights, 'happy meowlidays' in hand-lettered script" className={styles.gridPhoto} />
+              <figcaption className={styles.photoCaption}>hand-lettered holiday card i made for a friend</figcaption>
             </figure>
             <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
               <img src="/assets/about/pegboard-2026.jpg" alt="Sondhayni's pegboard — 2026" className={styles.gridPhoto} />
