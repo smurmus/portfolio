@@ -46,3 +46,4 @@ Full content for each case study is added via separate focused prompts — see c
 
 Connected to Vercel — auto-deploys on push to `main`. `vercel.json` handles client-side routing
 so direct URL access (e.g. `/case-study/discord`) doesn't 404.
+# portfolio
