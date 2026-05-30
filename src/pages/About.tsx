@@ -71,8 +71,9 @@ export default function About() {
             </p>
             <div className={styles.headerLinks}>
               <a href="mailto:sondhayni@gmail.com" className={styles.headerLinkItem}>sondhayni[at]gmail.com</a>
-              <a href="https://github.com/sondhayni" className={styles.headerLinkItem} target="_blank" rel="noopener noreferrer">github →</a>
+              <a href="https://github.com/smurmus" className={styles.headerLinkItem} target="_blank" rel="noopener noreferrer">github →</a>
               <a href="https://linkedin.com/in/sondhayni" className={styles.headerLinkItem} target="_blank" rel="noopener noreferrer">linkedin →</a>
+              <a href="/work" className={styles.headerLinkItem}>work history →</a>
             </div>
           </div>
           <Portrait />
@@ -182,50 +183,6 @@ export default function About() {
             <li className={styles.currentItem}>☐ get more coffee</li>
             {/* TODO: add 2–3 more real items — project in progress, thing you're reading, learning, etc. */}
           </ul>
-        </section>
-
-        <div className={styles.divider} />
-
-        {/* ── Get in touch ─────────────────────────────────── */}
-        <section className={styles.section} aria-labelledby="contact-heading">
-          <h2 className={styles.sectionHeading} id="contact-heading">get in touch</h2>
-          <p className={styles.paragraph}>
-            {/* TODO: brief contact prompt — what kinds of convos you're up for */}
-            [Placeholder: a line about what you're open to — collaboration, opportunities, people who just want to talk about Discord UI patterns or Arcane cosplay.]
-          </p>
-
-          <div className={styles.links}>
-            <a
-              href="mailto:hello@sondhayni.me"
-              className={styles.linkItem}
-              aria-label="email Sondhayni"
-            >
-              {/* TODO: confirm email address */}
-              hello@sondhayni.me
-            </a>
-            <a
-              href="https://github.com/sondhayni"
-              className={styles.linkItem}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              github →
-            </a>
-            <a
-              href="https://linkedin.com/in/sondhayni"
-              className={styles.linkItem}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              linkedin →
-            </a>
-            <a
-              href="/work"
-              className={styles.linkItem}
-            >
-              work history →
-            </a>
-          </div>
         </section>
 
       </div>

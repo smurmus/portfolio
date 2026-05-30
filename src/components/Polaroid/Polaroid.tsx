@@ -21,13 +21,6 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
     e.stopPropagation()  // prevent PolaroidStack collapse handler from firing
     if (isExternal) {
       window.open(href, '_blank', 'noopener,noreferrer')
-    } else if (href.includes('#')) {
-      const [path, hash] = href.split('#')
-      navigate(path || '/')
-      // defer scroll until after navigation renders
-      requestAnimationFrame(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' })
-      })
     } else {
       navigate(href)
     }

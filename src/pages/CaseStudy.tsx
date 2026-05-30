@@ -531,6 +531,28 @@ export default function CaseStudy() {
   }), [])
   useSectionKeyNav(navIds, navOverrides)
 
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
+    if (!hash) return
+    let cancelled = false
+    const cancel = () => { cancelled = true }
+    const scrollToHash = () => {
+      if (cancelled) return
+      const el = document.getElementById(hash)
+      if (!el) return
+      const y = el.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+    }
+    // Cancel the settling scroll if the user navigates manually first
+    window.addEventListener('keydown', cancel, { once: true })
+    const t1 = setTimeout(scrollToHash, 50)
+    const t2 = setTimeout(scrollToHash, 600)
+    return () => {
+      clearTimeout(t1); clearTimeout(t2)
+      window.removeEventListener('keydown', cancel)
+    }
+  }, [id])
+
   // useLayoutEffect: runs synchronously before paint, so body is scrollable
   // from the very first frame — no flash of clipped content.
   useLayoutEffect(() => {

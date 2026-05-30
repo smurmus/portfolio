@@ -84,14 +84,14 @@ export default function WorkHistory() {
             company="Cyberse"
             title="Software Engineer"
             dates="Feb 2024 – Oct 2024"
-            description="TODO: one-liner about what Cyberse does."
+            description=""
           />
 
           <Role
             company="Hearth"
             title="Engineering Manager"
             dates="Sep 2022 – Nov 2023"
-            description="TODO: one-liner about what Hearth does."
+            description=""
           />
 
           <Role

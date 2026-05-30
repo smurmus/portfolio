@@ -398,7 +398,7 @@ const boardItems: BoardItem[] = [
     rotation: -6,
     zIndex: 5,
     data: {
-      href: 'https://github.com/sondhayni',
+      href: 'https://github.com/smurmus',
       icon: 'github',
       label: 'GitHub',
       isExternal: true,
