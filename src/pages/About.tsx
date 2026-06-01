@@ -1,19 +1,19 @@
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ScrollToTopFAB from '../components/ScrollToTopFAB/ScrollToTopFAB'
+import Lightbox from '../components/Lightbox/Lightbox'
 import styles from './About.module.css'
 
 function BackButton() {
   const navigate = useNavigate()
   return (
-    <nav className={styles.backNav}>
-      <button
-        className={styles.backLink}
-        onClick={() => navigate(-1)}
-        aria-label="back to main board"
-      >
-        ← back
-      </button>
-    </nav>
+    <button
+      className={styles.fixedBack}
+      onClick={() => navigate(-1)}
+      aria-label="back to main board"
+    >
+      ← back
+    </button>
   )
 }
 
@@ -31,17 +31,56 @@ function Portrait() {
   )
 }
 
-function ImagePlaceholder({ label }: { label: string }) {
+// ── Gallery wall helpers ──────────────────────────────────
+
+type ZoomFn = (src: string, alt: string) => void
+
+type FrameProps = {
+  rot: string
+  shape?: 'rect' | 'circle' | 'oval' | 'square'
+  flex?: number
+  children: React.ReactNode
+  caption: string
+  zoomSrc?: string
+  zoomAlt?: string
+  onZoom?: ZoomFn
+}
+
+function GalleryFrame({ rot, shape = 'rect', flex = 1, children, caption, zoomSrc, zoomAlt, onZoom }: FrameProps) {
+  const matClass = [
+    styles.galleryMat,
+    shape === 'circle' ? styles.matCircle : '',
+    shape === 'oval' ? styles.matOval : '',
+    shape === 'square' ? styles.matSquare : '',
+    zoomSrc ? styles.matZoom : '',
+  ].filter(Boolean).join(' ')
+
+  const handleClick = () => { if (zoomSrc && zoomAlt && onZoom) onZoom(zoomSrc, zoomAlt) }
+  const handleKey = (e: React.KeyboardEvent) => { if (e.key === 'Enter') handleClick() }
+
   return (
-    <div className={styles.imgPlaceholder} aria-hidden="true">
-      <span className={styles.imgPlaceholderLabel}>{label}</span>
-    </div>
+    <figure className={`${styles.galleryFigure} ${rot}`} style={{ flex }}>
+      <div
+        className={matClass}
+        onClick={zoomSrc ? handleClick : undefined}
+        onKeyDown={zoomSrc ? handleKey : undefined}
+        role={zoomSrc ? 'button' : undefined}
+        tabIndex={zoomSrc ? 0 : undefined}
+        aria-label={zoomSrc ? `Zoom: ${zoomAlt}` : undefined}
+      >
+        {children}
+      </div>
+      <figcaption className={styles.galleryCaption}>{caption}</figcaption>
+    </figure>
   )
 }
 
 // ── Page ─────────────────────────────────────────────────
 
 export default function About() {
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null)
+  const openZoom: ZoomFn = useCallback((src, alt) => setLightbox({ src, alt }), [])
+
   useLayoutEffect(() => {
     const body = document.body
     const root = document.getElementById('root')
@@ -57,17 +96,16 @@ export default function About() {
 
   return (
     <main className={styles.page}>
-      <div className={styles.inner}>
-        <BackButton />
+      <BackButton />
 
+      <div className={styles.inner}>
         {/* ── Header ───────────────────────────────────────── */}
         <header className={styles.header}>
           <div className={styles.headerText}>
             <p className={styles.greeting}>hi, i'm</p>
             <h1 className={styles.name}>Sondhayni Murmu</h1>
             <p className={styles.tagline}>
-              {/* TODO: finalize tagline — mirrors board hero card */}
-              —an inquisitive maker pulling at the seam between design and engineering.
+              Lover of puns, puzzles, pockets, and pegboards.
             </p>
             <div className={styles.headerLinks}>
               <a href="mailto:sondhayni@gmail.com" className={styles.headerLinkItem}>sondhayni[at]gmail.com</a>
@@ -86,45 +124,16 @@ export default function About() {
           <h2 className={styles.sectionHeading} id="bio-heading">the long version</h2>
 
           <p className={styles.paragraph}>
-            {/* TODO: write bio — 2–3 sentences on background, where you came from */}
-            [Placeholder: brief origin story — where you grew up, how you got into tech, the design+engineering thread that runs through everything.]
+            I grew up in New Jersey, though I like to joke that I was always a west coast girl — which became true after university in LA and then moving up to the Bay Area for work, where I've stayed (and haven't really looked back, except to visit). Somewhere in there I also apparently decided I love travel: Japan, Spain, Portugal, France, Mexico, Amsterdam.
           </p>
 
           <p className={styles.paragraph}>
-            {/* TODO: write bio — the making-things angle, what compulsive maker means */}
-            [Placeholder: what "compulsive maker" means in practice — the impulse to build the thing rather than just design it, or design it rather than just ship it. The itch that crosses disciplines.]
+            I've been a tinkerer as long as I can remember — taking things apart to see how they worked, poking at whatever I didn't understand. I also always had an artistic streak, which combined with the need-to-make impulse meant a lot of comics and stories I genuinely hope are lost to the annals of time and a few spring cleanings. Software ended up being the place where both of those things could live: something to take apart, and something to make things with.
           </p>
 
           <p className={styles.paragraph}>
-            {/* TODO: write bio — current chapter, BigHealth, what you're focused on */}
-            [Placeholder: current chapter — senior software engineer at BigHealth, what that work looks like, what you've been learning or building lately.]
+            Right now I'm a senior software engineer at Big Health, mostly focused on patient-facing product work. I also recently got back into dancing after a long hiatus — I'm a trained Indian classical dancer, and it turns out I'd forgotten how quickly I pick up choreography, which means I actually get to spend most of class working on craft and technique. It works a completely different part of the brain, but scratches the same itch.
           </p>
-        </section>
-
-        {/* ── What I do ────────────────────────────────────── */}
-        <section className={styles.section} aria-labelledby="work-heading">
-          <h2 className={styles.sectionHeading} id="work-heading">what i do</h2>
-
-          <div className={styles.twoCol}>
-            <div className={styles.twoColText}>
-              <p className={styles.paragraph}>
-                {/* TODO: engineering paragraph — React, TypeScript, component systems, etc. */}
-                [Placeholder: the engineering side — languages, frameworks, what kinds of problems you gravitate toward in code.]
-              </p>
-              <p className={styles.paragraph}>
-                {/* TODO: design paragraph — research, Figma, the design work at Discord / BigHealth */}
-                [Placeholder: the design side — research, interaction design, the projects where you've worn both hats. Reference Discord Waypoints, design systems work.]
-              </p>
-              <p className={styles.paragraph}>
-                {/* TODO: the intersection paragraph — why you do both, what it gives you */}
-                [Placeholder: what living at the intersection actually feels like and why it's the right place to be. Not a resume bullet — a perspective.]
-              </p>
-            </div>
-            <div className={styles.twoColMedia}>
-              {/* TODO: replace with a screenshot of work in context — Figma, Storybook, terminal, etc. */}
-              <ImagePlaceholder label="screenshot of work — Storybook / Figma / terminal" />
-            </div>
-          </div>
         </section>
 
         {/* ── Beyond work ──────────────────────────────────── */}
@@ -132,60 +141,96 @@ export default function About() {
           <h2 className={styles.sectionHeading} id="beyond-heading">beyond work</h2>
 
           <p className={styles.paragraph}>
-            {/* TODO: intro sentence — the "making" that happens outside of a job */}
-            [Placeholder: the making that happens outside of a job — how cosplay, sewing, and travel are all the same impulse in different materials.]
+            What I love most is <em>learning things</em> — especially when that means <em>making things</em>. On any given day I might be sewing, drawing, painting, sculpting, doing papercraft, or writing code (or vibe-coding, as the kids say now). I play video games, I'm usually reading two to four books at once (at least one fiction, one non-fiction), and I climb...sometimes.
           </p>
 
-          <div className={styles.photoGrid}>
-            <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
-              <div className={`${styles.jinxSplit} ${styles.jinxSplitWide}`}>
-                <img src="/assets/polaroids/cos-jinx.jpg" alt="Jinx from Arcane cosplay" className={styles.splitPhoto} />
-                <img src="/assets/about/jinx-minigun.jpg" alt="Handmade Jinx minigun prop" className={styles.splitPhoto} />
-              </div>
-              <figcaption className={styles.photoCaption}>jinx from arcane — and the minigun i made for it</figcaption>
-            </figure>
-            <figure className={styles.photoGridItem}>
-              <img src="/assets/about/poppy-tibbers.jpg" alt="Poppy and Tibbers lounging on a window hammock" className={styles.gridPhoto} />
-              <figcaption className={styles.photoCaption}>poppy & tibbers</figcaption>
-            </figure>
-            <figure className={styles.photoGridItem}>
-              <img src="/assets/about/hyperfocus-sewing.jpg" alt="Working on an Avatar cosplay, unknowingly wearing an Avatar hoodie and pajamas" className={styles.gridPhoto} style={{ objectPosition: 'center' }} />
-              <figcaption className={styles.photoCaption}>realizing after the fact that I was wearing an avatar hoodie, pajamas (out of frame) while working on an avatar cosplay</figcaption>
-            </figure>
-            <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
-              <img src="/assets/about/custom-card.jpg" alt="Handmade holiday card — cats tangled in lights, 'happy meowlidays' in hand-lettered script" className={styles.gridPhoto} />
-              <figcaption className={styles.photoCaption}>hand-lettered holiday card i made for a friend</figcaption>
-            </figure>
-            <figure className={`${styles.photoGridItem} ${styles.photoGridFull}`}>
-              <img src="/assets/about/pegboard-2026.jpg" alt="Sondhayni's pegboard — 2026" className={styles.gridPhoto} />
-              <figcaption className={styles.photoCaption}>I fill up and then wipe my pegboard clean at the start of each year. This is 2026.</figcaption>
-            </figure>
+          <p className={styles.paragraph}>
+            I'm also a big fan of <em>snail mail</em>, especially sending postcards from my travels. In a largely online and digital world, opening physical mail (that isn't an ad or bills) brings a special kind of joy, I think.
+            Hot take: postcards should be postmarked from the country you visited, otherwise what's the point?!
+          </p>
+
+          {/* ── Gallery wall — row-based so no column height gaps ── */}
+          <div className={styles.galleryWall}>
+
+            {/* Row 1: two tall portraits flanking a shorter landscape video */}
+            <div className={styles.gwRow}>
+              <GalleryFrame flex={9} rot={styles.rotA}
+                caption="jinx cosplay from arcane — turns out body paint turns you into king midas, but for color"
+                zoomSrc="/assets/polaroids/cos-jinx.jpg" zoomAlt="Jinx from Arcane cosplay" onZoom={openZoom}
+              >
+                <img src="/assets/polaroids/cos-jinx.jpg" alt="" className={`${styles.gwMedia} ${styles.gwPortrait}`} />
+              </GalleryFrame>
+
+              <GalleryFrame flex={14} rot={styles.rotB} caption="playtime is all the time">
+                <video src="/assets/about/poppy-tibbers-playing.webm" className={`${styles.gwMedia} ${styles.gwLandscape}`} autoPlay loop muted playsInline />
+              </GalleryFrame>
+
+              <GalleryFrame flex={12} rot={styles.rotF}
+                caption="jinx's minigun — all from scratch! next time we try fishbones."
+                zoomSrc="/assets/about/jinx-minigun.jpg" zoomAlt="Handmade Jinx minigun prop" onZoom={openZoom}
+              >
+                <img src="/assets/about/jinx-minigun.jpg" alt="" className={`${styles.gwMedia} ${styles.gwLandscape}`} />
+              </GalleryFrame>
+            </div>
+
+            {/* Row 2: circle + landscape + oval */}
+            <div className={`${styles.gwRow} ${styles.gwRowTop}`}>
+              <GalleryFrame flex={10} rot={styles.rotC} shape="circle" caption="tibbers & poppy"
+                zoomSrc="/assets/about/poppy-tibbers.jpg" zoomAlt="Poppy and Tibbers on their window hammock" onZoom={openZoom}
+              >
+                <img src="/assets/about/poppy-tibbers.jpg" alt="" className={`${styles.gwMedia} ${styles.gwCircle}`} />
+              </GalleryFrame>
+
+              <GalleryFrame flex={13} rot={styles.rotD} caption="sewing hyperfocus mode. ignore my weird hand positioning."
+                zoomSrc="/assets/about/hyperfocus-sewing.jpg" zoomAlt="Sewing project in progress" onZoom={openZoom}
+              >
+                <img src="/assets/about/hyperfocus-sewing.jpg" alt="" className={`${styles.gwMedia} ${styles.gwLandscape}`} />
+              </GalleryFrame>
+
+              <GalleryFrame flex={7} rot={styles.rotG} shape="oval" caption="hand-lettered card for a friend's wedding"
+                zoomSrc="/assets/about/congrats-card.jpg" zoomAlt="Handmade congrats card" onZoom={openZoom}
+              >
+                <img src="/assets/about/congrats-card.jpg" alt="" className={`${styles.gwMedia} ${styles.gwOval}`} />
+              </GalleryFrame>
+            </div>
+
+            {/* Row 3: square card + landscape video + postcard photo */}
+            <div className={styles.gwRow}>
+              <GalleryFrame flex={10} rot={styles.rotE} shape="square" caption="digitally designed & printed holiday card"
+                zoomSrc="/assets/about/custom-card.jpg" zoomAlt="Handmade holiday card" onZoom={openZoom}
+              >
+                <img src="/assets/about/custom-card.jpg" alt="" className={`${styles.gwMedia} ${styles.gwSquare}`} />
+              </GalleryFrame>
+
+              <GalleryFrame flex={14} rot={styles.rotH} caption="pinning a pattern. (why don't they warn you how much of sewing is NOT sewing?) ">
+                <video src="/assets/about/pattern-pinning.webm" className={`${styles.gwMedia} ${styles.gwLandscape}`} autoPlay loop muted playsInline />
+              </GalleryFrame>
+
+              <GalleryFrame flex={11} rot={styles.rotB}
+                caption="postcards i sent home from tokyo — one per neighborhood"
+                zoomSrc="/assets/about/tokyo-postcards.jpg" zoomAlt="Japanese postcards with Nippon stamps, written in Tokyo" onZoom={openZoom}
+              >
+                <img src="/assets/about/tokyo-postcards.jpg" alt="" className={`${styles.gwMedia} ${styles.gwLandscape}`} />
+              </GalleryFrame>
+            </div>
+
+            {/* Pegboard — full width */}
+            <GalleryFrame flex={1} rot={styles.rotI}
+              caption="I fill up and wipe my pegboard clean at the start of each year. This is 2026."
+              zoomSrc="/assets/about/pegboard-2026.jpg" zoomAlt="Sondhayni's pegboard — 2026" onZoom={openZoom}
+            >
+              <img src="/assets/about/pegboard-2026.jpg" alt="" className={`${styles.gwMedia} ${styles.gwWide}`} />
+            </GalleryFrame>
           </div>
 
-          <p className={styles.paragraph}>
-            {/* TODO: sewing / pockets paragraph — add pockets to everything */}
-            [Placeholder: the sewing angle — making clothes, adding pockets where there are none, what that teaches you about fit and function.]
-          </p>
-
-          <p className={styles.paragraph}>
-            {/* TODO: travel paragraph — Tokyo, Portugal, Providence, Amsterdam */}
-            [Placeholder: travel — cities visited, what draws you to new places, how it feeds the work or the making.]
-          </p>
-        </section>
-
-        {/* ── Currently ────────────────────────────────────── */}
-        <section className={styles.section} aria-labelledby="currently-heading">
-          <h2 className={styles.sectionHeading} id="currently-heading">currently</h2>
-          {/* TODO: update this list periodically — mirrors the sticky note on the board */}
-          <ul className={styles.currentList}>
-            <li className={styles.currentItem}>☐ add pockets to everything</li>
-            <li className={styles.currentItem}>☐ keep goldfish plant alive</li>
-            <li className={styles.currentItem}>☐ get more coffee</li>
-            {/* TODO: add 2–3 more real items — project in progress, thing you're reading, learning, etc. */}
-          </ul>
+          {lightbox && (
+            <Lightbox src={lightbox.src} alt={lightbox.alt} onClose={() => setLightbox(null)} />
+          )}
         </section>
 
       </div>
+
+      <ScrollToTopFAB />
     </main>
   )
 }

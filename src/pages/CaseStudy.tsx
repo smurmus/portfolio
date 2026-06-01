@@ -135,21 +135,23 @@ function renderBlock(block: ContentBlock, i: number, onImageClick?: OnImageClick
         </div>
       )
 
-    case 'split':
+    case 'split': {
+      const [leftFlex, rightFlex] = block.ratio ?? [1, 1]
       return (
         <div
           key={i}
           className={styles.split}
           style={block.align === 'center' ? { alignItems: 'center' } : undefined}
         >
-          <div className={styles.splitCol}>
+          <div className={styles.splitCol} style={{ flex: leftFlex }}>
             {block.left.map((b, j) => renderBlock(b, j, onImageClick))}
           </div>
-          <div className={styles.splitCol}>
+          <div className={styles.splitCol} style={{ flex: rightFlex }}>
             {block.right.map((b, j) => renderBlock(b, j, onImageClick))}
           </div>
         </div>
       )
+    }
 
     case 'persona-cards':
       return (

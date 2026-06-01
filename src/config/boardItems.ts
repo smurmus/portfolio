@@ -55,7 +55,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'badge',
     type: 'badge',
-    x: -500, y: -160, rotation: -8, zIndex: 8,
+    x: -720, y: -200, rotation: -10, zIndex: 8,
     data: {
       company: 'BigHealth',
       name: 'Sondhayni Murmu',
@@ -69,7 +69,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'about-note',
     type: 'about-note',
-    x: -300, y: 0, rotation: -3, zIndex: 5,
+    x: -360, y: -40, rotation: -5, zIndex: 5,
     data: {
       text: 'about me →',
       href: '/about',
@@ -200,7 +200,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-discord',
     type: 'washi-label',
-    x: 460, y: 380, rotation: 5, zIndex: 9,
+    x: 500, y: 380, rotation: 5, zIndex: 9,
     data: {
       label: 'project: discord "waypoints"',
       color: 'var(--washi-discord)',
@@ -211,7 +211,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-discord',
     type: 'project-stack',
-    x: 550, y: 100, rotation: 10, zIndex: 6,
+    x: 600, y: 100, rotation: 10, zIndex: 6,
     data: {
       fanAngle: 30,
       fanRadius: 120,
@@ -289,18 +289,20 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-avatar',
     type: 'sticker',
-    x: -300, y: -180, rotation: -3, zIndex: 8,
+    x: -400, y: -240, rotation: -3, zIndex: 8,
     data: {
       imageSrc: '/assets/stickers/self-sitting.png',
+      href: '/about',
+      isExternal: false,
       alt: 'Sondhayni sitting cross-legged',
-      size: 140,
+      size: 180,
     },
   },
 
   {
     id: 'sticker-zuko',
     type: 'sticker',
-    x: 420, y: -50, rotation: 20, zIndex: 17,
+    x: 435, y: -65, rotation: 20, zIndex: 17,
     data: {
       imageSrc: '/assets/stickers/zuko-illustration.png',
       hoverImageSrc: '/assets/stickers/zuko-illustration-2.png',
@@ -328,47 +330,54 @@ const boardItems: BoardItem[] = [
   },
 
   {
-    id: 'washi-cosplay',
-    type: 'washi-label',
-    x: 1260, y: -680, rotation: 2, zIndex: 5,
-    data: {
-      label: 'crafts & cosplay',
-      color: 'var(--washi-cosplay)',
-      patternId: 'diamonds',
-    } satisfies WashiLabelData,
+    id: 'scissor-cutout',
+    type: 'decoration',
+    x: 1130, y: -505, rotation: 0, zIndex: 4,
+    data: { component: 'ScissorCutout' },
   },
 
-  {
-    id: 'stack-cosplay',
-    type: 'project-stack',
-    x: 1300, y: -580, rotation: 3, zIndex: 5,
-    data: {
-      fanAngle: 10,
-      fanRadius: 100,
-      fanLift: -20,
-      polaroids: [
-        {
-          id: 'cos-katara',
-          imageSrc: '/assets/polaroids/cos-katara.jpg',
-          imageAlt: 'Katara cosplay',
-          caption: 'katara →',
-          href: '/about#beyond-heading', isExternal: false, rotation: -4,
-        },
-        {
-          id: 'cos-jinx',
-          imageSrc: '/assets/polaroids/cos-jinx.jpg',
-          imageAlt: 'Jinx from Arcane cosplay',
-          caption: 'jinx from arcane →',
-          href: '/about#beyond-heading', isExternal: false, rotation: -10,
-        },
-      ] as PolaroidData[],
-    },
-  },
+  // {
+  //   id: 'washi-cosplay',
+  //   type: 'washi-label',
+  //   x: 1260, y: -680, rotation: 2, zIndex: 5,
+  //   data: {
+  //     label: 'crafts & cosplay',
+  //     color: 'var(--washi-cosplay)',
+  //     patternId: 'diamonds',
+  //   } satisfies WashiLabelData,
+  // },
+
+  // {
+  //   id: 'stack-cosplay',
+  //   type: 'project-stack',
+  //   x: 1300, y: -580, rotation: 3, zIndex: 5,
+  //   data: {
+  //     fanAngle: 10,
+  //     fanRadius: 100,
+  //     fanLift: -20,
+  //     polaroids: [
+  //       {
+  //         id: 'cos-katara',
+  //         imageSrc: '/assets/polaroids/cos-katara.jpg',
+  //         imageAlt: 'Katara cosplay',
+  //         caption: 'katara →',
+  //         href: '/about#beyond-heading', isExternal: false, rotation: -4,
+  //       },
+  //       {
+  //         id: 'cos-jinx',
+  //         imageSrc: '/assets/polaroids/cos-jinx.jpg',
+  //         imageAlt: 'Jinx from Arcane cosplay',
+  //         caption: 'jinx from arcane →',
+  //         href: '/about#beyond-heading', isExternal: false, rotation: -10,
+  //       },
+  //     ] as PolaroidData[],
+  //   },
+  // },
 
   {
     id: 'washi-currently',
     type: 'washi-label',
-    x: -400, y: -310, rotation: -2, zIndex: 5,
+    x: -580, y: -310, rotation: -2, zIndex: 5,
     data: {
       label: 'currently:',
       color: 'var(--washi-currently)',
@@ -379,7 +388,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticky-currently',
     type: 'sticky',
-    x: -400, y: -240, rotation: -2, zIndex: 5,
+    x: -600, y: -240, rotation: -2, zIndex: 5,
     data: {
       lines: [
         'TODO',
@@ -394,7 +403,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'social-github',
     type: 'social-sticker',
-    x: -380, y: 0,
+    x: -480, y: -20,
     rotation: -6,
     zIndex: 5,
     data: {
@@ -406,10 +415,26 @@ const boardItems: BoardItem[] = [
       size: 60,
     },
   },
+
+  {
+    id: 'social-dribbble',
+    type: 'social-sticker',
+    x: -460, y: -110,
+    rotation: 7,
+    zIndex: 5,
+    data: {
+      href: 'https://dribbble.com/sondhayni',
+      icon: 'dribbble',
+      label: 'Dribbble',
+      isExternal: true,
+      imageSrc: '/assets/stickers/dribble-logo.svg',
+      size: 60,
+    },
+  },
   {
     id: 'social-linkedin',
     type: 'social-sticker',
-    x: -460, y: -10,
+    x: -580, y: -40,
     rotation: -16,
     zIndex: 5,
     data: {
@@ -457,32 +482,43 @@ const boardItems: BoardItem[] = [
     type: 'sticker',
     x: 2690, y: 1985, rotation: -3, zIndex: 5,
     data: {
-      imageSrc: '',
-      // TODO: replace with actual photo/illustration of Poppy and Tibbers
-      alt: 'poppy & tibbers (photo here)',
-      size: 160,
+      imageSrc: '/assets/stickers/poppy-and-tibbers-hammock.png',
+      alt: 'poppy & tibbers on a hammock',
+      size: 300,
     },
   },
 
   {
-    id: 'easter-egg-label',
+    id: 'easter-egg-top-label',
     type: 'decoration',
-    x: 2690, y: 1985, rotation: 2, zIndex: 5,
+    x: 2780, y: 2040, rotation: -4, zIndex: 5,
     data: {
       component: 'HandwritingLabel',
-      text: 'poppy & tibbers',
-      fontSize: 13,
+      text: 'click them for more cat photos :)',
+      fontSize: 10,
       color: 'var(--color-text-secondary)',
+    },
+  },
+
+  {
+    id: 'easter-egg-bottom-label',
+    type: 'decoration',
+    x: 2760, y: 2190, rotation: -4, zIndex: 5,
+    data: {
+      component: 'HandwritingLabel',
+      text: '*menace (right) and menace (left)',
+      fontSize: 10,
+      color: 'var(--color-board-dot)',
     },
   },
 
   {
     id: 'easter-egg-note',
     type: 'decoration',
-    x: 2690, y: 1985, rotation: 6, zIndex: 6,
+    x: 2625, y: 1960, rotation: -10, zIndex: 6,
     data: {
       component: 'MiniStickyNote',
-      text: 'you found them.',
+      text: 'tibbers (left) and poppy (right) say hello!*',
       color: 'var(--color-sticky-note)',
     },
   },

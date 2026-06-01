@@ -394,7 +394,7 @@ const caseStudies: CaseStudy[] = [
         id: 'impact-measurement',
         label: 'Impact & Measurement',
         blocks: [
-          { type: 'lede', text: 'This was never shipped. These numbers are speculative. But part of designing something real is knowing what "working" would actually look like.' },
+          { type: 'lede', text: 'If this shipped, here\'s what you\'d watch — and what each signal would actually tell you.' },
           // TODO: revisit closing sentence — "thread back into communities that kept moving without them" is placeholder
           { type: 'paragraph', text: 'Discord has 260M monthly active users and 31.5M daily actives. Within that gap are Observer-segment users — people who are in their servers, care about them, but don\'t know what\'s worth engaging with when they show up — and without a clear reason to, eventually stop. Waypoints is the thread back into communities that kept moving without them.' },
           { type: 'engagement-funnel' },
@@ -507,20 +507,19 @@ const caseStudies: CaseStudy[] = [
     title: 'Contentfill',
     subtitle: 'A GUI for bulk Contentful operations, designed around the fact that what it does can\'t be undone.',
     hero: {
-      imageSrc: '',
-      // TODO: hero image — PreviewStep in error state. Errors tab active, 2–3 error rows visible,
-      // plain-language error messages, editable proposed-value inputs, Apply button greyed.
-      // No callouts. Let it land.
-      imageAlt: 'Contentfill — PreviewStep in error state, Errors tab active, showing per-entry error messages and a greyed Apply button',
+      imageSrc: '/assets/contentfill/contentfill-hero.png',
+      // TODO: hero image — drop a screenshot of the app (PreviewStep or ConfigStep) at
+      // /public/assets/contentfill/contentfill-hero.png. Falls back to accentColor until then.
+      imageAlt: 'Contentfill — the app in use',
       accentColor: '#C87A1A',
       title: 'Contentfill',
-      subhead: 'Bulk operations on a shared CMS are irreversible.\nThis tool is designed around that fact.',
+      subhead: 'Transforms, schema changes, and bulk creation — every operation Contentful can\'t do at scale, designed to be safe enough for non-engineers to run themselves.',
       skipToId: 'tldr',
       rotation: -1,
     },
     meta: {
       role: 'End-to-end design · Implementation via Claude Code',
-      timeline: '2024–2025',
+      timeline: 'April 2026',
       tools: 'Contentful CMA, React, TypeScript, Claude Code',
     },
     images: [
@@ -551,171 +550,60 @@ const caseStudies: CaseStudy[] = [
         blocks: [
           {
             type: 'section-lede',
-            text: 'When something needs to change across hundreds of entries, Contentful\'s native editor provides exactly one path: open each entry individually.',
+            text: 'What bulk editing looks like in Contentful today:',
           },
           {
             type: 'paragraph',
-            text: 'The content team at Big Health manages hundreds of Contentful entries across dozens of content types. The people responsible for keeping them accurate — content admins, PMs, designers, clinical content admins — are not engineers. Adding a field across twenty content types means navigating to each one individually. Deriving a slug from a title field means opening every entry by hand. Creating hundreds of entries from a template means doing it one at a time.',
+            text: 'The content team at Big Health manages hundreds of Contentful entries across dozens of content types. The people keeping them accurate — content admins, PMs, designers, clinical staff — are not engineers. Adding a field across twenty content types means opening each one individually. Deriving a `slug` from a title means touching every entry by hand. There\'s no other path.',
           },
           {
             type: 'video',
             src: '/assets/contentfill/contentful-multiple-entries-open.webm',
-            caption: 'Contentful\'s native editor — each reference opens a new modal, stacking.',
+            caption: 'Contentful\'s native editor — each reference opens a new modal, stacking. No path through hundreds of entries except one at a time.',
           },
           {
             type: 'callout',
-            text: 'Each reference opens a new modal. Three levels deep, the original entry is buried. Each level requires its own explicit publish. Forget one and the change doesn\'t reach delivery.',
+            text: 'Each reference opens a new modal. Three levels deep, the original entry is buried. Each level requires its own explicit publish — miss one and the change doesn\'t reach delivery.',
           },
           {
             type: 'paragraph',
-            text: 'Bulk-edit tools exist in Contentful\'s marketplace. None addressed the three operations the team kept needing: schema changes across content types, computed field transforms, and bulk creation. The engineering path — Contentful\'s CMA — can do all three, but it\'s code-only, has no preview, and puts every operation back in the ticket queue.',
-          },
-          {
-            type: 'video',
-            src: '/assets/contentfill/contentful-open-multiple-entries.webm',
-            caption: 'Hundreds of entries. No path through them except one at a time.',
-          },
-          {
-            type: 'paragraph',
-            text: 'Before Contentfill, a colleague needed to create and update hundreds of entries. There was no tool for it. They spent hours in Contentful\'s editor, opening entries one by one.',
+            text: 'Bulk-edit tools exist in Contentful\'s marketplace. None covered the three operations the team kept needing: schema changes across content types, computed field transforms, and bulk creation. The engineering path — the `CMA` — can do all three, but it\'s code-only, has no preview, and requires a dev cycle.',
           },
         ],
       },
 
-      // ── Design Decisions ─────────────────────────────────
+      // ── Lore ─────────────────────────────────────────────
 
       {
-        id: 'decisions',
-        label: 'Design Decisions',
+        id: 'lore',
+        label: 'Lore',
         blocks: [
           {
-            type: 'section-lede',
-            text: 'Six decisions shaped Contentfill\'s design. The first two address operations that didn\'t exist anywhere else. The rest address how those operations are executed safely.',
-          },
-
-          // ── Decision 1 ───────────────────────────────────
-
-          {
-            type: 'subheading',
-            text: '1. Transforms as first-class operations, not one-time scripts',
-          },
-          {
-            type: 'paragraph',
-            text: 'Every bulk-edit tool in Contentful\'s ecosystem sets the same static value across many entries. None generate new values from existing field data. In Contentfill, transforms are menu-selectable — slugify, copy-field, prepend, append, or plain-English AI Agent — and previewed against every entry before a write happens. The AI proposes; the user decides.',
-          },
-          {
-            type: 'media-placeholder',
-            label: 'TODO: ConfigStep for Update Entries — content type selected, transform selector visible (slugify/copy-field/AI Agent options), right-rail field inspector populated with fields for the selected type.',
-          },
-          {
-            type: 'caption',
-            text: 'Transform chosen from a menu. Schema visible while configuring. No code involved.',
-          },
-          {
-            type: 'callout',
-            text: 'Computed from existing field data — not a static value set across all entries. Natural language → computed values → reviewable before write.',
-          },
-
-          // ── Decision 2 ───────────────────────────────────
-
-          {
-            type: 'subheading',
-            text: '2. Schema operations with the same care as content operations',
+            type: 'screenshot-row',
+            items: [
+              {
+                src: '/assets/contentfill/contentful-logo.png',
+                alt: 'Contentful logo',
+                caption: 'Contentful',
+              },
+              {
+                src: '/assets/contentfill/contentfill-logo.png',
+                alt: 'Contentfill logo',
+                caption: 'Contentfill',
+              },
+            ],
           },
           {
             type: 'paragraph',
-            text: 'Add Field and Delete Field are dedicated workflows in Contentfill — each with their own ConfigStep, PreviewStep, and ApplyStep. The Delete Field flow surfaces Contentful\'s required two-phase deletion process as an explicit, named sequence: users see what phase they\'re in and see the warning before they begin, not at the moment of no return.',
-          },
-          {
-            type: 'media-placeholder',
-            label: 'TODO: Delete Field ConfigStep — grouped content type selection (MODULE, DAILY SESSIONS, COMPONENT, SCREEN sections visible), yellow "Destructive operation" warning banner at top.',
-          },
-          {
-            type: 'caption',
-            text: 'Schema operations treated with the same preview-before-write design as content operations.',
-          },
-          {
-            type: 'callout',
-            text: 'Risk is named at the entry point — before the user selects a single content type. Content types grouped by domain taxonomy, not API name or alphabetical order.',
-          },
-
-          // ── Decision 3 ───────────────────────────────────
-
-          {
-            type: 'subheading',
-            text: '3. Preview is mandatory, numbered, and architecturally enforced',
+            text: 'The name is a pun. Contentful is the CMS. Contentfill fills the gaps in what it can do. It\'s an internal tool at a real company — not a commercial product — so the logos can coexist without anyone calling a lawyer.',
           },
           {
             type: 'paragraph',
-            text: 'Preview in Contentfill isn\'t a flag, a toggle, or an optional step — it\'s step two of three, clearly numbered at the top of every screen. Step three is inaccessible until step two completes. The stepper isn\'t navigation; it\'s a commitment contract.',
+            text: 'The repo is public and forkable. The core design — three-step flow, mandatory preview, per-entry error handling — holds for any org running Contentful. Sensitive configuration (space IDs, API keys, environment names) lives in environment variables at the deployment level, so there\'s nothing in the codebase that\'s Big Health-specific.',
           },
           {
-            type: 'media-placeholder',
-            label: 'TODO: Stepper component — tight crop showing all three states across one strip. Configure (checkmark, complete), Preview (active, numbered circle), Results (inactive, greyed). If possible, two states side by side: one with Configure active, one with Preview active.',
-          },
-          {
-            type: 'callout',
-            text: 'Step 3 is inaccessible until step 2 is complete. Preview is not optional.',
-          },
-
-          // ── Decision 4 ───────────────────────────────────
-
-          {
-            type: 'subheading',
-            text: '4. Per-entry error handling with inline override',
-          },
-          {
-            type: 'paragraph',
-            text: 'In the PreviewStep, error entries are shown inline — plain-language explanation, an editable proposed-value field, and a link to the entry in Contentful. The apply button shows an unresolved error count and stays disabled until every error is addressed. One bad entry doesn\'t abort the batch or disappear into a summary; it stays visible until someone makes a decision about it.',
-          },
-          {
-            type: 'media-placeholder',
-            label: 'TODO: One error row, full-width, from the PreviewStep errors tab. Slug-collision error preferred. Show: red row highlight, editable proposed-value input, full plain-language error message ("Slug \'t-r-guided-practice\' collides with entry \'T&R Guided Practice 1\'. Rename one of them manually."), bottom bar with error count and greyed Apply button.',
-          },
-          {
-            type: 'callout',
-            text: 'Plain language — not a stack trace. The user knows what went wrong and what to do about it. Editable inline. No context switch required.',
-          },
-
-          // ── Decision 5 ───────────────────────────────────
-
-          {
-            type: 'subheading',
-            text: '5. A consistent design language for dangerous operations',
-          },
-          {
-            type: 'paragraph',
-            text: 'Three affordances instead of a confirmation modal: an always-visible environment badge so you know which environment you\'re in before touching anything; a destructive-operation warning banner that appears at the entry point to dangerous flows, not at the moment of no return; and an apply button that stays disabled until every error in the batch is resolved — consent earned through action, not assumed.',
-          },
-          {
-            type: 'media-placeholder',
-            label: 'TODO: Destructive operation warning banner — Delete Field ConfigStep, tight crop',
-          },
-          {
-            type: 'media-placeholder',
-            label: 'TODO: Master environment badge — Contentfill header, tight crop',
-          },
-
-          // ── Decision 6 ───────────────────────────────────
-
-          {
-            type: 'subheading',
-            text: '6. Excel as an access bridge for bulk creation',
-          },
-          {
-            type: 'paragraph',
-            text: 'Contentfill generates an Excel template from the live content model — correctly-named columns, required fields marked, field types embedded. The user fills it in offline and re-uploads. It flows through the same PreviewStep as every other operation: same error handling, same gatekeeping, same apply flow. The first content admin to use it needed one sentence of direction and didn\'t come back with questions.',
-          },
-          {
-            type: 'media-placeholder',
-            // TODO: capture this from a real re-upload on your work laptop before May 29.
-            // The filled-in spreadsheet parsed and resolved into the standard preview table.
-            // The Excel file itself is NOT worth screenshotting — the PreviewStep after re-upload does.
-            label: 'TODO: Re-upload PreviewStep — filled spreadsheet parsed into the preview table, showing proposed new entries as rows with current/proposed columns. This is the visual that closes the loop: Excel goes in, the same safety pipeline comes out.',
-          },
-          {
-            type: 'callout',
-            text: 'The spreadsheet re-enters the same preview-before-write pipeline as every other operation — the same error handling, the same commit gatekeeping.',
+            type: 'sparkle-aside',
+            content: 'The Contentfill logo borrows the Contentful C-mark and its color palette, then adds a golden diamond at the center — a quick Figma job that somehow came out looking deliberate.',
           },
         ],
       },
@@ -731,57 +619,195 @@ const caseStudies: CaseStudy[] = [
             text: 'Contentfill has three steps. They\'re always visible at the top of the screen, and they\'re always in this order.',
           },
           {
+            type: 'image',
+            src: '/assets/contentfill/contentfill-preview-heading.png',
+            alt: 'Contentfill stepper — Configure, Preview, Results always visible at the top',
+          },
+          {
             type: 'video',
             src: '/assets/contentfill/contentfill-login-initial-load.webm',
-            caption: 'Contentfill — initial load. Select an operation and begin.',
+            caption: 'Initial load — select an operation and the three-step flow begins.',
+          },
+        ],
+      },
+
+      // ── Configure ────────────────────────────────────────
+
+      {
+        id: 'configure',
+        label: 'Step 1: Configure',
+        blocks: [
+          {
+            type: 'paragraph',
+            text: 'Pick an operation (`Update Entries`, `Add Field`, `Delete Field`, `CSV Import`), select your content types, and configure the transform. The schema for your selection stays visible in the right rail throughout — every field, type, and constraint — no tab-switching to look things up.',
+          },
+          {
+            type: 'video',
+            src: '/assets/contentfill/contentfill-update-entries-with-transform.webm',
+            caption: '`Update Entries` — content type selected, transform configured, schema visible in the right rail.',
           },
           {
             type: 'subheading',
-            text: 'Configure',
+            text: 'Transforms as first-class operations',
           },
           {
             type: 'paragraph',
-            text: 'Select an operation (Update Entries, Add Field, Delete Field), choose the content types you\'re targeting, and configure what should happen. The schema for whatever you\'ve selected is visible in the right rail — every field, every type, every constraint — while you configure. You never have to look it up somewhere else.',
+            text: 'Every other bulk-edit tool sets a static value across all entries. Contentfill computes new values from existing field data. Transforms are menu-selectable — `slugify`, `copy-field`, `prepend`, `append` — or described in plain English and generated by the AI Agent. No code required.',
           },
           {
-            type: 'media-placeholder',
-            label: 'TODO: ConfigStep for Update Entries — content type selected, right-rail inspector populated.',
+            type: 'callout',
+            text: 'Computed from existing field data — not a static value written to all entries.',
           },
           {
-            type: 'caption',
-            text: 'Configure: the schema is visible while you work.',
+            type: 'video',
+            src: '/assets/contentfill/contentfill-update-entries-ai-agent.webm',
+            caption: 'AI Agent transform — describe the operation in plain English. Schema visible while configuring.',
+          },
+        ],
+      },
+
+      // ── Preview ───────────────────────────────────────────
+
+      {
+        id: 'preview',
+        label: 'Step 2: Preview',
+        blocks: [
+          {
+            type: 'section-lede',
+            text: 'What reviewing a batch looks like before anything is written:',
+          },
+          {
+            type: 'paragraph',
+            text: 'Every entry in the batch is shown current value vs. proposed change before anything is written. Step 3 is inaccessible until step 2 is complete — the stepper is a commitment contract, not navigation.',
+          },
+          {
+            type: 'callout',
+            text: 'Preview cannot be skipped. It\'s architecturally enforced.',
+          },
+          {
+            type: 'image',
+            src: '/assets/contentfill/contentfill-preview-ok.png',
+            alt: 'Contentfill PreviewStep — all entries showing current and proposed values before apply',
           },
           {
             type: 'subheading',
-            text: 'Preview',
+            text: 'Per-entry errors, inline',
           },
           {
             type: 'paragraph',
-            text: 'Before anything is written to Contentful, every entry in the batch is shown with its current value and the proposed change side-by-side. Errors are surfaced per entry with plain-language explanations. Warnings are flagged. Clean entries are grouped separately. The Apply button stays disabled until every error has been addressed.',
+            text: 'Errors surface inline — plain-language message, editable proposed-value field, link to the entry in Contentful. Apply stays disabled until every error is resolved. One bad entry doesn\'t abort the batch; it waits for a decision.',
           },
           {
-            type: 'media-placeholder',
-            label: 'TODO: PreviewStep, mostly-clean state — majority of rows clean, one or two warnings visible, filter tabs showing All/Errors/Warnings/Clean.',
+            type: 'callout',
+            text: 'Plain language — not a stack trace.',
           },
           {
-            type: 'caption',
-            text: 'Preview: every change reviewed before commit. The Apply button doesn\'t activate until the batch is clean.',
+            type: 'image',
+            src: '/assets/contentfill/contentfill-error-row.png',
+            alt: 'Contentfill PreviewStep — error row with inline plain-language validation message and editable proposed value',
           },
+        ],
+      },
+
+      // ── Results ───────────────────────────────────────────
+
+      {
+        id: 'results',
+        label: 'Step 3: Results',
+        blocks: [
+          {
+            type: 'split',
+            align: 'center',
+            ratio: [2, 1],
+            left: [
+              {
+                type: 'image',
+                src: '/assets/contentfill/contentfill-results-success.png',
+                alt: 'Contentfill results screen — successful bulk operation with per-entry status',
+              },
+            ],
+            right: [
+              { type: 'subheading', text: 'Results' },
+              {
+                type: 'paragraph',
+                text: 'After applying, the results screen shows the outcome per entry: updated, skipped, errored. Every updated entry links directly back to Contentful.',
+              },
+            ],
+          },
+        ],
+      },
+
+      // ── Design Decisions ─────────────────────────────────
+
+      {
+        id: 'decisions',
+        label: 'Design Decisions',
+        blocks: [
+          {
+            type: 'section-lede',
+            text: 'Three more decisions shaped how Contentfill handles the things that can\'t be undone.',
+          },
+
+          // ── Decision: Schema operations ───────────────────
+
           {
             type: 'subheading',
-            text: 'Results',
+            text: 'Schema operations with the same care as content operations',
           },
           {
             type: 'paragraph',
-            text: 'After applying, the results screen shows the outcome per entry: updated, skipped, errored. Every updated entry links back to Contentful.',
+            text: '`Add Field` and `Delete Field` are dedicated workflows — each with their own `ConfigStep`, `PreviewStep`, and `ApplyStep`. The delete flow surfaces Contentful\'s required two-phase deletion as an explicit named sequence: the warning comes at the entry point, not at the moment of no return.',
           },
           {
-            type: 'media-placeholder',
-            label: 'TODO: Results screen — entry counts, status indicators, links out to updated entries. Capture from a real operation.',
+            type: 'video',
+            src: '/assets/contentfill/contentfill-add-field.webm',
+            caption: '`Add Field` — content type selected, new field configured. Schema visible throughout.',
           },
           {
-            type: 'caption',
-            text: 'Results: full accountability for what happened and what didn\'t.',
+            type: 'video',
+            src: '/assets/contentfill/contentfill-delete-field.webm',
+            caption: '`Delete Field` — destructive operation warning at the entry point, content types grouped by domain.',
+          },
+          {
+            type: 'callout',
+            text: 'Risk is named before the user selects a single content type. Content types grouped by domain taxonomy, not API name.',
+          },
+
+          // ── Decision: Safety language ─────────────────────
+
+          {
+            type: 'subheading',
+            text: 'A consistent design language for dangerous operations',
+          },
+          {
+            type: 'paragraph',
+            text: 'Two affordances instead of a confirmation modal: an always-visible environment badge so you know which environment you\'re in before touching anything; and an Apply button that stays disabled until every error in the batch is resolved — consent earned through action, not assumed.',
+          },
+
+          // ── Decision: Excel ───────────────────────────────
+
+          {
+            type: 'subheading',
+            text: '`CSV Import` — Excel as an access bridge for bulk creation',
+          },
+          {
+            type: 'paragraph',
+            text: 'Contentfill generates an Excel template from the live content model — correctly-named columns, required fields marked, field types embedded. Fill it in offline, re-upload via `CSV Import`. It flows through the same `PreviewStep` as every other operation. The first content admin to use it needed one sentence of direction and didn\'t come back with questions.',
+          },
+          {
+            type: 'image',
+            src: '/assets/contentfill/excel-template-preview.png',
+            alt: 'Generated Excel template — columns named from the live content model, required fields and types annotated',
+            caption: 'The generated template — columns pulled directly from the live content model.',
+          },
+          {
+            type: 'video',
+            src: '/assets/contentfill/contentfill-csv-import-template.webm',
+            caption: '`CSV Import` — template downloaded, filled in offline, re-uploaded and parsed into the preview table.',
+          },
+          {
+            type: 'callout',
+            text: 'The spreadsheet re-enters the same preview-before-write pipeline as every other operation.',
           },
         ],
       },
@@ -839,7 +865,7 @@ const caseStudies: CaseStudy[] = [
         blocks: [
           {
             type: 'section-lede',
-            text: 'Operations that previously required hours of manual work, or an engineering ticket and a multi-day wait, can now be executed by the content owner in under fifteen minutes.',
+            text: 'Operations that previously required hours of manual work — or waiting out a development cycle — can now be executed by the content owner in under fifteen minutes.',
           },
           {
             type: 'paragraph',
@@ -858,11 +884,6 @@ const caseStudies: CaseStudy[] = [
                 whyItMatters: 'Structural estimate — follows from the tool\'s design',
               },
               {
-                metric: 'hundreds',
-                whatItIs: 'Largest single operation run to date',
-                whyItMatters: 'Single session, no engineering involvement',
-              },
-              {
                 metric: '1 sentence',
                 whatItIs: 'Direction needed for a new user to complete their first Excel-template operation',
                 whyItMatters: 'Observed',
@@ -871,7 +892,7 @@ const caseStudies: CaseStudy[] = [
           },
           {
             type: 'paragraph',
-            text: 'Contentfill is now the default path for bulk content operations on the team.',
+            text: 'Content owners can now execute operations that used to require engineering resources or hours of manual work — without asking anyone for help.',
           },
           {
             type: 'link-button',
@@ -889,56 +910,11 @@ const caseStudies: CaseStudy[] = [
         blocks: [
           {
             type: 'paragraph',
-            text: 'The transform system is extensible, but only by engineers. Adding a new transform type means copying a TypeScript template file, writing the transformation logic, and deploying. Non-technical users can describe what they want through the AI Agent — but they can\'t save a reusable transform, name it, or have it appear in the transform menu for future operations.',
+            text: 'The AI Agent transform is presented as one option among several in a dropdown: `slugify`, `copy-field`, `prepend`, `append`, AI Agent. Nothing signals that the AI path is the most powerful one. I\'d make it more primary — not buried alongside static presets, but the default starting point, with the presets as quick-select shortcuts. The tool already has the intelligence; it just doesn\'t lead with it.',
           },
           {
             type: 'paragraph',
-            text: 'The missing design is a UI-driven transform builder: a way for a content admin to define a repeatable operation, give it a name, and have it available the next time they need it. The AI Agent gets close — a user can describe the same transformation twice and get the same result — but it\'s not the same as a saved, shareable, named transform. Engineering involvement is still required to extend the system in any durable way.',
-          },
-          {
-            type: 'paragraph',
-            text: 'That\'s the design I\'d build next. The tool currently gives non-technical users the ability to execute operations; it doesn\'t yet give them the ability to extend them. Those are different levels of ownership over the same system, and the second one is worth building.',
-          },
-          {
-            type: 'media-placeholder',
-            label: 'OPTIONAL: low-fidelity wireframe of the planned transform builder UI. Only include if you have one — the prose is sufficient without it.',
-          },
-        ],
-      },
-
-      // ── TL;DR ─────────────────────────────────────────────
-
-      {
-        id: 'tldr',
-        label: 'TL;DR',
-        blocks: [
-          {
-            type: 'section-lede',
-            text: 'A GUI for bulk Contentful operations that non-technical users could run themselves — safely, without engineering mediation, without skipping the preview step.',
-          },
-          {
-            type: 'paragraph',
-            text: 'The core insight: the people who own content patterns shouldn\'t need an engineer to execute them. The core constraint: bulk CMS operations are irreversible, and the tool has to be designed around that fact from the first screen.',
-          },
-          {
-            type: 'metrics-grid',
-            items: [
-              {
-                metric: '~15 min',
-                whatItIs: 'Time to execute a bulk operation that previously took hours',
-                whyItMatters: 'Structural estimate',
-              },
-              {
-                metric: '1 sentence',
-                whatItIs: 'Direction needed for a new user to complete their first Excel-template operation',
-                whyItMatters: 'Observed',
-              },
-            ],
-          },
-          {
-            type: 'link-button',
-            href: 'https://github.com/smurmus-bighealth/contentfill#start-here',
-            label: 'View on GitHub →',
+            text: 'The other thing I\'d revisit: saved, named transforms. The second time you run the same operation, you\'re describing it from scratch again. A content admin running the same transform every quarter shouldn\'t have to.',
           },
         ],
       },

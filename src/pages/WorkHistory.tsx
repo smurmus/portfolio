@@ -1,19 +1,18 @@
 import { useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ScrollToTopFAB from '../components/ScrollToTopFAB/ScrollToTopFAB'
 import styles from './WorkHistory.module.css'
 
 function BackButton() {
   const navigate = useNavigate()
   return (
-    <nav className={styles.backNav}>
-      <button
-        className={styles.backLink}
-        onClick={() => navigate(-1)}
-        aria-label="back to main board"
-      >
-        ← back
-      </button>
-    </nav>
+    <button
+      className={styles.fixedBack}
+      onClick={() => navigate(-1)}
+      aria-label="back to main board"
+    >
+      ← back
+    </button>
   )
 }
 
@@ -57,8 +56,8 @@ export default function WorkHistory() {
 
   return (
     <main className={styles.page}>
+      <BackButton />
       <div className={styles.inner}>
-        <BackButton />
 
         <header className={styles.header}>
           <p className={styles.eyebrow}>a brief history</p>
@@ -123,6 +122,7 @@ export default function WorkHistory() {
           </a>
         </footer>
       </div>
+      <ScrollToTopFAB />
     </main>
   )
 }

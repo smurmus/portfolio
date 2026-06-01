@@ -39,6 +39,8 @@ export type ContentBlock =
     right: ContentBlock[]
     /** Vertical alignment of columns. Default: 'start' */
     align?: 'start' | 'center'
+    /** Flex ratio for left:right columns, e.g. [2,1] for 2/3 + 1/3. Default: [1,1] */
+    ratio?: [number, number]
   }
   | { type: 'persona-cards'; cards: PersonaCardDef[]; isInitialIntroduction?: boolean }
   | {

@@ -29,6 +29,14 @@ export default function CaseTOC({ sections }: Props) {
         const top = el.getBoundingClientRect().top + window.scrollY
         if (top <= threshold) found = id
       }
+
+      // If near the bottom of the page, force the last section active —
+      // short final sections can't scroll their heading past the 25% threshold.
+      const nearBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80
+      if (nearBottom && sections.length > 0) {
+        found = sections[sections.length - 1].id
+      }
+
       setActiveId(found)
 
       // Visibility: show as soon as trigger section heading scrolls above fold.

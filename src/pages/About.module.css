@@ -10,33 +10,35 @@
   margin: 0 auto;
 }
 
-/* ── Back nav ────────────────────────────────────────────── */
+/* ── Fixed back button ───────────────────────────────────── */
 
-.backNav {
-  margin-bottom: 40px;
-}
-
-.backLink {
+.fixedBack {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 1000;
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text-secondary);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-polaroid-border);
   border-radius: 20px;
-  padding: 7px 16px;
-  transition: color 150ms ease-out, border-color 150ms ease-out, background 150ms ease-out;
+  cursor: pointer;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
-.backLink:hover,
-.backLink:focus-visible {
+.fixedBack:hover,
+.fixedBack:focus-visible {
+  background: rgba(255, 255, 255, 0.92);
   color: var(--color-text-primary);
   border-color: var(--color-text-secondary);
-  background: var(--color-polaroid-bg);
 }
 
 /* ── Header ─────────────────────────────────────────────── */
@@ -44,9 +46,9 @@
 .header {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   gap: 40px;
   margin-bottom: 48px;
+  padding-top: 60px; /* clear the fixed back button */
 }
 
 .headerText {
@@ -56,27 +58,27 @@
 
 .greeting {
   font-family: var(--font-handwriting);
-  font-size: 16px;
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
   color: var(--color-text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 500;
-  line-height: 1.05;
+  line-height: 1.1;
   color: var(--color-text-primary);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .tagline {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   font-weight: 400;
   line-height: 1.5;
   color: var(--color-text-secondary);
-  max-width: 42ch;
+  max-width: 38ch;
 }
 
 .headerLinks {
@@ -109,8 +111,9 @@
 /* ── Portrait photo ──────────────────────────────────────── */
 
 .portrait {
-  flex-shrink: 0;
-  width: 320px;
+  flex: 2;
+  min-width: 0;
+  max-width: 520px;
   aspect-ratio: 3 / 4;
   border-radius: 4px;
   overflow: hidden;
@@ -145,9 +148,11 @@
   .header {
     flex-direction: column-reverse;
     gap: 24px;
+    padding-top: 56px;
   }
 
   .portrait {
+    flex: none;
     width: 100%;
     max-width: 280px;
     transform: rotate(1deg);
@@ -236,62 +241,112 @@
   white-space: pre-line;
 }
 
-/* ── Photo grid (beyond work) ────────────────────────────── */
+/* ── Gallery wall (beyond work) ──────────────────────────── */
 
-.photoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-.photoGridItem {
-  margin: 0;
-}
-
-.photoGridFull {
-  grid-column: 1 / -1;
-}
-
-.gridPhoto {
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  border-radius: 4px;
-  display: block;
-}
-
-.jinxSplit {
+.galleryWall {
+  margin-top: 28px;
   display: flex;
-  gap: 4px;
-  aspect-ratio: 4 / 3;
-  border-radius: 4px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Each row hangs items at a shared baseline — shorter items create natural stagger */
+.gwRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+/* Row 2: items pin to top so taller items grow downward */
+.gwRowTop {
+  align-items: flex-start;
+}
+
+.galleryFigure {
+  margin: 0;
+  min-width: 0;
+}
+
+/* The frame/mat */
+.galleryMat {
+  background: var(--color-polaroid-bg);
+  border: 1px solid var(--color-polaroid-border);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.09), 0 1px 3px rgba(0,0,0,0.05);
+  padding: 10px;
+  transition: box-shadow 150ms ease-out;
   overflow: hidden;
 }
 
-/* Full-width variant — more room for the minigun */
-.jinxSplitWide {
-  aspect-ratio: 2 / 1;
+.matZoom {
+  cursor: zoom-in;
 }
 
-.splitPhoto {
-  flex: 1;
-  min-width: 0;
-  object-fit: cover;
+.matZoom:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.07);
+}
+
+.matCircle {
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.matOval {
+  border-radius: 50%;
+  padding: 8px;
+}
+
+/* Media classes */
+.gwMedia {
+  width: 100%;
   display: block;
+  object-fit: cover;
 }
 
-.photoCaption {
+.gwPortrait  { aspect-ratio: 3 / 4; }
+.gwLandscape { aspect-ratio: 4 / 3; }
+.gwSquare    { aspect-ratio: 1 / 1; }
+.gwCircle    { aspect-ratio: 1 / 1; border-radius: 50%; }
+.gwOval      { aspect-ratio: 2 / 3; border-radius: 50%; }
+.gwWide      { aspect-ratio: 5 / 2; }
+
+.galleryCaption {
   font-family: var(--font-handwriting);
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-text-secondary);
   text-align: center;
   margin-top: 6px;
+  padding: 0 6px;
+  line-height: 1.4;
 }
 
-@media (max-width: 480px) {
-  .photoGrid {
-    grid-template-columns: 1fr;
+/* Rotations — each frame hung at a slightly different angle */
+.rotA { transform: rotate(-1.5deg); }
+.rotB { transform: rotate(0.8deg); }
+.rotC { transform: rotate(1.2deg); }
+.rotD { transform: rotate(-1.8deg); }
+.rotE { transform: rotate(2deg); }
+.rotF { transform: rotate(1.8deg); }
+.rotG { transform: rotate(-0.8deg); }
+.rotH { transform: rotate(0.5deg); }
+.rotI { transform: rotate(-0.4deg); }
+
+@media (max-width: 600px) {
+  .gwRow {
+    flex-wrap: wrap;
+  }
+
+  .gwRow > * {
+    flex: none !important;
+    width: calc(50% - 7px);
+  }
+
+  .gwRow > *:last-child:nth-child(odd) {
+    width: 100%;
+  }
+
+  .rotA, .rotB, .rotC, .rotD, .rotE,
+  .rotF, .rotG, .rotH, .rotI {
+    transform: none;
   }
 }
 

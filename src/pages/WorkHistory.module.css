@@ -10,39 +10,42 @@
   margin: 0 auto;
 }
 
-/* ── Back nav ────────────────────────────────────────────── */
+/* ── Fixed back button ───────────────────────────────────── */
 
-.backNav {
-  margin-bottom: 40px;
-}
-
-.backLink {
+.fixedBack {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 1000;
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text-secondary);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-polaroid-border);
   border-radius: 20px;
-  padding: 7px 16px;
-  transition: color 150ms ease-out, border-color 150ms ease-out, background 150ms ease-out;
+  cursor: pointer;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
-.backLink:hover,
-.backLink:focus-visible {
+.fixedBack:hover,
+.fixedBack:focus-visible {
+  background: rgba(255, 255, 255, 0.92);
   color: var(--color-text-primary);
   border-color: var(--color-text-secondary);
-  background: var(--color-polaroid-bg);
 }
 
 /* ── Header ─────────────────────────────────────────────── */
 
 .header {
   margin-bottom: 48px;
+  padding-top: 56px;
 }
 
 .eyebrow {
