@@ -248,11 +248,13 @@
 
 .imageCaption {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
+  font-style: italic;
   color: var(--color-text-secondary);
-  opacity: 0.6;
   margin-top: 6px;
   text-align: center;
+  max-width: 72%;
+  margin-inline: auto;
 }
 
 .imageCaptionLink {
@@ -361,12 +363,14 @@
 
 .blockCaption {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
+  font-style: italic;
   color: var(--color-text-secondary);
-  opacity: 0.6;
   text-align: center;
   margin-top: -0.75rem;
   margin-bottom: 2rem;
+  max-width: 72%;
+  margin-inline: auto;
 }
 
 /* ── Audit closing pivot line ───────────────────────────── */

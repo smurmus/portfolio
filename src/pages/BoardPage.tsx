@@ -102,7 +102,7 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
         />
       )
       return d.href ? (
-        <a href={d.href as string} style={{ display: 'block', textDecoration: 'none' }}>
+        <a href={d.href as string} aria-label={d.alt as string} style={{ display: 'block', textDecoration: 'none' }}>
           {sticker}
         </a>
       ) : sticker

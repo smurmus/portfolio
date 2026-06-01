@@ -56,7 +56,7 @@ function GalleryFrame({ rot, shape = 'rect', flex = 1, children, caption, zoomSr
   ].filter(Boolean).join(' ')
 
   const handleClick = () => { if (zoomSrc && zoomAlt && onZoom) onZoom(zoomSrc, zoomAlt) }
-  const handleKey = (e: React.KeyboardEvent) => { if (e.key === 'Enter') handleClick() }
+  const handleKey = (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick() } }
 
   return (
     <figure className={`${styles.galleryFigure} ${rot}`} style={{ flex }}>
@@ -211,7 +211,7 @@ export default function About() {
                 <img src="/assets/about/custom-card.jpg" alt="" className={`${styles.gwMedia} ${styles.gwSquare}`} />
               </GalleryFrame>
 
-              <GalleryFrame flex={14} rot={styles.rotH} caption="pinning a pattern. (why don't they warn you how much of sewing is NOT sewing?) ">
+              <GalleryFrame flex={14} rot={styles.rotH} caption="pinning a pattern. (Why don't they warn you how much of sewing is NOT sewing?)">
                 <video src="/assets/about/pattern-pinning.webm" className={`${styles.gwMedia} ${styles.gwLandscape}`} autoPlay loop muted playsInline />
               </GalleryFrame>
 

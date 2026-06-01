@@ -63,7 +63,7 @@ function Carousel({ images }: { images: CarouselImage[] }) {
             onClick={isFront ? cycle : undefined}
             role={isFront ? 'button' : undefined}
             tabIndex={isFront ? 0 : undefined}
-            aria-label={isFront ? `${img.alt} — click to see next` : undefined}
+            aria-label={isFront ? `${img.alt} — view next image` : undefined}
             onKeyDown={isFront ? (e) => {
               if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycle() }
             } : undefined}
@@ -454,12 +454,7 @@ function useSectionKeyNav(
     const onKeyDown = (e: KeyboardEvent) => {
       const tag = (document.activeElement as HTMLElement)?.tagName
       if (tag === 'INPUT' || tag === 'TEXTAREA') return
-      if (e.key === 'Tab') {
-        e.preventDefault()
-        const stops = getStops()
-        const next = getActiveIndex(stops) + (e.shiftKey ? -1 : 1)
-        goTo(stops[Math.max(0, Math.min(stops.length - 1, next))])
-      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         e.preventDefault()
         const stops = getStops()
         goTo(stops[Math.min(stops.length - 1, getActiveIndex(stops) + 1)])

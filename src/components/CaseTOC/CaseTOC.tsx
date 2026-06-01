@@ -122,6 +122,7 @@ export default function CaseTOC({ sections }: Props) {
           {sections.map(({ id, label }) => (
             <button
               key={id}
+              tabIndex={-1}
               className={`${styles.pill} ${activeId === id ? styles.pillActive : ''}`}
               onClick={() => scrollTo(id)}
             >

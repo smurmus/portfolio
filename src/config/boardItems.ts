@@ -385,7 +385,7 @@ const boardItems: BoardItem[] = [
     x: -580, y: -240, rotation: -2, zIndex: 5,
     data: {
       lines: [
-        'TODO',
+        'To Do:',
         '☐ add pockets to everything',
         '☐ keep goldfish plant alive',
         '☐ acquire caffeine',

@@ -441,7 +441,7 @@ const caseStudies: CaseStudy[] = [
         id: 'tldr',
         label: 'TL;DR',
         blocks: [
-          { type: 'section-lede', text: 'Discord has an information problem, but it also has a participation problem - this is a the design that addresses the latter.' },
+          { type: 'section-lede', text: 'Discord has an information problem, but it also has a participation problem - this is the design that addresses the latter.' },
           { type: 'tldr-timeline' },
           { type: 'paragraph', text: 'Every feature Discord shipped between 2024 and 2026 addresses information access. The participation gap — already visible in the 2024 research — stayed open. That\'s what this design addresses.' },
           { type: 'feature-audit-table' },
@@ -513,7 +513,6 @@ const caseStudies: CaseStudy[] = [
       accentColor: '#C87A1A',
       title: 'Contentfill',
       subhead: 'Transforms, schema changes, and bulk creation — every operation Contentful can\'t do at scale, designed to be safe enough for non-engineers to run themselves.',
-      skipToId: 'tldr',
       rotation: -1,
     },
     meta: {

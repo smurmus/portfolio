@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import BoardPage from './pages/BoardPage'
 
 const CaseStudy = lazy(() => import('./pages/CaseStudy'))
@@ -25,6 +26,7 @@ function CaseStudyFallback() {
 
 export default function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<BoardPage />} />
       <Route
@@ -52,5 +54,7 @@ export default function App() {
         }
       />
     </Routes>
+    <Analytics />
+    </>
   )
 }

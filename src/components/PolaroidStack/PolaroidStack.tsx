@@ -109,7 +109,9 @@ export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_F
       role={isProject ? 'group' : 'img'}
       aria-label={
         isProject
-          ? `project polaroids — ${n} items, press Enter to expand`
+          ? isLined
+            ? `project polaroids — ${n} items, press Escape to collapse`
+            : `project polaroids — ${n} items, press Enter to expand`
           : `decorative polaroid stack — ${n} items`
       }
       tabIndex={0}

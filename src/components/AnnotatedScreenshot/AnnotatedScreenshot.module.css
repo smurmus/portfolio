@@ -126,13 +126,14 @@
 /* ── Caption — pinned just below screenshot inside the sticky frame */
 .captionBelow {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
+  font-style: italic;
   color: var(--color-text-secondary);
-  opacity: 0.6;
   text-align: center;
   margin-top: 8px;
   margin-bottom: 0;
-  width: 100%;
+  max-width: 72%;
+  margin-inline: auto;
 }
 
 /* ── Reduced motion overrides */

@@ -6,6 +6,8 @@
   cursor: pointer;
   transition: transform 150ms ease-out, box-shadow 150ms ease-out;
   display: inline-block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .note:hover,

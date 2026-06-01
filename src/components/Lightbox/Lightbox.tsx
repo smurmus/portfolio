@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from './Lightbox.module.css'
 
 type Props = {
@@ -8,14 +8,29 @@ type Props = {
 }
 
 export default function Lightbox({ src, alt, onClose }: Props) {
+  const closeRef = useRef<HTMLButtonElement>(null)
+  const triggerRef = useRef<Element | null>(null)
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    triggerRef.current = document.activeElement
+    closeRef.current?.focus()
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return }
+      if (e.key === 'Tab') {
+        // Only focusable element is the close button — keep focus there
+        e.preventDefault()
+        closeRef.current?.focus()
+      }
+    }
+
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onKey)
     return () => {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prev
+      ;(triggerRef.current as HTMLElement | null)?.focus()
     }
   }, [onClose])
 
@@ -27,7 +42,7 @@ export default function Lightbox({ src, alt, onClose }: Props) {
       aria-modal="true"
       aria-label="Full size image"
     >
-      <button className={styles.close} onClick={onClose} aria-label="Close">✕</button>
+      <button ref={closeRef} className={styles.close} onClick={onClose} aria-label="Close">✕</button>
       <img
         src={src}
         alt={alt}

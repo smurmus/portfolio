@@ -91,9 +91,8 @@
 
 .caption {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-text-secondary);
-  opacity: 0.6;
   margin-top: 10px;
   margin-bottom: 0;
   display: flex;
