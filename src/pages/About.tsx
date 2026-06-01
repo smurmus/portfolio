@@ -218,7 +218,7 @@ export default function About() {
               </GalleryFrame>
 
               <GalleryFrame flex={11} rot={styles.rotB}
-                caption="postcards i sent home from tokyo — one per neighborhood"
+                caption="postcards i sent home from tokyo"
                 zoomSrc="/assets/about/tokyo-postcards.jpg" zoomAlt="Japanese postcards with Nippon stamps, written in Tokyo" onZoom={openZoom}
               >
                 <img src="/assets/about/tokyo-postcards.jpg" alt="" className={`${styles.gwMedia} ${styles.gwLandscape}`} />
