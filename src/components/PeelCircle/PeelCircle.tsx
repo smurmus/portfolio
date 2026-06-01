@@ -41,7 +41,7 @@ export default function PeelCircle({
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   function applyColor(idx: number) {
-    const [fg, bg] = palette[idx % palette.length]
+    const [fg] = palette[idx % palette.length]
     const front = frontRef.current
     const back  = backRef.current
     const reveal = revealRef.current
