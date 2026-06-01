@@ -145,6 +145,8 @@ export default function About() {
           </p>
         </section>
 
+        <div className={styles.divider} />
+
         {/* ── Beyond work ──────────────────────────────────── */}
         <section className={styles.section} aria-labelledby="beyond-heading">
           <h2 className={styles.sectionHeading} id="beyond-heading">beyond work</h2>
@@ -235,6 +237,29 @@ export default function About() {
           {lightbox && (
             <Lightbox src={lightbox.src} alt={lightbox.alt} onClose={() => setLightbox(null)} />
           )}
+        </section>
+
+        <div className={styles.divider} />
+
+        {/* ── Smurmus lore ─────────────────────────────────── */}
+        <section className={styles.section} aria-labelledby="smurmus-heading">
+          <h2 className={styles.sectionHeading} id="smurmus-heading">what's a smurmus?</h2>
+
+          <p className={styles.paragraph}>
+            Most people with unusual names have the opposite problem: bad SEO, impossible to google, forever spelling it out on the phone. I have great SEO. There is exactly one Sondhayni on the internet, and it's me. (I think. I'm pretty sure, anyway.)
+          </p>
+
+          <p className={styles.paragraph}>
+            So when it came time to pick a username, I had some freedom. I landed on <em>smurmus</em> — initially because I thought it was a palindrome (it's not, I was very wrong, please don't ask), but mostly because it's genuinely fun to say. Try it. Smurmus. See?
+          </p>
+
+          <p className={styles.paragraph}>
+            It also happens to parse nicely as <em>s. murmu</em> — first initial, last name — which means this URL sounds a little like it belongs to me even before you know who I am. It stuck as my GitHub handle, became an office nickname for a handful of coworkers, and at this point just lives rent-free in my professional identity.
+          </p>
+
+          <p className={styles.paragraph}>
+            <em>(My handle on most social platforms is just sondhayni, which I'm aware is a privilege — having a name that's both unique and easy to claim is not something everyone gets to take for granted.)</em>
+          </p>
         </section>
 
       </div>

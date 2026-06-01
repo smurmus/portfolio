@@ -77,6 +77,17 @@ const boardItems: BoardItem[] = [
     },
   },
 
+  {
+    id: 'smurmus-note',
+    type: 'about-note',
+    x: -300, y: 40, rotation: 6, zIndex: 5,
+    data: {
+      text: 'what\'s a smurmus? →',
+      href: '/about#smurmus-heading',
+      color: '#DFF0E3',
+    },
+  },
+
   // {
   //   id: 'sticker-cherrypick',
   //   type: 'sticker',

@@ -104,9 +104,34 @@ export default function Board({ items, className }: BoardProps) {
   const [visibleIds, setVisibleIds] = useState<Set<string>>(() => new Set(items.map(i => i.id)))
   const [entranceActive, setEntranceActive] = useState(false)
 
-  const { onPointerDown, getPan, onPanSettled, recenter } = usePan(
+  const { onPointerDown, getPan, onPanSettled, recenter, panBy } = usePan(
     canvasRef as React.RefObject<HTMLElement | null>
   )
+
+  const STEP = 200
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    // Don't pan when focus is on an interactive child (polaroid, sticker, button, link)
+    const active = document.activeElement as HTMLElement | null
+    if (active && active !== viewportRef.current) {
+      const tag = active.tagName
+      if (tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'TEXTAREA') return
+      const role = active.getAttribute('role')
+      if (role === 'button' || role === 'link' || role === 'group') return
+    }
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const step = prefersReduced ? STEP * 2 : STEP
+
+    switch (e.key) {
+      case 'ArrowLeft':  e.preventDefault(); panBy( step,     0); break
+      case 'ArrowRight': e.preventDefault(); panBy(-step,     0); break
+      case 'ArrowUp':    e.preventDefault(); panBy(    0,  step); break
+      case 'ArrowDown':  e.preventDefault(); panBy(    0, -step); break
+      case 'Home':       e.preventDefault(); recenter();          break
+      case ' ':          e.preventDefault(); recenter();          break
+    }
+  }, [panBy, recenter])
 
   const sparkleCount = useRef(0)
   const [sparkles, setSparkles] = useState<SparkleData[]>([])
@@ -161,9 +186,11 @@ export default function Board({ items, className }: BoardProps) {
       ref={viewportRef}
       className={`${styles.viewport} ${className ?? ''}`}
       role="region"
-      aria-label="portfolio board — drag or scroll to explore"
+      aria-label="portfolio board — drag or scroll to explore, use arrow keys to pan"
+      tabIndex={0}
       onPointerDown={onPointerDown}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
     >
       <div ref={canvasRef} className={styles.canvas}>
         <div className={styles.itemsContainer}>

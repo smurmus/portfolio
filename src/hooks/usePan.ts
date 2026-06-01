@@ -131,6 +131,15 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
     settled.current = cb
   }, [])
 
+  const panBy = useCallback((dx: number, dy: number) => {
+    if (rafId.current) { cancelAnimationFrame(rafId.current); lerping.current = false }
+    const next = clamp(pan.current.x + dx, pan.current.y + dy, window.innerWidth, window.innerHeight)
+    pan.current    = next
+    target.current = next
+    apply(next.x, next.y)
+    settled.current?.(next)
+  }, [apply])
+
   const recenter = useCallback(() => {
     if (rafId.current) cancelAnimationFrame(rafId.current)
     dragging.current = false
@@ -155,5 +164,5 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
     rafId.current = requestAnimationFrame(animate)
   }, [apply])
 
-  return { onPointerDown, getPan, onPanSettled, recenter }
+  return { onPointerDown, getPan, onPanSettled, recenter, panBy }
 }
