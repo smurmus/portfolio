@@ -133,11 +133,11 @@ export default function About() {
           <h2 className={styles.sectionHeading} id="bio-heading">the long version</h2>
 
           <p className={styles.paragraph}>
-            I grew up in New Jersey, though I like to joke that I was always a west coast girl — which became true after university in LA and then moving up to the Bay Area for work, where I've stayed (and haven't really looked back, except to visit). Somewhere in there I also apparently decided I love travel: Japan, Spain, Portugal, France, Mexico, Amsterdam.
+            I've been a tinkerer as long as I can remember — taking things apart to see how they worked, poking at whatever I didn't understand. I live in the liminal space between "this is a mess" and "oh, I see how this works now." Throw in an artistic streak and a need-to-make impulse, and you get a lot of comics, crafts, and stories I genuinely hope are lost to the annals of time and a few spring cleanings. Software ended up being the place where both of those things could live: something to take apart, and something to make things with.
           </p>
 
           <p className={styles.paragraph}>
-            I've been a tinkerer as long as I can remember — taking things apart to see how they worked, poking at whatever I didn't understand. I also always had an artistic streak, which combined with the need-to-make impulse meant a lot of comics and stories I genuinely hope are lost to the annals of time and a few spring cleanings. Software ended up being the place where both of those things could live: something to take apart, and something to make things with.
+            I grew up in New Jersey, though I like to joke that I was always a west coast girl — which became true after university in LA and then moving up to the Bay Area for work, where I've stayed (and haven't really looked back, except to visit). Somewhere in there I also apparently decided I love travel: Japan, Spain, Portugal, France, Mexico, Amsterdam.
           </p>
 
           <p className={styles.paragraph}>
