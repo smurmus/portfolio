@@ -512,7 +512,7 @@ const caseStudies: CaseStudy[] = [
       imageAlt: 'Contentfill — the app in use',
       accentColor: '#C87A1A',
       title: 'Contentfill',
-      subhead: 'Transforms, schema changes, and bulk creation — every operation Contentful can\'t do at scale, designed to be safe enough for non-engineers to run themselves.',
+      subhead: 'Every bulk operation missing from Contentful — AI-powered transforms, schema changes, and mass creation that non-engineers can safely run themselves.',
       rotation: -1,
     },
     meta: {

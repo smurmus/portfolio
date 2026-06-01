@@ -246,15 +246,15 @@ export default function About() {
           <h2 className={styles.sectionHeading} id="smurmus-heading">what's a smurmus?</h2>
 
           <p className={styles.paragraph}>
-            Most people with unusual names have the opposite problem: bad SEO, impossible to google, forever spelling it out on the phone. I have great SEO. There is exactly one Sondhayni on the internet, and it's me. (I think. I'm pretty sure, anyway.)
+            Common names come with common problems: bad SEO, impossible to google, two dozen LinkedIn profiles to sort through. I have altogether opposite problems and what I can only describe as a monopoly on my own name online. (I still have to spell it out on the phone. You can't have everything.)
           </p>
 
           <p className={styles.paragraph}>
-            So when it came time to pick a username, I had some freedom. I landed on <em>smurmus</em> — initially because I thought it was a palindrome (it's not, I was very wrong, please don't ask), but mostly because it's genuinely fun to say. Try it. Smurmus. See?
+            So when it came time to pick a username, I had some freedom. I landed on <em>smurmus</em> — initially because I thought it was a palindrome (it's not), but mostly because it's genuinely fun to say. Try it. Smurmus. See?
           </p>
 
           <p className={styles.paragraph}>
-            It also happens to parse nicely as <em>s. murmu</em> — first initial, last name — which means this URL sounds a little like it belongs to me even before you know who I am. It stuck as my GitHub handle, became an office nickname for a handful of coworkers, and at this point just lives rent-free in my professional identity.
+            It also happens to parse nicely as <em>s. murmu</em> — first initial, last name — which means this URL sounds a little like it belongs to me even before you know who I am. It stuck as my GitHub handle, became an office nickname for a handful of coworkers, and at this point it would feel wrong to change it.
           </p>
 
           <p className={styles.paragraph}>
