@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useCallback } from 'react'
+import { useLayoutEffect, useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ScrollToTopFAB from '../components/ScrollToTopFAB/ScrollToTopFAB'
 import Lightbox from '../components/Lightbox/Lightbox'
@@ -92,6 +92,15 @@ export default function About() {
       body.style.height = ''
       if (root) { root.style.height = ''; root.style.minHeight = '' }
     }
+  }, [])
+
+  // Body overflow is hidden by default (board page); hash scroll fires before
+  // React renders so the browser can't scroll. Do it manually after mount.
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash) return
+    const el = document.querySelector(hash)
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
   return (

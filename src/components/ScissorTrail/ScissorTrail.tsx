@@ -11,7 +11,7 @@ export default function ScissorTrail() {
       overflow="visible"
     >
       <path
-        d="M 40 360 C 58 415, 200 425, 232 355 C 258 295, 310 70, 385 88 C 448 102, 482 235, 535 222 C 578 210, 628 28, 688 14 C 720 6, 748 8, 755 8"
+        d="M 40 360 C 58 415, 200 425, 232 355 C 258 295, 310 70, 385 88 C 448 102, 482 235, 535 222 C 569 212, 608 94, 653 40"
         stroke="var(--color-board-dot)"
         strokeWidth="1.5"
         strokeDasharray="10 6"

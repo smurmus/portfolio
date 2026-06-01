@@ -1,0 +1,110 @@
+.peel {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  cursor: pointer;
+  backface-visibility: hidden;
+}
+
+.reveal {
+  position: absolute;
+  top: 0; left: 0;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.peel-reveal-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  margin: 20px;
+  border-radius: 999px;
+}
+
+.sticky {
+  position: absolute;
+  top: 0; left: 0;
+  width: 180px;
+  height: 180px;
+  transform: rotate(45deg);
+  transition: transform 750ms ease-in-out;
+}
+.peel:hover .sticky {
+  transform: rotate(10deg);
+}
+
+.circle-wrapper {
+  position: absolute;
+  left: 0;
+  width: 180px;
+  overflow: hidden;
+  transition: all 750ms ease-in-out;
+}
+
+/* FRONT: anchored to bottom, shrinks upward on hover */
+.front-wrapper {
+  height: 150px;
+  bottom: 0;
+  top: auto;
+}
+.peel:hover .front-wrapper {
+  height: 40px;
+}
+.front.circle {
+  margin-top: -10px;
+  transition: all 750ms ease-in-out;
+}
+.peel:hover .front.circle {
+  margin-top: -110px;
+}
+
+/* BACK: anchored to top, grows downward on hover */
+.back-wrapper {
+  height: 10px;
+  top: 30px;
+}
+.peel:hover .back-wrapper {
+  height: 110px;
+  top: 130px;
+}
+.back.circle {
+  margin-top: -130px;
+  transition: all 750ms ease-in-out;
+}
+.peel:hover .back.circle {
+  margin-top: -30px;
+}
+
+.perforated-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.peel-hint {
+  position: absolute;
+  width: 180px;
+  height: 140px;
+  line-height: 140px;
+  text-align: center;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  transition: opacity 50ms linear 400ms;
+  z-index: 10;
+}
+.peel:hover .peel-hint {
+  opacity: 0;
+  transition: opacity 50ms linear;
+}

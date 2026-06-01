@@ -302,7 +302,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-zuko',
     type: 'sticker',
-    x: 435, y: -65, rotation: 20, zIndex: 17,
+    x: 435, y: -85, rotation: 25, zIndex: 17,
     data: {
       imageSrc: '/assets/stickers/zuko-illustration.png',
       hoverImageSrc: '/assets/stickers/zuko-illustration-2.png',
@@ -323,18 +323,12 @@ const boardItems: BoardItem[] = [
   // },
 
   {
-    id: 'scissor-trail',
+    id: 'airplane-trail',
     type: 'decoration',
     x: 480, y: -400, rotation: 0, zIndex: 3,
-    data: { component: 'ScissorTrail' },
+    data: { component: 'AirplaneTrail' },
   },
 
-  {
-    id: 'scissor-cutout',
-    type: 'decoration',
-    x: 1130, y: -505, rotation: 0, zIndex: 4,
-    data: { component: 'ScissorCutout' },
-  },
 
   // {
   //   id: 'washi-cosplay',
@@ -388,7 +382,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticky-currently',
     type: 'sticky',
-    x: -600, y: -240, rotation: -2, zIndex: 5,
+    x: -580, y: -240, rotation: -2, zIndex: 5,
     data: {
       lines: [
         'TODO',
@@ -485,6 +479,7 @@ const boardItems: BoardItem[] = [
       imageSrc: '/assets/stickers/poppy-and-tibbers-hammock.png',
       alt: 'poppy & tibbers on a hammock',
       size: 300,
+      href: '/about#beyond-heading',
     },
   },
 

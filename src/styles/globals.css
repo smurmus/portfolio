@@ -8,6 +8,9 @@
 /* Edu TAS Beginner via Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400;500&display=swap');
 
+/* Edu NSW ACT Cursive via Google Fonts — used by AirplaneTrail quote */
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400&display=swap');
+
 /* PP HATTON: drop .woff2 and .woff files into public/fonts/
    and update the src paths in the @font-face blocks below */
 @font-face {

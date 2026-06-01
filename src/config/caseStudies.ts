@@ -395,8 +395,7 @@ const caseStudies: CaseStudy[] = [
         label: 'Impact & Measurement',
         blocks: [
           { type: 'lede', text: 'If this shipped, here\'s what you\'d watch — and what each signal would actually tell you.' },
-          // TODO: revisit closing sentence — "thread back into communities that kept moving without them" is placeholder
-          { type: 'paragraph', text: 'Discord has 260M monthly active users and 31.5M daily actives. Within that gap are Observer-segment users — people who are in their servers, care about them, but don\'t know what\'s worth engaging with when they show up — and without a clear reason to, eventually stop. Waypoints is the thread back into communities that kept moving without them.' },
+          { type: 'paragraph', text: 'Discord has 260M monthly active users and 31.5M daily actives. Within that gap are Observer-segment users — people who are in their servers, care about them, but don\'t know what\'s worth engaging with when they show up — and without a clear reason to, eventually stop. That\'s the hypothesis Waypoints is built on: surface what matters, and presence turns into participation.' },
           { type: 'engagement-funnel' },
           { type: 'subheading', text: 'What success might look like' },
           { type: 'paragraph', text: 'If this shipped, these are the signals worth watching — and what they\'d actually tell you.' },

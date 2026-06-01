@@ -10,7 +10,8 @@ import AboutNote from '../components/HeroCard/AboutNote'
 import ContactCard from '../components/HeroCard/ContactCard'
 import PawprintTrail from '../components/PawprintTrail/PawprintTrail'
 import ScissorTrail from '../components/ScissorTrail/ScissorTrail'
-import ScissorCutout from '../components/ScissorCutout/ScissorCutout'
+import PeelCircle from '../components/PeelCircle/PeelCircle'
+import AirplaneTrail from '../components/AirplaneTrail/AirplaneTrail'
 import { WASHI_DEFS } from '../components/WashiLabel/WashiPatterns'
 import boardItemsConfig from '../config/boardItems'
 import type { PolaroidData, WashiLabelData } from '../config/boardItems'
@@ -157,8 +158,9 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
     case 'decoration':
       if (d.component === 'PawprintTrail') return <PawprintTrail />
       if (d.component === 'ScissorTrail') return <ScissorTrail />
-      if (d.component === 'ScissorCutout') return <ScissorCutout />
-      if (d.component === 'HandwritingLabel') return (
+      if (d.component === 'PeelCircle') return <PeelCircle />
+      if (d.component === 'AirplaneTrail') return <AirplaneTrail />
+if (d.component === 'HandwritingLabel') return (
         <span style={{
           fontFamily: 'var(--font-handwriting)',
           fontSize: d.fontSize as number,

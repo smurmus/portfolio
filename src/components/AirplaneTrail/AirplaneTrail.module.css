@@ -1,0 +1,14 @@
+.trail {
+  pointer-events: none;
+  display: block;
+  contain: style;
+}
+
+.quote {
+  pointer-events: all;
+  transition: opacity 400ms ease;
+}
+
+.quote:hover {
+  opacity: 0.45 !important;
+}
