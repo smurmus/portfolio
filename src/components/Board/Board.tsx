@@ -110,10 +110,10 @@ export default function Board({ items, className }: BoardProps) {
 
   const STEP = 200
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     // Don't pan when focus is on an interactive child (polaroid, sticker, button, link)
     const active = document.activeElement as HTMLElement | null
-    if (active && active !== viewportRef.current) {
+    if (active && active !== viewportRef.current && active !== document.body) {
       const tag = active.tagName
       if (tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'TEXTAREA') return
       const role = active.getAttribute('role')
@@ -132,6 +132,11 @@ export default function Board({ items, className }: BoardProps) {
       case ' ':          e.preventDefault(); recenter();          break
     }
   }, [panBy, recenter])
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [handleKeyDown])
 
   const sparkleCount = useRef(0)
   const [sparkles, setSparkles] = useState<SparkleData[]>([])
@@ -190,7 +195,6 @@ export default function Board({ items, className }: BoardProps) {
       tabIndex={0}
       onPointerDown={onPointerDown}
       onClick={handleClick}
-      onKeyDown={handleKeyDown}
     >
       <div ref={canvasRef} className={styles.canvas}>
         <div className={styles.itemsContainer}>

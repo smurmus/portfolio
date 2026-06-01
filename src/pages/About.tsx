@@ -152,7 +152,11 @@ export default function About() {
           <h2 className={styles.sectionHeading} id="beyond-heading">beyond work</h2>
 
           <p className={styles.paragraph}>
-            What I love most is <em>learning things</em> — especially when that means <em>making things</em>. On any given day I might be sewing, drawing, painting, sculpting, doing papercraft, or writing code (or vibe-coding, as the kids say now). I play video games, I'm usually reading two to four books at once (at least one fiction, one non-fiction), and I climb...sometimes.
+            What I love most is <em>learning things</em> — especially when that means <em>making things</em>. On any given day I might be sewing, drawing, painting, sculpting, doing papercraft, or writing code. A lot of what I make isn't what I would call "good," at least not at the start. The idea that "you have to be bad at something before getting good at it," is annoying but true.
+
+          </p>
+          <p className={styles.paragraph}>
+            I play video games, I'm usually reading two to four books at once (at least one fiction, one non-fiction, to keep things interesting), and I climb...sometimes.
           </p>
 
           <p className={styles.paragraph}>
