@@ -128,7 +128,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-design-systems',
     type: 'project-stack',
-    x: -440, y: 300, rotation: -2, zIndex: 6,
+    x: -440, y: 320, rotation: -2, zIndex: 6,
     data: {
       accentColor: 'var(--washi-design-systems)',
       fanRadius: 100,
@@ -170,7 +170,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-contentfill',
     type: 'washi-label',
-    x: 20, y: 420, rotation: -5, zIndex: 6,
+    x: 700, y: 430, rotation: -5, zIndex: 6,
     data: {
       label: 'project: "contentfill"',
       color: 'var(--washi-contentfill)',
@@ -181,7 +181,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-contentfill',
     type: 'project-stack',
-    x: 40, y: 160, rotation: -4, zIndex: 6,
+    x: 720, y: 160, rotation: -4, zIndex: 6,
     data: {
       accentColor: 'var(--washi-contentfill)',
       fanAngle: 20,
@@ -213,7 +213,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-discord',
     type: 'washi-label',
-    x: 490, y: 350, rotation: 5, zIndex: 9,
+    x: 60, y: 380, rotation: 5, zIndex: 9,
     data: {
       label: 'project: discord "waypoints"',
       color: 'var(--washi-discord)',
@@ -224,18 +224,18 @@ const boardItems: BoardItem[] = [
   {
     id: 'start-here-discord',
     type: 'decoration',
-    x: 380, y: 20, rotation: -8, zIndex: 5,
-    data: { component: 'StartHereAnnotation' },
+    x: 180, y: 30, rotation: -8, zIndex: 5,
+    data: { component: 'StartHereAnnotation', flipped: true },
   },
 
   {
     id: 'stack-discord',
     type: 'project-stack',
-    x: 600, y: 80, rotation: 10, zIndex: 6,
+    x: 180, y: 100, rotation: 10, zIndex: 6,
     data: {
       accentColor: 'var(--washi-discord)',
       fanAngle: 36,
-      fanRadius: 160,
+      fanRadius: 180,
       fanLift: -18,
       polaroids: [
         {
@@ -486,7 +486,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'easter-egg-trail',
     type: 'decoration',
-    x: 580, y: 300, rotation: 0, zIndex: 2,
+    x: 660, y: 300, rotation: 0, zIndex: 2,
     data: {
       component: 'PawprintTrail',
     },

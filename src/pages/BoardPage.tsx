@@ -165,7 +165,7 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
       if (d.component === 'ScissorTrail') return <ScissorTrail />
       if (d.component === 'PeelCircle') return <PeelCircle />
       if (d.component === 'AirplaneTrail') return <AirplaneTrail />
-      if (d.component === 'StartHereAnnotation') return <StartHereAnnotation />
+      if (d.component === 'StartHereAnnotation') return <StartHereAnnotation flipped={d.flipped as boolean | undefined} />
 if (d.component === 'HandwritingLabel') return (
         <span style={{
           fontFamily: 'var(--font-handwriting)',

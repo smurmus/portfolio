@@ -112,7 +112,7 @@
 
 .dragHint {
   position: fixed;
-  bottom: 32px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-handwriting);

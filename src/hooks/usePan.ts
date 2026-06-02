@@ -12,8 +12,10 @@ const MIN_VEL          = 0.5
 type Vec2 = { x: number; y: number }
 
 function defaultPan(vpW: number, vpH: number): Vec2 {
+  // On mobile, hero card shrinks to 320px — use a smaller x offset so it stays on-screen
+  const xOffset = vpW < 640 ? -160 : -300
   return {
-    x: vpW / 2 - BOARD_WIDTH  / 2 - 300,
+    x: vpW / 2 - BOARD_WIDTH  / 2 + xOffset,
     // Offset down 60px so projects peek into the initial view without dominating
     y: vpH / 2 - BOARD_HEIGHT / 2 - 60,
   }

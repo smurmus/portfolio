@@ -4,13 +4,14 @@ const FONT = "'Edu TAS Beginner', cursive"
 const COLOR = 'var(--color-text-primary)'
 const OPACITY = 0.38
 
-// Arrow curve
-const ARROW_PATH = 'M 38 24 C 42 32 50 36 56 40'
+// Arrow curve (x reflected around 60 for flipped variant)
+const ARROW_PATH         = 'M 38 24 C 42 32 50 36 56 40'
+const ARROW_PATH_FLIPPED = 'M 82 24 C 78 32 70 36 64 40'
 const CURVE_LEN = 30
 
-// Arrowhead barbs — one connected stroke: tip1 → point → tip2, draws left to right
-// Tangent at (56,40): direction ≈ (0.83, 0.55). Barb tips at (52,34) and (49,39).
-const BARBS_PATH = 'M 52 34 L 56 40 L 49 39'
+// Arrowhead barbs — one connected stroke: tip1 → point → tip2
+const BARBS_PATH         = 'M 52 34 L 56 40 L 49 39'
+const BARBS_PATH_FLIPPED = 'M 68 34 L 64 40 L 71 39'
 const BARBS_LEN = 15
 
 // Total cycle: curve draws 0→57%, barbs draw 60→72%, both hold to 100%
@@ -60,9 +61,11 @@ const ANIMATIONS: Record<string, string> = {
   `,
 }
 
-const StartHereAnnotation = memo(function StartHereAnnotation() {
+const StartHereAnnotation = memo(function StartHereAnnotation({ flipped }: { flipped?: boolean }) {
   const isDraw  = VARIANT === 'draw'
   const isPulse = VARIANT === 'pulse'
+  const arrowPath = flipped ? ARROW_PATH_FLIPPED : ARROW_PATH
+  const barbsPath = flipped ? BARBS_PATH_FLIPPED : BARBS_PATH
 
   return (
     <svg
@@ -99,8 +102,9 @@ const StartHereAnnotation = memo(function StartHereAnnotation() {
 
       <g opacity={OPACITY}>
         <text
-          x="4"
+          x={flipped ? 116 : 4}
           y="18"
+          textAnchor={flipped ? 'end' : 'start'}
           fontFamily={FONT}
           fontSize="18"
           fontWeight="400"
@@ -113,7 +117,7 @@ const StartHereAnnotation = memo(function StartHereAnnotation() {
           <g>
             <path
               className="sh-draw-curve"
-              d={ARROW_PATH}
+              d={arrowPath}
               pathLength={CURVE_LEN}
               stroke={COLOR}
               strokeWidth="1.2"
@@ -124,7 +128,7 @@ const StartHereAnnotation = memo(function StartHereAnnotation() {
             />
             <path
               className="sh-draw-barbs"
-              d={BARBS_PATH}
+              d={barbsPath}
               pathLength={BARBS_LEN}
               stroke={COLOR}
               strokeWidth="1.2"
@@ -138,7 +142,7 @@ const StartHereAnnotation = memo(function StartHereAnnotation() {
           <g className={isPulse ? undefined : 'sh-arrow'}>
             <path
               className={isPulse ? 'sh-arrow' : undefined}
-              d={ARROW_PATH}
+              d={arrowPath}
               stroke={COLOR}
               strokeWidth="1.2"
               fill="none"
