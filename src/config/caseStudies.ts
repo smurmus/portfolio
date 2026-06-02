@@ -933,7 +933,6 @@ const caseStudies: CaseStudy[] = [
       accentColor: '#2E6E55',
       title: 'Design Systems',
       subhead: 'Where design and engineering thinking conflict — and what it takes to resolve that conflict in the system itself.',
-      skipToId: 'impact',
       rotation: 1.2,
     },
     meta: {
@@ -1016,7 +1015,7 @@ const caseStudies: CaseStudy[] = [
         blocks: [
           {
             type: 'paragraph',
-            text: '`blue500` requires every consumer to hold the mapping in their head. `primary` doesn\'t. The overhead is a one-time conversation about what "primary" means — worth it versus paying the translation cost on every implementation.',
+            text: 'Both systems use semantic token names — `primary` over `blue500`, named type tiers over arbitrary pixel sizes. `blue500` requires every consumer to hold the mapping in their head. `primary` doesn\'t. The overhead is a one-time conversation about what "primary" means — worth it versus paying the translation cost on every implementation.',
           },
           {
             type: 'screenshot-row',
@@ -1032,6 +1031,10 @@ const caseStudies: CaseStudy[] = [
                 caption: 'COG — Big Health',
               },
             ],
+          },
+          {
+            type: 'paragraph',
+            text: 'The same principle applied to the Hajimari type scale. The original spec gave designers and engineers too much freedom — two separate scales for mobile and web, with sizes that diverged across projects. The revised system constrained it to five semantic tiers with weight variants: structured enough to be consistent, flexible enough to cover real product needs.',
           },
           {
             type: 'screenshot-row',
@@ -1050,7 +1053,7 @@ const caseStudies: CaseStudy[] = [
           },
           {
             type: 'paragraph',
-            text: 'The slippage was never intentional — a `17px` padding in a Figma spec that wasn\'t linked to a token, an engineer who implemented exactly what the file said.',
+            text: 'Tokens constrain choices in both code and design — but only if Figma specs are actually wired to them. The slippage was never intentional: a `17px` padding in a spec that referenced a hardcoded value instead of the token, an engineer who implemented exactly what the file said.',
           },
         ],
       },
@@ -1068,7 +1071,7 @@ const caseStudies: CaseStudy[] = [
           },
           {
             type: 'paragraph',
-            text: 'My default was an engineer\'s instinct: flexible API, let the caller decide. Anastasia reframed it.',
+            text: 'My default was an engineer\'s instinct: flexible API, let the caller decide. Anastasia — the more systems-minded of the two designers on the Hearth team — reframed it.',
           },
           {
             type: 'callout',
@@ -1120,14 +1123,18 @@ interface ButtonProps {
         blocks: [
           {
             type: 'paragraph',
-            text: 'At Hearth, my designer worked intuitively — good output, approximate specs. Code review meant deciding when `padding: 13` was intentional versus a Figma artefact, then correcting toward the token when it wasn\'t.',
+            text: 'At Hearth, the design process was intuitive — good output, approximate specs. Collaboration happened at the end: code review was where mismatches between spec and token surfaced, and where the call between correcting or flagging got made.',
           },
           {
             type: 'paragraph',
-            text: 'At COG, that conversation moved earlier. Defining the color tokens meant working through what "primary" and "secondary" meant in context — I explained the scale mechanics, she shaped the semantics.',
+            text: 'At COG, that conversation moved to the beginning. Defining the color tokens meant working through what `primary` and `secondary` meant in context — I explained the scale mechanics, they shaped the semantics. The token layer was built together before any component touched it.',
           },
           {
             type: 'collab-diagram',
+          },
+          {
+            type: 'paragraph',
+            text: 'The diagram above shows the difference: at Hearth, collaboration was reactive — problems caught at review. At COG, it was proactive — built into the foundation itself.',
           },
           {
             type: 'screenshot-row',
@@ -1155,11 +1162,11 @@ interface ButtonProps {
         blocks: [
           {
             type: 'paragraph',
-            text: 'At Hearth: catching spec drift in review — `padding: 13` where the token was 12, and deciding whether to correct or flag.',
+            text: 'A token system and a component library document what you know exists. They don\'t cover what happens when the spec runs out.',
           },
           {
             type: 'paragraph',
-            text: 'At COG: the specs are tighter, so the gap is different. Form screens were designed for the happy path. Disabled states, loading states, the difference between "submitting" and "error" — none of that was specced. I knew what it should look like because I knew what the API returned. I\'d implement and surface it in review.',
+            text: 'At COG: form screens were designed for the happy path. Disabled states, loading states, the difference between "submitting" and "error" — none of that was specced. I knew what it should look like because I knew what the API returned. I\'d implement and surface it in review.',
           },
         ],
       },
@@ -1172,7 +1179,7 @@ interface ButtonProps {
         blocks: [
           {
             type: 'paragraph',
-            text: 'A single token layer resolving correctly across React and React Native. What ships looks like it belongs to the same product. That\'s true of Hajimari at launch and what COG is being built toward.',
+            text: 'A single token layer — defined once, no platform-specific overrides to maintain. What ships in React and React Native looks like it belongs to the same product. Hajimari shipped that way. COG is being built toward it.',
           },
           {
             type: 'link-button',

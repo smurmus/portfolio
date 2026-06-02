@@ -3,9 +3,13 @@ import Polaroid from '../Polaroid/Polaroid'
 import type { PolaroidData } from '../../config/boardItems'
 import styles from './PolaroidStack.module.css'
 
+type CardSize = 'standard' | 'large' | 'landscape'
+
 type PolaroidStackProps = {
   polaroids: PolaroidData[]
   variant: 'project' | 'decorative'
+  cardSize?: CardSize
+  accentColor?: string
   fanAngle?: number
   fanRadius?: number
   fanLift?: number
@@ -13,8 +17,12 @@ type PolaroidStackProps = {
   className?: string
 }
 
-const CARD_WIDTH = 200
-const CARD_GAP = 48
+const SIZE_CONFIG: Record<CardSize, { width: number; height: number; gap: number }> = {
+  standard:  { width: 200, height: 250, gap: 48 },
+  large:     { width: 260, height: 320, gap: 56 },
+  landscape: { width: 300, height: 210, gap: 48 },
+}
+
 const DEFAULT_FAN_RADIUS = 110
 const DEFAULT_FAN_LIFT = 50
 const DEFAULT_FAN_ANGLE = 24
@@ -23,10 +31,10 @@ const DEFAULT_FAN_ANGLE = 24
 // Returns the outer transform (X position + rotation).
 // Y lift is handled separately by the inner liftWrapper.
 
-function getCardPosition(i: number, n: number, isLined: boolean, fanAngle: number, fanRadius: number, fanLift: number) {
+function getCardPosition(i: number, n: number, isLined: boolean, fanAngle: number, fanRadius: number, fanLift: number, cardWidth: number, cardGap: number) {
   if (isLined) {
-    const totalWidth = n * CARD_WIDTH + (n - 1) * CARD_GAP
-    const tx = -(totalWidth / 2) + i * (CARD_WIDTH + CARD_GAP) + CARD_WIDTH / 2
+    const totalWidth = n * cardWidth + (n - 1) * cardGap
+    const tx = -(totalWidth / 2) + i * (cardWidth + cardGap) + cardWidth / 2
     return { tx, ty: 0, angle: 0 }
   }
   if (n === 1) return { tx: 0, ty: 0, angle: 0 }
@@ -48,7 +56,8 @@ function getZIndex(i: number, n: number, isLined: boolean, hoveredIndex: number)
 
 // ── Component ────────────────────────────────────────────
 
-export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_FAN_ANGLE, fanRadius = DEFAULT_FAN_RADIUS, fanLift = DEFAULT_FAN_LIFT, restingRotation = 0, className }: PolaroidStackProps) {
+export default function PolaroidStack({ polaroids, variant, cardSize = 'standard', accentColor, fanAngle = DEFAULT_FAN_ANGLE, fanRadius = DEFAULT_FAN_RADIUS, fanLift = DEFAULT_FAN_LIFT, restingRotation = 0, className }: PolaroidStackProps) {
+  const { width: cardWidth, height: cardHeight, gap: cardGap } = SIZE_CONFIG[cardSize]
   const containerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const isProject = variant === 'project'
@@ -124,7 +133,7 @@ export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_F
       {/* Invisible bridge fills the full lined span so gaps between cards
           don't count as "outside the component", preventing pointerleave misfires. */}
       {isLined && (() => {
-        const bridgeWidth = n * CARD_WIDTH + (n - 1) * CARD_GAP
+        const bridgeWidth = n * cardWidth + (n - 1) * cardGap
         return (
           <div
             aria-hidden="true"
@@ -132,6 +141,7 @@ export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_F
             style={{
               left: `${-bridgeWidth / 2}px`,
               width: `${bridgeWidth}px`,
+              height: `${cardHeight}px`,
             }}
             onPointerEnter={() => setHoveredIndex(-1)}
           />
@@ -139,7 +149,7 @@ export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_F
       })()}
 
       {polaroids.map((polaroid, i) => {
-        const { tx, ty, angle } = getCardPosition(i, n, isLined, fanAngle, fanRadius, fanLift)
+        const { tx, ty, angle } = getCardPosition(i, n, isLined, fanAngle, fanRadius, fanLift, cardWidth, cardGap)
         const isCardHovered = isLined && hoveredIndex === i
         const zIndex = getZIndex(i, n, isLined, hoveredIndex)
 
@@ -168,6 +178,8 @@ export default function PolaroidStack({ polaroids, variant, fanAngle = DEFAULT_F
               <Polaroid
                 data={polaroid}
                 isClickable={isProject && isLined}
+                size={cardSize}
+                accentColor={accentColor}
                 style={{ pointerEvents: isLined ? 'auto' : 'none' }}
               />
             </div>

@@ -44,7 +44,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'hero',
     type: 'hero',
-    x: 0, y: -150, rotation: -1, zIndex: 10,
+    x: 0, y: -200, rotation: -1, zIndex: 10,
     data: {
       name: 'hi! sondhayni here ',
       emoji: '👋🏽',
@@ -55,7 +55,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'badge',
     type: 'badge',
-    x: -720, y: -200, rotation: -10, zIndex: 8,
+    x: -720, y: -250, rotation: -10, zIndex: 8,
     data: {
       company: 'BigHealth',
       name: 'Sondhayni Murmu',
@@ -69,7 +69,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'about-note',
     type: 'about-note',
-    x: -360, y: -40, rotation: -5, zIndex: 5,
+    x: -360, y: -90, rotation: -5, zIndex: 5,
     data: {
       text: 'about me →',
       href: '/about',
@@ -80,7 +80,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'smurmus-note',
     type: 'about-note',
-    x: -300, y: 40, rotation: 6, zIndex: 5,
+    x: -300, y: -10, rotation: 6, zIndex: 5,
     data: {
       text: 'what\'s a smurmus? →',
       href: '/about#smurmus-heading',
@@ -130,6 +130,7 @@ const boardItems: BoardItem[] = [
     type: 'project-stack',
     x: -440, y: 300, rotation: -2, zIndex: 6,
     data: {
+      accentColor: 'var(--washi-design-systems)',
       fanRadius: 100,
       fanAngle: 15,
       polaroids: [
@@ -182,6 +183,7 @@ const boardItems: BoardItem[] = [
     type: 'project-stack',
     x: 40, y: 160, rotation: -4, zIndex: 6,
     data: {
+      accentColor: 'var(--washi-contentfill)',
       fanAngle: 20,
       fanRadius: 60,
       fanLift: 40,
@@ -211,7 +213,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-discord',
     type: 'washi-label',
-    x: 500, y: 380, rotation: 5, zIndex: 9,
+    x: 490, y: 350, rotation: 5, zIndex: 9,
     data: {
       label: 'project: discord "waypoints"',
       color: 'var(--washi-discord)',
@@ -220,13 +222,21 @@ const boardItems: BoardItem[] = [
   },
 
   {
+    id: 'start-here-discord',
+    type: 'decoration',
+    x: 380, y: 20, rotation: -8, zIndex: 5,
+    data: { component: 'StartHereAnnotation' },
+  },
+
+  {
     id: 'stack-discord',
     type: 'project-stack',
-    x: 600, y: 100, rotation: 10, zIndex: 6,
+    x: 600, y: 80, rotation: 10, zIndex: 6,
     data: {
-      fanAngle: 30,
-      fanRadius: 120,
-      fanLift: -10,
+      accentColor: 'var(--washi-discord)',
+      fanAngle: 36,
+      fanRadius: 160,
+      fanLift: -18,
       polaroids: [
         {
           id: 'dc-kit',
@@ -235,7 +245,7 @@ const boardItems: BoardItem[] = [
           caption: 'community UI kit →',
           href: 'https://www.figma.com/community/file/1408017287039851803/discord-ui-kit',
           isExternal: true,
-          rotation: 8,
+          rotation: 12,
         },
         {
           id: 'dc-case-study',
@@ -244,7 +254,7 @@ const boardItems: BoardItem[] = [
           caption: 'case study →',
           href: '/case-study/discord',
           isExternal: false,
-          rotation: -6,
+          rotation: -4,
         },
         {
           id: 'dc-live-prototype',
@@ -300,7 +310,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-avatar',
     type: 'sticker',
-    x: -400, y: -240, rotation: -3, zIndex: 8,
+    x: -400, y: -290, rotation: -3, zIndex: 8,
     data: {
       imageSrc: '/assets/stickers/self-sitting.png',
       href: '/about',
@@ -313,7 +323,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-zuko',
     type: 'sticker',
-    x: 435, y: -85, rotation: 25, zIndex: 17,
+    x: 435, y: -135, rotation: 25, zIndex: 17,
     data: {
       imageSrc: '/assets/stickers/zuko-illustration.png',
       hoverImageSrc: '/assets/stickers/zuko-illustration-2.png',
@@ -336,7 +346,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'airplane-trail',
     type: 'decoration',
-    x: 480, y: -400, rotation: 0, zIndex: 3,
+    x: 480, y: -450, rotation: 0, zIndex: 3,
     data: { component: 'AirplaneTrail' },
   },
 
@@ -382,7 +392,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-currently',
     type: 'washi-label',
-    x: -580, y: -310, rotation: -2, zIndex: 5,
+    x: -580, y: -360, rotation: -2, zIndex: 5,
     data: {
       label: 'currently:',
       color: 'var(--washi-currently)',
@@ -393,7 +403,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticky-currently',
     type: 'sticky',
-    x: -580, y: -240, rotation: -2, zIndex: 5,
+    x: -580, y: -290, rotation: -2, zIndex: 5,
     data: {
       lines: [
         'To Do:',
@@ -408,7 +418,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'social-github',
     type: 'social-sticker',
-    x: -480, y: -20,
+    x: -480, y: -70,
     rotation: -6,
     zIndex: 5,
     data: {
@@ -424,7 +434,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'social-dribbble',
     type: 'social-sticker',
-    x: -460, y: -110,
+    x: -460, y: -160,
     rotation: 7,
     zIndex: 5,
     data: {
@@ -439,7 +449,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'social-linkedin',
     type: 'social-sticker',
-    x: -580, y: -40,
+    x: -580, y: -90,
     rotation: -16,
     zIndex: 5,
     data: {

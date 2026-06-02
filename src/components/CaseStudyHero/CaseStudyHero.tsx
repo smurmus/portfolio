@@ -123,7 +123,7 @@ export default function CaseStudyHero({
           <p className={styles.subhead}>{subhead}</p>
           {skipToId && (
             <a href={`#${skipToId}`} className={styles.skipLink}>
-              skip to TL;DR ↓
+              {ctaLabel ?? 'skip to TL;DR ↓'}
             </a>
           )}
         </div>

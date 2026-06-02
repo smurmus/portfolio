@@ -154,10 +154,10 @@ a {
 
 .board-item {
   opacity: 0;
-  transform: translateY(-10px) rotate(var(--resting-rotation, 0deg));
+  transform: translateY(-6px) rotate(var(--resting-rotation, 0deg));
   transition:
-    opacity 300ms ease-out,
-    transform 300ms ease-out;
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
   transition-delay: var(--entrance-delay, 0ms);
 }
 

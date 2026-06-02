@@ -2,14 +2,24 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Polaroid.module.css'
 import type { PolaroidData } from '../../config/boardItems'
 
+type PolaroidSize = 'standard' | 'large' | 'landscape'
+
 type PolaroidProps = {
   data: PolaroidData
   isClickable: boolean
+  size?: PolaroidSize
+  accentColor?: string
   className?: string
   style?: React.CSSProperties
 }
 
-export default function Polaroid({ data, isClickable, className, style }: PolaroidProps) {
+const sizeClass: Record<PolaroidSize, string> = {
+  standard: '',
+  large: 'sizeLarge',
+  landscape: 'sizeLandscape',
+}
+
+export default function Polaroid({ data, isClickable, size = 'standard', accentColor, className, style }: PolaroidProps) {
   const navigate = useNavigate()
   const { imageSrc, imageAlt, caption, href, isExternal, imagePosition } = data
 
@@ -35,8 +45,11 @@ export default function Polaroid({ data, isClickable, className, style }: Polaro
 
   return (
     <div
-      className={`${styles.card} ${isNavigable ? styles.cardClickable : ''} ${className ?? ''}`}
-      style={style}
+      className={`${styles.card} ${sizeClass[size] ? styles[sizeClass[size] as keyof typeof styles] : ''} ${isNavigable ? styles.cardClickable : ''} ${className ?? ''}`}
+      style={{
+        ...style,
+        ...(accentColor ? { borderColor: `color-mix(in srgb, ${accentColor} 30%, var(--color-polaroid-border))` } : {}),
+      }}
       onClick={handleClick}
       onKeyDown={isNavigable ? handleKeyDown : undefined}
       role={isNavigable ? 'link' : undefined}

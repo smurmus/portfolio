@@ -12,6 +12,7 @@ import PawprintTrail from '../components/PawprintTrail/PawprintTrail'
 import ScissorTrail from '../components/ScissorTrail/ScissorTrail'
 import PeelCircle from '../components/PeelCircle/PeelCircle'
 import AirplaneTrail from '../components/AirplaneTrail/AirplaneTrail'
+import StartHereAnnotation from '../components/StartHereAnnotation/StartHereAnnotation'
 import { WASHI_DEFS } from '../components/WashiLabel/WashiPatterns'
 import boardItemsConfig from '../config/boardItems'
 import type { PolaroidData, WashiLabelData } from '../config/boardItems'
@@ -42,6 +43,8 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
         <PolaroidStack
           polaroids={d.polaroids as PolaroidData[]}
           variant="project"
+          cardSize={d.cardSize as 'standard' | 'large' | 'landscape' | undefined}
+          accentColor={d.accentColor as string | undefined}
           fanAngle={d.fanAngle as number | undefined}
           fanRadius={d.fanRadius as number | undefined}
           fanLift={d.fanLift as number | undefined}
@@ -54,6 +57,8 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
         <PolaroidStack
           polaroids={d.polaroids as PolaroidData[]}
           variant="decorative"
+          cardSize={d.cardSize as 'standard' | 'large' | 'landscape' | undefined}
+          accentColor={d.accentColor as string | undefined}
           fanAngle={d.fanAngle as number | undefined}
           fanRadius={d.fanRadius as number | undefined}
           fanLift={d.fanLift as number | undefined}
@@ -160,6 +165,7 @@ function renderItem(item: typeof boardItemsConfig[number]): React.ReactNode {
       if (d.component === 'ScissorTrail') return <ScissorTrail />
       if (d.component === 'PeelCircle') return <PeelCircle />
       if (d.component === 'AirplaneTrail') return <AirplaneTrail />
+      if (d.component === 'StartHereAnnotation') return <StartHereAnnotation />
 if (d.component === 'HandwritingLabel') return (
         <span style={{
           fontFamily: 'var(--font-handwriting)',
