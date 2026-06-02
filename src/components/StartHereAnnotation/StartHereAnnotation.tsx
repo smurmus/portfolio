@@ -17,7 +17,7 @@ const BARBS_LEN = 15
 const CYCLE = 1.4 // seconds
 
 // Switch to try each variant: 'nudge' | 'draw' | 'wag' | 'pulse'
-const VARIANT = 'draw'
+const VARIANT: 'nudge' | 'draw' | 'wag' | 'pulse' = 'draw'
 
 const ANIMATIONS: Record<string, string> = {
   nudge: `
