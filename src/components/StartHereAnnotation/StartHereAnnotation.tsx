@@ -16,8 +16,9 @@ const BARBS_LEN = 15
 // Total cycle: curve draws 0→57%, barbs draw 60→72%, both hold to 100%
 const CYCLE = 1.4 // seconds
 
+type Variant = 'nudge' | 'draw' | 'wag' | 'pulse'
 // Switch to try each variant: 'nudge' | 'draw' | 'wag' | 'pulse'
-const VARIANT: 'nudge' | 'draw' | 'wag' | 'pulse' = 'draw'
+const VARIANT = 'draw' as Variant
 
 const ANIMATIONS: Record<string, string> = {
   nudge: `
