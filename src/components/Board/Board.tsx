@@ -104,7 +104,7 @@ export default function Board({ items, className }: BoardProps) {
   const [visibleIds, setVisibleIds] = useState<Set<string>>(() => new Set(items.map(i => i.id)))
   const [entranceActive, setEntranceActive] = useState(false)
 
-  const { onPointerDown, getPan, onPanSettled, recenter, panBy } = usePan(
+  const { onPointerDown, getPan, getScale, onPanSettled, recenter, panBy } = usePan(
     canvasRef as React.RefObject<HTMLElement | null>
   )
 
@@ -152,22 +152,22 @@ export default function Board({ items, className }: BoardProps) {
 
   const updateCulling = useCallback(() => {
     const p   = getPan()
+    const s   = getScale()
     const vpW = window.innerWidth
     const vpH = window.innerHeight
-    const cx  = p.x + 3500
-    const cy  = p.y + 2500
 
     const next = new Set<string>()
     for (const item of items) {
-      const sx = cx + item.x
-      const sy = cy + item.y
+      // Screen position of item accounting for current zoom
+      const sx = p.x + (3500 + item.x) * s
+      const sy = p.y + (2500 + item.y) * s
       if (
         sx > -BUFFER && sx < vpW + BUFFER &&
         sy > -BUFFER && sy < vpH + BUFFER
       ) next.add(item.id)
     }
     setVisibleIds(next)
-  }, [items, getPan])
+  }, [items, getPan, getScale])
 
   useEffect(() => {
     onPanSettled(updateCulling)

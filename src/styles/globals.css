@@ -75,6 +75,9 @@
   --washi-discord: var(--color-accent-purple);
   --washi-cosplay: #C2476B;
   --washi-currently: var(--color-accent-coral);
+  --washi-locked: #E8922A;
+  --washi-big-health: #F2BE00;
+  --washi-hearth: #C4433A;
 
   /* Sticky notes */
   --color-sticky-current: #FACD5A;

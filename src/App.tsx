@@ -6,6 +6,8 @@ import BoardPage from './pages/BoardPage'
 const CaseStudy = lazy(() => import('./pages/CaseStudy'))
 const About = lazy(() => import('./pages/About'))
 const WorkHistory = lazy(() => import('./pages/WorkHistory'))
+const BigHealth = lazy(() => import('./pages/BigHealth'))
+const Hearth = lazy(() => import('./pages/Hearth'))
 
 function CaseStudyFallback() {
   return (
@@ -30,14 +32,6 @@ export default function App() {
     <Routes>
       <Route path="/" element={<BoardPage />} />
       <Route
-        path="/case-study/:id"
-        element={
-          <Suspense fallback={<CaseStudyFallback />}>
-            <CaseStudy />
-          </Suspense>
-        }
-      />
-      <Route
         path="/about"
         element={
           <Suspense fallback={<CaseStudyFallback />}>
@@ -50,6 +44,30 @@ export default function App() {
         element={
           <Suspense fallback={<CaseStudyFallback />}>
             <WorkHistory />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/big-health"
+        element={
+          <Suspense fallback={<CaseStudyFallback />}>
+            <BigHealth />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/hearth"
+        element={
+          <Suspense fallback={<CaseStudyFallback />}>
+            <Hearth />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/:id"
+        element={
+          <Suspense fallback={<CaseStudyFallback />}>
+            <CaseStudy />
           </Suspense>
         }
       />

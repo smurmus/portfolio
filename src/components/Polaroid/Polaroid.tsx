@@ -21,7 +21,7 @@ const sizeClass: Record<PolaroidSize, string> = {
 
 export default function Polaroid({ data, isClickable, size = 'standard', accentColor, className, style }: PolaroidProps) {
   const navigate = useNavigate()
-  const { imageSrc, imageAlt, caption, href, isExternal, imagePosition } = data
+  const { imageSrc, imageAlt, caption, href, isExternal, imagePosition, blurred } = data
 
   const hasImage = Boolean(imageSrc)
   const isNavigable = isClickable && Boolean(href)
@@ -65,7 +65,10 @@ export default function Polaroid({ data, isClickable, size = 'standard', accentC
             loading="lazy"
             width={160}
             height={150}
-            style={imagePosition ? { objectPosition: imagePosition } : undefined}
+            style={{
+              ...(imagePosition ? { objectPosition: imagePosition } : {}),
+              ...(blurred ? { filter: 'blur(4px)', transform: 'scale(1.04)' } : {}),
+            }}
           />
         ) : (
           <div className={styles.placeholder}>

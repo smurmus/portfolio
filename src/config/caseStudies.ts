@@ -57,7 +57,7 @@ const caseStudies: CaseStudy[] = [
 
   // ──────────────────────────────────────────────────────
   {
-    id: 'discord',
+    id: 'waypoints',
     title: 'Discord "Waypoints"',
     subtitle: 'Discord has spent years helping people find communities. Waypoints tackles what comes next — staying part of one.',
     hero: {

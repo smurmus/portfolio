@@ -45,11 +45,11 @@ export default function WorkHistory() {
     const body = document.body
     const root = document.getElementById('root')
     body.style.overflow = 'auto'
-    body.style.height   = 'auto'
+    body.style.height = 'auto'
     if (root) { root.style.height = 'auto'; root.style.minHeight = '100vh' }
     return () => {
       body.style.overflow = ''
-      body.style.height   = ''
+      body.style.height = ''
       if (root) { root.style.height = ''; root.style.minHeight = '' }
     }
   }, [])
@@ -73,7 +73,7 @@ export default function WorkHistory() {
 
           <Role
             company="Big Health"
-            title="Senior Software Engineer, Fullstack"
+            title="Senior Product Engineer, Fullstack"
             dates="Nov 2024 – present"
             description="Digital therapeutics for sleep and mental health."
             current
@@ -81,7 +81,7 @@ export default function WorkHistory() {
 
           <Role
             company="Cyberse"
-            title="Software Engineer"
+            title="UX Engineer"
             dates="Feb 2024 – Oct 2024"
             description=""
           />

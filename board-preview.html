@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pegboard Layout Preview — 1440×900</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #18181b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px 48px;
+  gap: 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: white;
+}
+h1 { font-size: 12px; font-weight: 500; color: #71717a; letter-spacing: 0.08em; text-transform: uppercase; }
+.panels { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+.panel { display: flex; flex-direction: column; gap: 10px; }
+.panel-title { font-size: 12px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.08em; }
+.panel-subtitle { font-size: 10px; color: #52525b; }
+
+/* 1440×900 at 50% = 720×450 */
+.viewport {
+  position: relative;
+  width: 720px;
+  height: 450px;
+  background: #fafafa;
+  background-image: radial-gradient(circle, #C8C0B4 1.2px, transparent 1.2px);
+  background-size: 12px 12px;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1.5px solid #3f3f46;
+}
+/* Subtle edge fade to signal "more board exists beyond" */
+.viewport::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(250,250,250,0) 92%, rgba(250,250,250,0.7) 100%),
+    linear-gradient(to bottom, rgba(250,250,250,0) 90%, rgba(250,250,250,0.7) 100%),
+    linear-gradient(to left, rgba(250,250,250,0) 95%, rgba(250,250,250,0.5) 100%);
+  pointer-events: none;
+  z-index: 100;
+}
+
+.c { position: absolute; }
+
+/* Hero card */
+.hero-card {
+  background: #FFFAF4;
+  border: 1px solid #E0D2C0;
+  border-radius: 6px;
+  padding: 10px 14px 12px;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.12);
+  width: 200px;
+}
+.hero-name { font-size: 10px; font-weight: 700; color: #35251A; font-family: Georgia, serif; }
+.hero-tag { font-size: 7px; color: #6E5A4B; margin-top: 3px; line-height: 1.4; }
+
+/* Washi tape labels */
+.washi {
+  height: 14px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  padding: 0 7px;
+  font-size: 7px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  opacity: 0.88;
+}
+
+/* Polaroid mini cards */
+.polaroid {
+  position: absolute;
+  background: #FFFAF4;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.20);
+  display: flex;
+  flex-direction: column;
+  padding: 3px 3px 7px;
+  gap: 2px;
+}
+.polaroid img {
+  display: block;
+  object-fit: cover;
+  border-radius: 1px;
+  background: #e5e0d8;
+}
+.polaroid .cap {
+  font-size: 5px;
+  color: #6E5A4B;
+  padding: 0 1px;
+  text-align: center;
+  font-family: system-ui;
+  line-height: 1;
+}
+
+/* Annotations below viewport */
+.notes { display: flex; flex-direction: column; gap: 5px; }
+.note-warn {
+  font-size: 10px;
+  color: #fbbf24;
+  background: rgba(251,191,36,0.08);
+  border: 1px solid rgba(251,191,36,0.25);
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+.note-ok {
+  font-size: 10px;
+  color: #4ade80;
+  background: rgba(74,222,128,0.08);
+  border: 1px solid rgba(74,222,128,0.25);
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+
+/* Legend */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #a1a1aa; }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<h1>Pegboard — Initial Viewport Simulation (1440 × 900 @ 50% scale)</h1>
+
+<div class="panels">
+
+  <!-- ═══════════════ PANEL A: CURRENT ═══════════════ -->
+  <div class="panel">
+    <div class="panel-title">A — Current</div>
+    <div class="panel-subtitle">Discord hero · DS clipped left · Contentfill right edge · By Request off-screen</div>
+    <div class="viewport">
+
+      <!-- Hero  board(0,-200) → screen(420,190) → scaled(210,95) -->
+      <div class="c" style="left:210px; top:95px;">
+        <div class="hero-card">
+          <div class="hero-name">hi! sondhayni here 👋🏽</div>
+          <div class="hero-tag">— an inquisitive maker pulling at the seam between design and engineering.</div>
+        </div>
+      </div>
+
+      <!-- Discord  stack board(120,60) → screen(540,450) → (270,225) -->
+      <!--          washi board(0,340)  → screen(420,730) → (210,365) -->
+      <div class="c" style="left:270px; top:190px;">
+        <!-- fan: 3 polaroids -->
+        <div style="position:relative; width:120px; height:105px;">
+          <div class="polaroid" style="width:70px; height:86px; left:35px; top:0; transform:rotate(12deg); z-index:1;">
+            <img src="./public/assets/polaroids/discord-ui-kit-preview.png" style="width:64px; height:58px;">
+            <div class="cap">UI kit →</div>
+          </div>
+          <div class="polaroid" style="width:70px; height:86px; left:18px; top:4px; transform:rotate(-4deg); z-index:3;">
+            <img src="./public/assets/discord-radar-hero.png" style="width:64px; height:58px;">
+            <div class="cap">case study →</div>
+          </div>
+          <div class="polaroid" style="width:70px; height:86px; left:0; top:10px; transform:rotate(-20deg); z-index:2;">
+            <img src="./public/assets/discord-waypoint.png" style="width:64px; height:58px;">
+            <div class="cap">prototype →</div>
+          </div>
+        </div>
+      </div>
+      <div class="c" style="left:210px; top:365px;">
+        <div class="washi" style="background:#6B62A8; width:150px;">project: discord "waypoints"</div>
+      </div>
+
+      <!-- Design Systems  stack board(-440,320) → screen(-20,710) → (-10,355) -->
+      <!--                 washi board(-460,200) → screen(-40,590) → (-20,295) -->
+      <div class="c" style="left:-20px; top:294px;">
+        <div class="washi" style="background:#4A8C72; width:135px;">building design systems</div>
+      </div>
+      <div class="c" style="left:-10px; top:352px;">
+        <div style="position:relative; width:100px; height:90px;">
+          <div class="polaroid" style="width:65px; height:80px; left:25px; top:0; transform:rotate(3deg); z-index:1;">
+            <img src="./public/assets/polaroids/COG-design-system.png" style="width:59px; height:55px;">
+            <div class="cap">storybook →</div>
+          </div>
+          <div class="polaroid" style="width:65px; height:80px; left:5px; top:3px; transform:rotate(-4deg); z-index:2;">
+            <img src="./public/assets/design-systems/hajimari-hero.png" style="width:59px; height:55px;">
+            <div class="cap">case study →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contentfill  stack board(720,160) → screen(1140,550) → (570,275) -->
+      <!--              washi board(700,430) → screen(1120,820) → (560,410) -->
+      <div class="c" style="left:566px; top:252px;">
+        <div style="position:relative; width:100px; height:90px;">
+          <div class="polaroid" style="width:65px; height:80px; left:25px; top:0; transform:rotate(4deg); z-index:1;">
+            <img src="./public/assets/polaroids/cf-github.png" style="width:59px; height:55px;">
+            <div class="cap">github →</div>
+          </div>
+          <div class="polaroid" style="width:65px; height:80px; left:5px; top:3px; transform:rotate(-10deg); z-index:2;">
+            <img src="./public/assets/polaroids/cf-casestudy.png" style="width:59px; height:55px;">
+            <div class="cap">case study →</div>
+          </div>
+        </div>
+      </div>
+      <div class="c" style="left:560px; top:410px;">
+        <div class="washi" style="background:#3A8FA8; width:130px;">project: contentfill</div>
+      </div>
+
+      <!-- By Request  washi board(320,440) → screen(740,830) → (370,415) -->
+      <!--             stack board(450,520) → screen(870,910) → (435,455) — just below fold -->
+      <div class="c" style="left:370px; top:415px;">
+        <div class="washi" style="background:#E8922A; width:120px;">by request 🔒</div>
+      </div>
+      <!-- Stack would render at y=455, just 5px outside viewport — not shown -->
+
+    </div>
+    <div class="notes">
+      <div class="note-warn">⚠ Design Systems: washi 40px off left, stack 20px off left</div>
+      <div class="note-warn">⚠ By Request stack: off-screen (y=910, fold=900)</div>
+      <div class="note-warn">⚠ Contentfill: right edge — only left half visible</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PANEL B: PROPOSED ═══════════════ -->
+  <div class="panel">
+    <div class="panel-title">B — Proposed</div>
+    <div class="panel-subtitle">DS +80x · Contentfill −120x · By Request −120y · Discord unchanged</div>
+    <div class="viewport">
+
+      <!-- Hero — unchanged -->
+      <div class="c" style="left:210px; top:95px;">
+        <div class="hero-card">
+          <div class="hero-name">hi! sondhayni here 👋🏽</div>
+          <div class="hero-tag">— an inquisitive maker pulling at the seam between design and engineering.</div>
+        </div>
+      </div>
+
+      <!-- Discord — unchanged -->
+      <div class="c" style="left:270px; top:190px;">
+        <div style="position:relative; width:120px; height:105px;">
+          <div class="polaroid" style="width:70px; height:86px; left:35px; top:0; transform:rotate(12deg); z-index:1;">
+            <img src="./public/assets/polaroids/discord-ui-kit-preview.png" style="width:64px; height:58px;">
+            <div class="cap">UI kit →</div>
+          </div>
+          <div class="polaroid" style="width:70px; height:86px; left:18px; top:4px; transform:rotate(-4deg); z-index:3;">
+            <img src="./public/assets/discord-radar-hero.png" style="width:64px; height:58px;">
+            <div class="cap">case study →</div>
+          </div>
+          <div class="polaroid" style="width:70px; height:86px; left:0; top:10px; transform:rotate(-20deg); z-index:2;">
+            <img src="./public/assets/discord-waypoint.png" style="width:64px; height:58px;">
+            <div class="cap">prototype →</div>
+          </div>
+        </div>
+      </div>
+      <div class="c" style="left:210px; top:365px;">
+        <div class="washi" style="background:#6B62A8; width:150px;">project: discord "waypoints"</div>
+      </div>
+
+      <!-- Design Systems — shifted right 80px (scaled: +40px) -->
+      <!-- washi board(-380,200) → screen(40,590) → (20,295) -->
+      <!-- stack board(-360,320) → screen(60,710) → (30,355) -->
+      <div class="c" style="left:20px; top:294px;">
+        <div class="washi" style="background:#4A8C72; width:135px;">building design systems</div>
+      </div>
+      <div class="c" style="left:30px; top:352px;">
+        <div style="position:relative; width:100px; height:90px;">
+          <div class="polaroid" style="width:65px; height:80px; left:25px; top:0; transform:rotate(3deg); z-index:1;">
+            <img src="./public/assets/polaroids/COG-design-system.png" style="width:59px; height:55px;">
+            <div class="cap">storybook →</div>
+          </div>
+          <div class="polaroid" style="width:65px; height:80px; left:5px; top:3px; transform:rotate(-4deg); z-index:2;">
+            <img src="./public/assets/design-systems/hajimari-hero.png" style="width:59px; height:55px;">
+            <div class="cap">case study →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contentfill — shifted left 120px (scaled: -60px) -->
+      <!-- stack board(600,160) → screen(1020,550) → (510,275) -->
+      <!-- washi board(580,430) → screen(1000,820) → (500,410) -->
+      <div class="c" style="left:506px; top:252px;">
+        <div style="position:relative; width:100px; height:90px;">
+          <div class="polaroid" style="width:65px; height:80px; left:25px; top:0; transform:rotate(4deg); z-index:1;">
+            <img src="./public/assets/polaroids/cf-github.png" style="width:59px; height:55px;">
+            <div class="cap">github →</div>
+          </div>
+          <div class="polaroid" style="width:65px; height:80px; left:5px; top:3px; transform:rotate(-10deg); z-index:2;">
+            <img src="./public/assets/polaroids/cf-casestudy.png" style="width:59px; height:55px;">
+            <div class="cap">case study →</div>
+          </div>
+        </div>
+      </div>
+      <div class="c" style="left:500px; top:410px;">
+        <div class="washi" style="background:#3A8FA8; width:130px;">project: contentfill</div>
+      </div>
+
+      <!-- By Request — shifted up 120px (scaled: -60px) -->
+      <!-- washi board(320,320) → screen(740,710) → (370,355) -->
+      <!-- stack board(450,400) → screen(870,790) → (435,395) -->
+      <div class="c" style="left:370px; top:355px;">
+        <div class="washi" style="background:#E8922A; width:120px;">by request 🔒</div>
+      </div>
+      <div class="c" style="left:435px; top:390px;">
+        <div style="position:relative; width:80px; height:72px;">
+          <div class="polaroid" style="width:58px; height:72px; left:10px; top:0; transform:rotate(-5deg); z-index:1; filter:blur(2px);">
+            <div style="width:52px; height:52px; background:#ddd8cf; border-radius:1px;"></div>
+            <div class="cap">by request →</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="notes">
+      <div class="note-ok">✓ All 4 project clusters visible on first render</div>
+      <div class="note-ok">✓ Discord (3 polaroids) remains central hero</div>
+      <div class="note-ok">✓ By Request 🔒 stack now peeks into frame at bottom-right</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#6B62A8;"></div> Discord / Waypoints</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4A8C72;"></div> Design Systems</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3A8FA8;"></div> Contentfill</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#E8922A;"></div> By Request (locked)</div>
+  <div class="legend-item" style="font-size:10px; color:#52525b; margin-left: 16px;">viewport overflow faded to indicate more board beyond edges</div>
+</div>
+
+</body>
+</html>

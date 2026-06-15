@@ -7,6 +7,7 @@ export type PolaroidData = {
   isExternal: boolean
   rotation: number
   imagePosition?: string
+  blurred?: boolean
 }
 
 export type WashiLabelData = {
@@ -69,7 +70,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'about-note',
     type: 'about-note',
-    x: -360, y: -90, rotation: -5, zIndex: 5,
+    x: -360, y: -120, rotation: -5, zIndex: 5,
     data: {
       text: 'about me →',
       href: '/about',
@@ -80,7 +81,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'smurmus-note',
     type: 'about-note',
-    x: -300, y: -10, rotation: 6, zIndex: 5,
+    x: -400, y: -40, rotation: 6, zIndex: 5,
     data: {
       text: 'what\'s a smurmus? →',
       href: '/about#smurmus-heading',
@@ -117,7 +118,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-design-systems',
     type: 'washi-label',
-    x: -460, y: 200, rotation: -1, zIndex: 6,
+    x: -500, y: 200, rotation: -1, zIndex: 6,
     data: {
       label: 'building design systems',
       color: 'var(--washi-design-systems)',
@@ -128,7 +129,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-design-systems',
     type: 'project-stack',
-    x: -440, y: 320, rotation: -2, zIndex: 6,
+    x: -460, y: 320, rotation: -2, zIndex: 6,
     data: {
       accentColor: 'var(--washi-design-systems)',
       fanRadius: 100,
@@ -140,7 +141,7 @@ const boardItems: BoardItem[] = [
         //   imageSrc: '/assets/polaroids/ds-storybook-hearth.png',
         //   imageAlt: 'Storybook preview for Hearth Design System',
         //   caption: 'Storybook (Hearth) →',
-        //   href: '/case-study/design-systems#kit',
+        //   href: '/design-systems#kit',
         //   isExternal: false,
         //   rotation: 3,
         // },
@@ -158,7 +159,7 @@ const boardItems: BoardItem[] = [
           imageSrc: '/assets/design-systems/hajimari-hero.png',
           imageAlt: 'Design systems case study preview',
           caption: 'case study →',
-          href: '/case-study/design-systems',
+          href: '/design-systems',
           isExternal: false,
           rotation: -4,
           imagePosition: 'bottom right',
@@ -170,7 +171,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-contentfill',
     type: 'washi-label',
-    x: 700, y: 430, rotation: -5, zIndex: 6,
+    x: 720, y: 380, rotation: -5, zIndex: 6,
     data: {
       label: 'project: "contentfill"',
       color: 'var(--washi-contentfill)',
@@ -181,7 +182,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'stack-contentfill',
     type: 'project-stack',
-    x: 720, y: 160, rotation: -4, zIndex: 6,
+    x: 720, y: 120, rotation: -4, zIndex: 6,
     data: {
       accentColor: 'var(--washi-contentfill)',
       fanAngle: 20,
@@ -202,7 +203,7 @@ const boardItems: BoardItem[] = [
           imageSrc: '/assets/polaroids/cf-casestudy.png',
           imageAlt: 'Contentfill case study preview',
           caption: 'case study →',
-          href: '/case-study/contentfill',
+          href: '/contentfill',
           isExternal: false,
           rotation: -10,
         },
@@ -213,7 +214,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'washi-discord',
     type: 'washi-label',
-    x: 60, y: 380, rotation: 5, zIndex: 9,
+    x: -100, y: 350, rotation: 4, zIndex: 9,
     data: {
       label: 'project: discord "waypoints"',
       color: 'var(--washi-discord)',
@@ -222,20 +223,13 @@ const boardItems: BoardItem[] = [
   },
 
   {
-    id: 'start-here-discord',
-    type: 'decoration',
-    x: 180, y: 30, rotation: -8, zIndex: 5,
-    data: { component: 'StartHereAnnotation', flipped: true },
-  },
-
-  {
     id: 'stack-discord',
     type: 'project-stack',
-    x: 180, y: 100, rotation: 10, zIndex: 6,
+    x: 0, y: 60, rotation: 10, zIndex: 6,
     data: {
       accentColor: 'var(--washi-discord)',
-      fanAngle: 36,
-      fanRadius: 180,
+      fanAngle: 30,
+      fanRadius: 100,
       fanLift: -18,
       polaroids: [
         {
@@ -252,7 +246,7 @@ const boardItems: BoardItem[] = [
           imageSrc: '/assets/discord-radar-hero.png',
           imageAlt: 'Discord My Radar — populated feed with Waypoints panel',
           caption: 'case study →',
-          href: '/case-study/discord',
+          href: '/waypoints',
           isExternal: false,
           rotation: -4,
         },
@@ -261,9 +255,80 @@ const boardItems: BoardItem[] = [
           imageSrc: '/assets/discord-waypoint.png',
           imageAlt: 'Discord — Set a Waypoint modal',
           caption: 'prototype →',
-          href: '/case-study/discord#prototype',
+          href: '/waypoints#prototype',
           isExternal: false,
           rotation: -20,
+        },
+      ] as PolaroidData[],
+    },
+  },
+
+  {
+    id: 'washi-big-health',
+    type: 'washi-label',
+    x: 330, y: 220, rotation: -8, zIndex: 4,
+    data: {
+      label: 'big health 🔒',
+      color: 'var(--washi-big-health)',
+      patternId: 'diamonds',
+      textColor: '#3A2800',
+    } satisfies WashiLabelData,
+  },
+
+  {
+    id: 'stack-big-health',
+    type: 'project-stack',
+    x: 380, y: 330, rotation: 0, zIndex: 6,
+    data: {
+      accentColor: 'var(--washi-big-health)',
+      fanAngle: 10,
+      fanRadius: 70,
+      fanLift: 20,
+      polaroids: [
+        {
+          id: 'bh-preview',
+          imageSrc: '/assets/polaroids/sleepio-preview.png',
+          imageAlt: 'Sleepio — sleep diary, program overview, and onboarding screens',
+          caption: 'big health 🔒 →',
+          href: '/big-health',
+          isExternal: false,
+          rotation: -5,
+          blurred: true,
+        },
+      ] as PolaroidData[],
+    },
+  },
+
+  {
+    id: 'washi-hearth',
+    type: 'washi-label',
+    x: 40, y: 800, rotation: -6, zIndex: 6,
+    data: {
+      label: 'hearth 🔒',
+      color: 'var(--washi-hearth)',
+      patternId: 'diamonds',
+    } satisfies WashiLabelData,
+  },
+
+  {
+    id: 'stack-hearth',
+    type: 'project-stack',
+    x: 20, y: 560, rotation: -8, zIndex: 6,
+    data: {
+      accentColor: 'var(--washi-hearth)',
+      fanAngle: 10,
+      fanRadius: 70,
+      fanLift: 20,
+      polaroids: [
+        {
+          id: 'hearth-preview',
+          imageSrc: '/assets/polaroids/hearth-preview.png',
+          imageAlt: 'Hearth logo',
+          caption: 'hearth 🔒 →',
+          href: '/hearth',
+          isExternal: false,
+          rotation: 4,
+          blurred: true,
         },
       ] as PolaroidData[],
     },
@@ -310,7 +375,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'sticker-avatar',
     type: 'sticker',
-    x: -400, y: -290, rotation: -3, zIndex: 8,
+    x: -400, y: -320, rotation: -3, zIndex: 8,
     data: {
       imageSrc: '/assets/stickers/self-sitting.png',
       href: '/about',
@@ -418,7 +483,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'social-github',
     type: 'social-sticker',
-    x: -480, y: -70,
+    x: -500, y: -70,
     rotation: -6,
     zIndex: 5,
     data: {
@@ -449,7 +514,7 @@ const boardItems: BoardItem[] = [
   {
     id: 'social-linkedin',
     type: 'social-sticker',
-    x: -580, y: -90,
+    x: -600, y: -90,
     rotation: -16,
     zIndex: 5,
     data: {

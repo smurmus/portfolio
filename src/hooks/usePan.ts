@@ -9,6 +9,10 @@ const MOMENTUM_SAMPLES = 3
 const DECAY            = 0.88
 const MIN_VEL          = 0.5
 
+// Zoom limits
+const MIN_SCALE = 0.3
+const MAX_SCALE = 3.0
+
 type Vec2 = { x: number; y: number }
 
 function defaultPan(vpW: number, vpH: number): Vec2 {
@@ -21,16 +25,17 @@ function defaultPan(vpW: number, vpH: number): Vec2 {
   }
 }
 
-function clamp(x: number, y: number, vpW: number, vpH: number): Vec2 {
+function clampScaled(x: number, y: number, s: number, vpW: number, vpH: number): Vec2 {
   return {
-    x: Math.min(0, Math.max(vpW - BOARD_WIDTH,  x)),
-    y: Math.min(0, Math.max(vpH - BOARD_HEIGHT, y)),
+    x: Math.min(0, Math.max(vpW - BOARD_WIDTH  * s, x)),
+    y: Math.min(0, Math.max(vpH - BOARD_HEIGHT * s, y)),
   }
 }
 
 export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
   const pan     = useRef<Vec2>({ x: 0, y: 0 })
   const target  = useRef<Vec2>({ x: 0, y: 0 })
+  const scale   = useRef(1)
   const rafId   = useRef<number | null>(null)
   const lerping = useRef(false)
   const settled = useRef<((p: Vec2) => void) | null>(null)
@@ -39,9 +44,9 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
   const lastPtr  = useRef<Vec2>({ x: 0, y: 0 })
   const velHist  = useRef<Vec2[]>([])
 
-  const apply = useCallback((x: number, y: number) => {
+  const apply = useCallback((x: number, y: number, s: number = scale.current) => {
     const el = canvasRef.current
-    if (el) el.style.transform = `translate3d(${x}px,${y}px,0)`
+    if (el) el.style.transform = `translate3d(${x}px,${y}px,0) scale(${s})`
   }, [canvasRef])
 
   // ── Init: fires before first paint so there's no position flash ──
@@ -51,7 +56,8 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
     const initial = defaultPan(vpW, vpH)
     pan.current    = initial
     target.current = initial
-    apply(initial.x, initial.y)
+    scale.current  = 1
+    apply(initial.x, initial.y, 1)
     // Clear any stale pan from previous sessions
     try { sessionStorage.removeItem('board-pan') } catch { /* ignore */ }
   }, [apply])
@@ -75,7 +81,7 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
       lastPtr.current = { x: e.clientX, y: e.clientY }
       velHist.current.push({ x: dx, y: dy })
       if (velHist.current.length > MOMENTUM_SAMPLES) velHist.current.shift()
-      const next = clamp(pan.current.x + dx, pan.current.y + dy, window.innerWidth, window.innerHeight)
+      const next = clampScaled(pan.current.x + dx, pan.current.y + dy, scale.current, window.innerWidth, window.innerHeight)
       pan.current = next; target.current = next
       apply(next.x, next.y)
     }
@@ -93,7 +99,7 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
         if (Math.abs(vx) < MIN_VEL && Math.abs(vy) < MIN_VEL) {
           settled.current?.(pan.current); return
         }
-        const next = clamp(pan.current.x + vx, pan.current.y + vy, window.innerWidth, window.innerHeight)
+        const next = clampScaled(pan.current.x + vx, pan.current.y + vy, scale.current, window.innerWidth, window.innerHeight)
         pan.current = next; target.current = next
         apply(next.x, next.y)
         rafId.current = requestAnimationFrame(momentum)
@@ -101,18 +107,40 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
       rafId.current = requestAnimationFrame(momentum)
     }
 
-    // Wheel / trackpad — passive:false so preventDefault() actually works
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-      const scale = e.deltaMode === 1 ? 24 : 1
-      const next = clamp(
-        pan.current.x - e.deltaX * scale,
-        pan.current.y - e.deltaY * scale,
-        window.innerWidth, window.innerHeight
-      )
-      pan.current    = next
-      target.current = next
-      apply(next.x, next.y)
+
+      if (e.ctrlKey) {
+        // Pinch gesture — zoom centered on cursor
+        if (rafId.current) { cancelAnimationFrame(rafId.current); rafId.current = null }
+        const delta = e.deltaY * (e.deltaMode === 1 ? 24 : 1)
+        const factor = Math.exp(-delta * 0.006)
+        const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale.current * factor))
+
+        // Keep board point under cursor fixed in viewport
+        const cx = e.clientX
+        const cy = e.clientY
+        const ratio = newScale / scale.current
+        const newX = cx - (cx - pan.current.x) * ratio
+        const newY = cy - (cy - pan.current.y) * ratio
+
+        scale.current = newScale
+        const next = clampScaled(newX, newY, newScale, window.innerWidth, window.innerHeight)
+        pan.current = next; target.current = next
+        apply(next.x, next.y, newScale)
+      } else {
+        // Two-finger scroll — pan
+        const sc = e.deltaMode === 1 ? 24 : 1
+        const next = clampScaled(
+          pan.current.x - e.deltaX * sc,
+          pan.current.y - e.deltaY * sc,
+          scale.current,
+          window.innerWidth, window.innerHeight,
+        )
+        pan.current    = next
+        target.current = next
+        apply(next.x, next.y)
+      }
     }
 
     window.addEventListener('pointermove', onMove)
@@ -127,7 +155,8 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
     }
   }, [apply])
 
-  const getPan = useCallback(() => pan.current, [])
+  const getPan   = useCallback(() => pan.current,   [])
+  const getScale = useCallback(() => scale.current, [])
 
   const onPanSettled = useCallback((cb: (p: Vec2) => void) => {
     settled.current = cb
@@ -135,7 +164,7 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
 
   const panBy = useCallback((dx: number, dy: number) => {
     if (rafId.current) { cancelAnimationFrame(rafId.current); lerping.current = false }
-    const next = clamp(pan.current.x + dx, pan.current.y + dy, window.innerWidth, window.innerHeight)
+    const next = clampScaled(pan.current.x + dx, pan.current.y + dy, scale.current, window.innerWidth, window.innerHeight)
     pan.current    = next
     target.current = next
     apply(next.x, next.y)
@@ -147,24 +176,27 @@ export function usePan(canvasRef: React.RefObject<HTMLElement | null>) {
     dragging.current = false
     lerping.current  = false
 
+    // Snap scale back to 1 immediately; animate position
+    scale.current = 1
+
     const dest = defaultPan(window.innerWidth, window.innerHeight)
-    target.current   = dest
+    target.current = dest
 
     const animate = () => {
       const dx = dest.x - pan.current.x
       const dy = dest.y - pan.current.y
       if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
         pan.current = dest
-        apply(dest.x, dest.y)
+        apply(dest.x, dest.y, 1)
         settled.current?.(dest)
         return
       }
       pan.current = { x: pan.current.x + dx * LERP, y: pan.current.y + dy * LERP }
-      apply(pan.current.x, pan.current.y)
+      apply(pan.current.x, pan.current.y, 1)
       rafId.current = requestAnimationFrame(animate)
     }
     rafId.current = requestAnimationFrame(animate)
   }, [apply])
 
-  return { onPointerDown, getPan, onPanSettled, recenter, panBy }
+  return { onPointerDown, getPan, getScale, onPanSettled, recenter, panBy }
 }

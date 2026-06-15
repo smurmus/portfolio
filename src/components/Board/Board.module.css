@@ -26,9 +26,10 @@
   position: absolute;
   width: 7000px;
   height: 5000px;
-  /* Transform origin at top-left; initial translate set by usePan */
+  /* Transform origin at top-left so translate + scale compose correctly */
   top: 0;
   left: 0;
+  transform-origin: 0 0;
   /* Pegboard SVG dot pattern — 2.5px dots on a 24px grid */
   will-change: transform;
   background-color: var(--color-board-bg);
